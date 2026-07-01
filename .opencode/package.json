@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "opencode:build": "node scripts/build-oh-my-opencode-slim-config.mjs",
+    "opencode:check": "node scripts/build-oh-my-opencode-slim-config.mjs --check"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "1.15.4"
+  }
+}

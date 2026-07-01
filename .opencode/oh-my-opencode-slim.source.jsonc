@@ -1,0 +1,532 @@
+// Source configuration for oh-my-opencode-slim.json
+// Romantic SPA project — React + Vite + TypeScript, static GitHub Pages deployment.
+// No backend, no database, no mobile, no API server, no OpenSpec.
+// Prompt content is stored as references to markdown files.
+// Run: npm run opencode:build to generate the runtime JSON.
+{
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "preset": "default-preset",
+  // Explicitly set to empty to ensure no built-in agents are disabled in this project.
+  // An empty array overrides the framework default that disables 'observer'.
+  // See oh-my-opencode-slim.schema.json → disabled_agents description.
+  "disabled_agents": [],
+  // Agent definitions with externalized prompt files
+  // SPA-oriented roster: frontend, docs, ops, validation, architecture, quality
+  "agents": {
+    "validator": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [],
+      "mcps": [],
+      "promptPath": ".opencode/prompts/agents/validator.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/validator.orchestrator.md"
+    },
+    "e2e-validator": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [],
+      "mcps": [
+        "playwright"
+      ],
+      "promptPath": ".opencode/prompts/agents/e2e-validator.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/e2e-validator.orchestrator.md"
+    },
+    "integration-validator": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "pr-review",
+        "integration-gate-checklist",
+        "finding-deduper",
+        "prompt-drift-auditor"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/integration-validator.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/integration-validator.orchestrator.md"
+    },
+    "planner": {
+      "model": "openai/gpt-5.5",
+      "variant": "medium",
+      "temperature": 0.05,
+      "skills": [
+        "routing-normalizer",
+        "finding-deduper",
+        "recovery-classifier",
+        "prompt-drift-auditor"
+      ],
+      "mcps": [
+        "grep_app"
+      ],
+      "promptPath": ".opencode/prompts/agents/planner.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/planner.orchestrator.md"
+    },
+    "quality-implementer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "simplify",
+        "finding-deduper"
+      ],
+      "mcps": [
+        "grep_app"
+      ],
+      "promptPath": ".opencode/prompts/agents/quality-implementer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/quality-implementer.orchestrator.md"
+    },
+    "architecture-reviewer": {
+      "model": "openai/gpt-5.4-mini",
+      "variant": "medium",
+      "temperature": 0.1,
+      "skills": [
+        "pr-review",
+        "architecture-review-checklist"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/architecture-reviewer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/architecture-reviewer.orchestrator.md"
+    },
+    "frontend-reviewer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "pr-review",
+        "frontend-review-checklist",
+        "frontend-a11y-checklist",
+        "frontend-storybook-checklist"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/frontend-reviewer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/frontend-reviewer.orchestrator.md"
+    },
+    "test-reviewer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "pr-review",
+        "test-review-checklist"
+      ],
+      "mcps": [
+        "grep_app"
+      ],
+      "promptPath": ".opencode/prompts/agents/test-reviewer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/test-reviewer.orchestrator.md"
+    },
+    "docs-reviewer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "pr-review",
+        "docs-review-checklist"
+      ],
+      "mcps": [
+        "grep_app"
+      ],
+      "promptPath": ".opencode/prompts/agents/docs-reviewer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/docs-reviewer.orchestrator.md"
+    },
+    "ops-reviewer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "pr-review",
+        "ops-review-checklist"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/ops-reviewer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/ops-reviewer.orchestrator.md"
+    },
+    "code-quality-reviewer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "pr-review",
+        "code-quality-review-checklist",
+        "finding-deduper"
+      ],
+      "mcps": [
+        "grep_app"
+      ],
+      "promptPath": ".opencode/prompts/agents/code-quality-reviewer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/code-quality-reviewer.orchestrator.md"
+    },
+    "frontend-implementer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "frontend-implementation-checklist"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/frontend-implementer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/frontend-implementer.orchestrator.md"
+    },
+    "test-implementer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "test-implementation-checklist",
+        "acceptance-traceability-auditor"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/test-implementer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/test-implementer.orchestrator.md"
+    },
+    "docs-implementer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "docs-implementation-checklist",
+        "prompt-drift-auditor",
+        "config-policy-audit"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/docs-implementer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/docs-implementer.orchestrator.md"
+    },
+    "ops-implementer": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "skills": [
+        "ops-implementation-checklist",
+        "git-delivery-lifecycle-checklist",
+        "dependency-supply-chain-checklist",
+        "prompt-drift-auditor"
+      ],
+      "mcps": [
+        "grep_app",
+        "context7"
+      ],
+      "promptPath": ".opencode/prompts/agents/ops-implementer.prompt.md",
+      "orchestratorPromptPath": ".opencode/prompts/agents/ops-implementer.orchestrator.md"
+    }
+  },
+  // Preset configurations (model/variant/temperature/skills/mcps)
+  "presets": {
+    "default-preset": {
+      // The orchestrator is a built-in OMO Slim agent, not a custom agent.
+      // It belongs in `presets` (not `agents`) because presets configure framework built-ins
+      // (orchestrator, oracle, council, explorer, librarian, designer, fixer).
+      // custom agents with externalized prompt files go in the top-level `agents` section.
+      "orchestrator": {
+        "model": "openai/gpt-5.4-mini",
+        "variant": "high",
+        "temperature": 0.1,
+        // Wildcard: the orchestrator must access all skills for delegation routing.
+        // It inspects specialist skills to route tasks to the correct agent.
+        // This is intentional — not a placeholder or mistake.
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "grep_app"
+        ]
+      },
+      "oracle": {
+        "model": "openai/gpt-5.5",
+        "variant": "medium",
+        "temperature": 0.1,
+        "skills": [
+          "simplify"
+        ],
+        "mcps": []
+      },
+      // Council settings
+      "council": {
+        "model": "openai/gpt-5.5",
+        "variant": "medium",
+        "temperature": 0.2,
+        "skills": [],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [],
+        "mcps": [
+          "websearch",
+          "context7",
+          "grep_app"
+        ]
+      },
+      "explorer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [],
+        "mcps": [
+          "grep_app"
+        ]
+      },
+      "designer": {
+        "model": "openai/gpt-5.5",
+        "variant": "medium",
+        "temperature": 0.2,
+        "skills": [
+          "agent-browser"
+        ],
+        "mcps": []
+      },
+      "planner": {
+        "model": "openai/gpt-5.5",
+        "variant": "medium",
+        "temperature": 0.05,
+        "skills": [
+          "routing-normalizer",
+          "finding-deduper",
+          "recovery-classifier",
+          "prompt-drift-auditor"
+        ],
+        "mcps": [
+          "grep_app"
+        ]
+      },
+      "quality-implementer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "simplify",
+          "finding-deduper"
+        ],
+        "mcps": [
+          "grep_app"
+        ]
+      },
+      "frontend-implementer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "frontend-implementation-checklist"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "test-implementer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "test-implementation-checklist",
+          "acceptance-traceability-auditor"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "docs-implementer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "docs-implementation-checklist",
+          "prompt-drift-auditor",
+          "config-policy-audit"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "ops-implementer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "ops-implementation-checklist",
+          "git-delivery-lifecycle-checklist",
+          "dependency-supply-chain-checklist",
+          "prompt-drift-auditor"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "fixer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [],
+        "mcps": [
+          "grep_app"
+        ]
+      },
+      "validator": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [],
+        "mcps": []
+      },
+      "e2e-validator": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [],
+        "mcps": [
+          "playwright"
+        ]
+      },
+      "integration-validator": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "pr-review",
+          "integration-gate-checklist",
+          "finding-deduper",
+          "prompt-drift-auditor"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "architecture-reviewer": {
+        "model": "openai/gpt-5.4-mini",
+        "variant": "medium",
+        "temperature": 0.1,
+        "skills": [
+          "pr-review",
+          "architecture-review-checklist"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "frontend-reviewer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "pr-review",
+          "frontend-review-checklist",
+          "frontend-a11y-checklist",
+          "frontend-storybook-checklist"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "test-reviewer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "pr-review",
+          "test-review-checklist"
+        ],
+        "mcps": [
+          "grep_app"
+        ]
+      },
+      "docs-reviewer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "pr-review",
+          "docs-review-checklist"
+        ],
+        "mcps": [
+          "grep_app"
+        ]
+      },
+      "ops-reviewer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "pr-review",
+          "ops-review-checklist"
+        ],
+        "mcps": [
+          "grep_app",
+          "context7"
+        ]
+      },
+      "code-quality-reviewer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "temperature": 0.1,
+        "skills": [
+          "pr-review",
+          "code-quality-review-checklist",
+          "finding-deduper"
+        ],
+        "mcps": [
+          "grep_app"
+        ]
+      }
+    }
+  },
+  // UI multiplexer settings
+  "multiplexer": {
+    "type": "auto",
+    "layout": "tiled",
+    "main_pane_size": 55
+  },
+  // Council settings
+  "council": {
+    "default_preset": "default",
+    "timeout": 180000,
+    "councillor_execution_mode": "parallel",
+    "councillor_retries": 2,
+    "presets": {
+      "default": {
+        "alpha": {
+          "model": "opencode-go/qwen3.6-plus",
+          "variant": "medium"
+        },
+        "beta": {
+          "model": "opencode-go/glm-5.1",
+          "variant": "medium"
+        },
+        "gamma": {
+          "model": "openai/gpt-5.4-mini",
+          "variant": "medium"
+        }
+      },
+      // Intentionally available for manual/on-demand use only; not used by default runtime routing.
+      "deep-review": {
+        "alpha": {
+          "model": "openai/gpt-5.5",
+          "variant": "high"
+        },
+        "beta": {
+          "model": "opencode-go/glm-5.1",
+          "variant": "high"
+        },
+        "gamma": {
+          "model": "opencode-go/kimi-k2.5",
+          "variant": "high"
+        }
+      }
+    }
+  },
+  // Fallback chains
+  "fallback": {
+    "enabled": true,
+    "timeoutMs": 20000,
+    "retryDelayMs": 500,
+    "retry_on_empty": true
+  },
+  // Todo continuation settings
+  "todoContinuation": {
+    "maxContinuations": 10,
+    "cooldownMs": 2500,
+    "autoEnable": true,
+    "autoEnableThreshold": 4
+  }
+}

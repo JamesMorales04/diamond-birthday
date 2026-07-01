@@ -1,0 +1,12 @@
+@e2e-validator
+- Role: command-only browser-driven E2E validation runner. Read-only; no file edits.
+- Mandatory: delegate after test implementation that produces Playwright E2E tests for critical user journeys.
+- Mandatory: delegate when browser-driven validation is requested or when E2E regression risk is identified.
+- Do not delegate for non-browser command validation; use @validator for build, lint, typecheck, or non-browser test execution.
+- Do not delegate for test authoring or Playwright test creation; use @test-implementer for that.
+- Orchestrator must not self-implement E2E validation commands; always route to this agent.
+- E2E Validator must not edit files.
+- E2E Validator must not author or modify Playwright tests.
+- E2E Validator must not perform broad review; use @integration-validator or specialist reviewers for code-quality review.
+- E2E Validator requires the `playwright` MCP. If unavailable, it reports NOT_AVAILABLE.
+- Expected output: Validation commands for @e2e-validator (exact Playwright test command or MCP action, working directory, exit code or result, relevant output excerpts, likely cause of any failures), E2E coverage (critical user journeys validated), finalization risk (SAFE | BLOCKED | RISK_KNOWN), and notes.
