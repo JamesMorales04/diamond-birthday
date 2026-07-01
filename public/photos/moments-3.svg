@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#1a0e12"/>
+  <circle cx="300" cy="280" r="15" fill="#9B1B30" opacity="0.6"/>
+  <circle cx="330" cy="260" r="12" fill="#D4A5A5" opacity="0.5"/>
+  <circle cx="350" cy="285" r="14" fill="#722F37" opacity="0.6"/>
+  <circle cx="320" cy="300" r="11" fill="#9B1B30" opacity="0.5"/>
+  <circle cx="290" cy="310" r="13" fill="#D4A5A5" opacity="0.4"/>
+  <circle cx="360" cy="270" r="10" fill="#C9B99A" opacity="0.3"/>
+  <circle cx="340" cy="310" r="12" fill="#722F37" opacity="0.5"/>
+  <circle cx="310" cy="270" r="10" fill="#9B1B30" opacity="0.4"/>
+  <circle cx="370" cy="295" r="9" fill="#D4A5A5" opacity="0.3"/>
+  <circle cx="280" cy="290" r="8" fill="#C9B99A" opacity="0.2"/>
+  <circle cx="345" cy="250" r="8" fill="#FFFDD0" opacity="0.3"/>
+  <circle cx="380" cy="260" r="7" fill="#9B1B30" opacity="0.3"/>
+  <circle cx="305" cy="325" r="9" fill="#D4A5A5" opacity="0.3"/>
+  <circle cx="270" cy="270" r="7" fill="#722F37" opacity="0.3"/>
+  <circle cx="360" cy="320" r="8" fill="#C9B99A" opacity="0.3"/>
+  <path d="M520 250 Q550 200 580 250 Q610 300 580 350 Q550 400 520 350 Q490 300 520 250Z" fill="#9B1B30" opacity="0.5"/>
+  <path d="M540 260 Q560 220 580 260 Q600 300 580 340 Q560 380 540 340 Q520 300 540 260Z" fill="#D4A5A5" opacity="0.3"/>
+  <text x="400" y="460" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#C9B99A" opacity="0.8">Wildflowers picked for you</text>
+</svg>

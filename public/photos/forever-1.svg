@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#1a0e0e"/>
+  <circle cx="350" cy="280" r="60" stroke="#C9B99A" stroke-width="2" fill="none" opacity="0.5"/>
+  <circle cx="450" cy="280" r="60" stroke="#C9B99A" stroke-width="2" fill="none" opacity="0.5"/>
+  <circle cx="400" cy="260" r="25" fill="#D4A5A5" opacity="0.4"/>
+  <circle cx="400" cy="258" r="15" fill="#C9B99A" opacity="0.3"/>
+  <circle cx="400" cy="256" r="5" fill="#FFFDD0" opacity="0.5"/>
+  <path d="M240 450 Q400 300 560 450" stroke="#C9B99A" stroke-width="2" fill="none" opacity="0.4"/>
+  <path d="M260 480 Q400 340 540 480" stroke="#D4A5A5" stroke-width="1" fill="none" opacity="0.3"/>
+  <text x="400" y="460" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#C9B99A" opacity="0.8">Two hearts, one journey</text>
+</svg>

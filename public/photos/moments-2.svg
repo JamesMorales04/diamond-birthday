@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#1a1a24"/>
+  <rect x="250" y="120" width="80" height="120" rx="4" fill="#722F37" opacity="0.5"/>
+  <path d="M250 140 Q290 100 330 140" fill="#C9B99A" opacity="0.3"/>
+  <rect x="250" y="170" width="80" height="70" rx="2" fill="#2d1518"/>
+  <rect x="480" y="150" width="80" height="100" rx="4" fill="#722F37" opacity="0.5"/>
+  <path d="M480 170 Q520 130 560 170" fill="#C9B99A" opacity="0.3"/>
+  <rect x="480" y="200" width="80" height="50" rx="2" fill="#2d1518"/>
+  <path d="M200 480 Q400 400 600 480" stroke="#D4A5A5" stroke-width="1" fill="none" opacity="0.2" stroke-dasharray="5,5"/>
+  <path d="M200 500 Q400 420 600 500" stroke="#D4A5A5" stroke-width="1" fill="none" opacity="0.2" stroke-dasharray="5,5"/>
+  <circle cx="200" cy="350" r="2" fill="#FFFDD0" opacity="0.3"/>
+  <circle cx="400" cy="360" r="2" fill="#FFFDD0" opacity="0.3"/>
+  <circle cx="600" cy="350" r="2" fill="#FFFDD0" opacity="0.3"/>
+  <text x="400" y="470" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#C9B99A" opacity="0.8">Rainy Sunday coffee</text>
+</svg>
