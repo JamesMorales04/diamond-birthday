@@ -1,20 +1,19 @@
 import { useState, useCallback } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
-const SPINNER_OPTIONS = [
-  { label: 'Kiss Me ♥', color: '#9B1B30' },
-  { label: 'Dance Tonight', color: '#722F37' },
-  { label: 'Love Letter', color: '#D4A5A5' },
-  { label: 'Candlelit Dinner', color: '#C9B99A' },
-  { label: 'Stargazing ✦', color: '#722F37' },
-  { label: 'Surprise Date', color: '#9B1B30' },
-  { label: 'Foot Massage', color: '#D4A5A5' },
-  { label: 'Movie Night', color: '#C9B99A' },
-  { label: 'Breakfast in Bed', color: '#9B1B30' },
-  { label: 'Waltz Together', color: '#722F37' },
+/** Presentation-only spinner segment colours — kept local, not in content */
+const SPINNER_COLORS: readonly string[] = [
+  '#9B1B30', '#722F37', '#D4A5A5', '#C9B99A', '#722F37',
+  '#9B1B30', '#D4A5A5', '#C9B99A', '#9B1B30', '#722F37',
 ];
 
+const SPINNER_OPTIONS: Array<{ label: string; color: string }> = content.spinner.options.map((opt: { label: string }, i: number) => ({
+  label: opt.label,
+  color: SPINNER_COLORS[i] ?? '#722F37',
+}));
 const SEGMENT_ANGLE = 360 / SPINNER_OPTIONS.length;
 const SPIN_DURATION = 4000;
 
@@ -46,10 +45,10 @@ export default function Spinner() {
     // Compute final rotation ensuring we always move forward
     const finalRotation = rotation + targetAngle - (rotation % 360);
     const startRotation = rotation;
-    const startTime = performance.now();
+    const startTime = Date.now();
 
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / SPIN_DURATION, 1);
 
       // Ease-out cubic
@@ -58,7 +57,7 @@ export default function Spinner() {
       setRotation(currentRotation);
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        window.setTimeout(animate, 16);
       } else {
         setRotation(finalRotation);
         setSpinning(false);
@@ -70,7 +69,7 @@ export default function Spinner() {
       }
     };
 
-    requestAnimationFrame(animate);
+    window.setTimeout(animate, 16);
   }, [spinning, rotation, reducedMotion]);
 
   return (
@@ -80,9 +79,9 @@ export default function Spinner() {
       aria-labelledby="spinner-title"
     >
       <h2 id="spinner-title" className="section__title">
-        Wheel of Romance
+        {content.spinner.title}
       </h2>
-      <p className="section__subtitle">Spin to discover our next romantic adventure</p>
+      <p className="section__subtitle">{content.spinner.subtitle}</p>
 
       <div className="spinner-section__wheel-wrap">
         <div className="spinner-section__pointer" aria-hidden="true">▼</div>
@@ -91,7 +90,7 @@ export default function Spinner() {
           className="spinner-section__wheel"
           style={{ transform: `rotate(${rotation}deg)` }}
           role="img"
-          aria-label={spinning ? 'Spinner is spinning...' : result ? `Result: ${result}` : 'Romance spinner wheel'}
+          aria-label={spinning ? content.spinner.ariaSpinning : result ? tpl(content.spinner.ariaResultTemplate, { result }) : content.spinner.ariaDefault}
         >
           {SPINNER_OPTIONS.map((option, i) => (
             <div
@@ -119,13 +118,13 @@ export default function Spinner() {
         disabled={spinning}
         aria-busy={spinning}
       >
-        {spinning ? 'Spinning...' : 'Spin for Love'}
+        {spinning ? content.spinner.spinning : content.spinner.spinButton}
       </button>
 
       {result && (
         <div className="spinner-section__result" role="alert">
           <span className="spinner-section__result-icon" aria-hidden="true">✦</span>
-          <p>Tonight: <strong>{result}</strong></p>
+          <p>{tpl(content.spinner.resultTemplate, { result })}</p>
         </div>
       )}
     </section>

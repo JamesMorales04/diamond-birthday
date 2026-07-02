@@ -17,8 +17,8 @@ This project is **independent** from Pawra: it has its own tech stack, its own c
 - [Local development](#local-development)
 - [Project structure](#project-structure)
 - [Adding photos](#adding-photos)
-- [Editing texts and data](#editing-texts-and-data)
-  - [Data files](#data-files)
+- [Editing content and data](#editing-content-and-data)
+  - [Content and data files](#content-and-data-files)
   - [Categories](#categories)
   - [How to add a new entry](#how-to-add-a-new-entry)
 - [Configuring the Vite base path for GitHub Pages](#configuring-the-vite-base-path-for-github-pages)
@@ -76,13 +76,15 @@ diamond-birthday/
 ├── public/
 │   └── photos/              # Photo files (SVG placeholders; swap for your own)
 ├── src/
-│   ├── data/                # Centralised content files — edit these to customise
+│   ├── content/             # Single canonical source for all visible text — UI copy, editorial content & types
+│   │   └── page.ts          # All UI strings in Spanish (buttons, titles, hints, game text)
+│   ├── data/                # Re-export barrels for backward compatibility; canonical content in content/page.ts
 │   │   ├── wife.ts          # Your loved one's name, age, birthday, special message
 │   │   ├── messages.ts      # Love letters (title, date, excerpt, content, signature)
 │   │   ├── timeline.ts      # Milestones (year, month, title, description, icon)
 │   │   ├── gallery.ts       # Gallery categories + image references (src, alt, caption)
 │   │   ├── games.ts         # Mini-game settings + high-score types + localStorage key
-│   │   └── trivia.ts        # Trivia questions (question, options, correctIndex, explanation)
+│   │   └── trivia.ts        # Trivia questions + getShuffledTrivia() (question, options, correctIndex, explanation)
 │   ├── components/          # React components
 │   │   ├── Hero.tsx
 │   │   ├── Timeline.tsx
@@ -135,7 +137,7 @@ The app is a **single-page scroll** with no client-side router. Every section (H
 ## Adding photos
 
 1. Place your image files inside **`public/photos/`**.
-2. Add a matching entry in `src/data/gallery.ts`:
+2. Add a matching entry in `src/content/page.ts` (in the `galleryImages` array):
 
 ```typescript
 {
@@ -154,24 +156,30 @@ Because files in `public/` are served as-is by Vite, use a path starting with `/
 
 ---
 
-## Editing texts and data
+## Editing content and data
 
-All editorial content lives in **`src/data/`**. Components read from typed data modules; you should never need to touch a component to change a word, a date, or a category.
+All visible text lives in a **single canonical file**:
 
-### Data files
+- **`src/content/page.ts`** — every user‑visible string, including UI copy (buttons, headings, labels, ARIA, hints) **and** editorial content (wife info, love letters, timeline milestones, gallery captions, trivia questions). Every React component reads its text from this file.
+- **`src/data/*.ts`** — backward‑compatibility re‑export barrels that re‑export the same values from `content/page.ts`. These exist so existing imports continue to work; do **not** edit them for content changes. The sole exception is `data/games.ts`, which holds game‑mechanics configuration (gravity, speed, grid size) — that is still canonical there.
 
-| File             | What it holds                                                                  |
-|------------------|--------------------------------------------------------------------------------|
-| `wife.ts`        | Name, pet name, age, birthday, birthstone, favourite color, anniversary, special message |
-| `messages.ts`    | Love letters — each with id, title, date, excerpt, full content, signature     |
-| `timeline.ts`    | Relationship milestones — year, month (optional), title, description, icon     |
-| `gallery.ts`     | Gallery categories (`galleryCategories`) and photo entries (`galleryImages`)   |
-| `games.ts`       | Game tuning settings (gravity, speed, grid size) + high-score types            |
-| `trivia.ts`      | Trivia questions — question text, multiple-choice options, correct index, explanation |
+You never need to touch a component to change a word, a date, or a category.
+
+### Content and data files
+
+| File / dir        | What it holds                                                                   |
+|-------------------|---------------------------------------------------------------------------------|
+| `content/page.ts` | **Canonical source for all visible text** — UI copy (titles, buttons, ARIA, hints, spinner options) *and* editorial data (wife info, letters, timeline, gallery, trivia questions) |
+| `data/wife.ts`    | Re‑export barrel → edit in `content/page.ts`                                    |
+| `data/messages.ts`| Re‑export barrel → edit in `content/page.ts`                                    |
+| `data/timeline.ts`| Re‑export barrel → edit in `content/page.ts`                                    |
+| `data/gallery.ts` | Re‑export barrel → edit in `content/page.ts`                                    |
+| `data/trivia.ts`  | Re‑export barrel → edit in `content/page.ts`                                    |
+| `data/games.ts`   | **Canonical** game‑mechanics config (gravity, speed, grid size) + high‑score types — not a re‑export |
 
 ### Categories
 
-Gallery photos are organised by category. Categories are defined in `gallery.ts`:
+Gallery photos are organised by category. Categories are defined in `src/content/page.ts`:
 
 ```typescript
 export const galleryCategories: GalleryCategory[] = [
@@ -185,10 +193,10 @@ To add a category, append an object to `galleryCategories` and assign its `id` t
 
 ### How to add a new entry
 
-Open the relevant data file and append an object to the array. Follow the existing shape:
+Open `src/content/page.ts` and append an object to the relevant array in the editorial section. Follow the existing shape:
 
 ```typescript
-// src/data/timeline.ts — adding a milestone
+// src/content/page.ts (timeline array) — adding a milestone
 {
   year: '2026',
   month: 'December',
@@ -197,7 +205,7 @@ Open the relevant data file and append an object to the array. Follow the existi
   icon: 'heart',   // 'heart' | 'star' | 'diamond' | 'flower' | 'ring'
 }
 
-// src/data/messages.ts — adding a letter
+// src/content/page.ts (letters array) — adding a letter
 {
   id: 'new-letter',
   title: 'A Letter for You',
@@ -374,12 +382,13 @@ Only the **Memory Match** game currently persists high scores (`GameMemoryMatch.
 Ready to make this your own?
 
 - [ ] Replace `public/photos/` with your own images
-- [ ] Edit `src/data/wife.ts` — name, age, birthday, special message
-- [ ] Write or edit letters in `src/data/messages.ts`
-- [ ] Update timeline milestones in `src/data/timeline.ts`
-- [ ] Update gallery categories and image entries in `src/data/gallery.ts`
-- [ ] Tweak game settings in `src/data/games.ts` (gravity, speed, grid size)
-- [ ] Rewrite trivia questions in `src/data/trivia.ts`
+- [ ] Edit `src/content/page.ts` — UI copy (headings, buttons, labels, hints)
+- [ ] Edit `src/content/page.ts` — wife info (name, age, birthday, special message)
+- [ ] Edit `src/content/page.ts` — love letters (title, date, excerpt, content, signature)
+- [ ] Edit `src/content/page.ts` — timeline milestones (year, title, description, icon)
+- [ ] Edit `src/content/page.ts` — gallery categories and image entries
+- [ ] Edit `src/content/page.ts` — trivia questions (question, options, correct index, explanation)
+- [ ] Tweak game settings in `src/data/games.ts` (gravity, speed, grid size) — this file is still canonical for game mechanics
 - [ ] Adjust CSS custom properties in `src/index.css` (colours, fonts, glow effects)
 - [ ] Update the site title in `index.html`
 - [ ] Push to `main` — the CI workflow deploys automatically

@@ -1,0 +1,530 @@
+{
+  "letters": [
+    {
+      "id": "first-met",
+      "title": "El Día en que Te Encontré",
+      "date": "20 de Marzo de 2017",
+      "excerpt": "Recuerdo cada detalle del momento en que nuestras miradas se encontraron.",
+      "content": "Lo recuerdo como si fuera ayer — la suave luz dorada de esa tarde de marzo, la forma en que te reíste de algo que alguien dijo, y el momento en que nuestras miradas se cruzaron al otro lado de la habitación. En ese instante, algo cambió en el universo. No lo sabía entonces, pero mi corazón acababa de encontrar su hogar.\n\nLlevabas esa bufanda roja oscura, y tus ojos tenían una calidez que nunca antes había visto. Cuando sonreíste, el mundo pareció ralentizarse, y todo lo demás se desvaneció en un suave borrón.\n\nEse día, no solo conocí a alguien nuevo. Conocí a la persona que se convertiría en mi todo. La persona que me enseñaría lo que realmente significa el amor.",
+      "signature": "Tuyo, desde ese primer momento"
+    },
+    {
+      "id": "first-kiss",
+      "title": "El Primer Beso",
+      "date": "8 de Abril de 2017",
+      "excerpt": "Bajo las estrellas, todo cambió.",
+      "content": "Era una fresca tarde de primavera, y estábamos sentados en ese viejo banco de madera del parque. Las estrellas empezaban a aparecer, una a una, como pequeños diamantes esparcidos sobre terciopelo. Habíamos estado hablando durante horas — de todo y de nada — y me encontré perdido en el sonido de tu voz.\n\nEntonces hubo una pausa silenciosa, y en ese silencio, escuché mi corazón más claramente que nunca. Me acerqué, y tú también. Y cuando nuestros labios se encontraron, fue como si todo el universo contuviera la respiración.\n\nEse beso no fue solo un beso. Fue una promesa. Una promesa de todo lo que llegaríamos a ser.",
+      "signature": "Para siempre cambiado por ti"
+    },
+    {
+      "id": "through-years",
+      "title": "A Través de Todos los Años",
+      "date": "Aniversario 2025",
+      "excerpt": "Cada temporada contigo ha sido un tesoro.",
+      "content": "Ocho años. Ocho hermosos, desafiantes y maravillosos años. Hemos construido una vida juntos — no una perfecta, sino una real. Hemos reído hasta quedarnos sin aliento, nos hemos sostenido entre lágrimas, hemos bailado en la cocina a medianoche y hemos construido un hogar que no existe en paredes sino en el espacio entre nosotros.\n\nTe he visto crecer, y tú me has visto tropezar y levantarme. Hemos celebrado triunfos y superado tormentas. Y a través de todo, mi amor por ti solo se ha profundizado, como un buen vino que se vuelve más rico con cada año que pasa.\n\nEres mi mejor amiga, mi confidente, mi mayor aventura. Cada día contigo es un regalo que nunca doy por sentado.",
+      "signature": "Siempre y para siempre tuyo"
+    },
+    {
+      "id": "birthday-wish",
+      "title": "En Tu Cumpleaños de Diamante",
+      "date": "15 de Julio de 2026",
+      "excerpt": "Hoy celebramos la gema más preciosa de mi vida — tú.",
+      "content": "Mi amor más querido,\n\nEn este día, el mundo celebra tu nacimiento — y yo celebro la luz que traes a mi vida. Un cumpleaños de diamante marca un hito, un momento para reflexionar sobre la persona increíble que eres y el hermoso viaje que nos ha traído hasta aquí.\n\nEres, y siempre has sido, el diamante de mi vida. No por este cumpleaños, sino por quien eres: brillante, resiliente, multifacética y completamente irremplazable. Reflejas la luz de una manera que nadie más puede, convirtiendo incluso los días más oscuros en algo hermoso.\n\nHe preparado este pequeño rincón de internet solo para ti — una colección de nuestros recuerdos, nuestro amor y algunas sorpresas. Que te traiga aunque sea la mitad de la alegría que tú me has traído a mí.\n\nFeliz Cumpleaños de Diamante, mi amor. Por el para siempre.",
+      "signature": "Con todo mi corazón, siempre"
+    }
+  ],
+  "timeline": [
+    {
+      "year": "2017",
+      "month": "Marzo",
+      "title": "El Primer Hola",
+      "description": "Nuestras miradas se encontraron por primera vez, y en ese instante, el universo susurró algo que pasaría el resto de mi vida tratando de entender.",
+      "icon": "heart"
+    },
+    {
+      "year": "2017",
+      "month": "Abril",
+      "title": "Primer Beso",
+      "description": "Bajo un manto de estrellas, todo cambió. Ese beso fue el comienzo de nuestro para siempre.",
+      "icon": "star"
+    },
+    {
+      "year": "2017",
+      "month": "Diciembre",
+      "title": "Primer Año Nuevo Juntos",
+      "description": "Recibimos el año nuevo envueltos en los brazos del otro, viendo los fuegos artificiales pintar el cielo — una promesa de todos los años por venir.",
+      "icon": "star"
+    },
+    {
+      "year": "2019",
+      "month": "Verano",
+      "title": "Nuestra Primera Aventura",
+      "description": "Hicimos nuestro primer viaje juntos, descubriendo no solo nuevos lugares sino nuevas partes de nosotros mismos y de nuestro amor.",
+      "icon": "flower"
+    },
+    {
+      "year": "2020",
+      "title": "A Través de la Tormenta",
+      "description": "Cuando el mundo se detuvo, nos hicimos más cercanos. Construimos un hogar, cocinamos incontables comidas y aprendimos que el amor no son solo los grandes momentos — también son los silenciosos.",
+      "icon": "heart"
+    },
+    {
+      "year": "2022",
+      "month": "Primavera",
+      "title": "Un Nuevo Capítulo",
+      "description": "Nos mudamos a la casa de nuestros sueños, un lugar donde cada rincón guarda un recuerdo y cada pared ha sido testigo de nuestras risas.",
+      "icon": "diamond"
+    },
+    {
+      "year": "2023",
+      "month": "Diciembre",
+      "title": "Bajo las Estrellas",
+      "description": "Una noche mágica acampando bajo el cielo más despejado, donde pedimos deseos a las estrellas fugaces y hablamos hasta el amanecer.",
+      "icon": "star"
+    },
+    {
+      "year": "2025",
+      "title": "Más Fuertes que Nunca",
+      "description": "Ocho años después, y mi corazón todavía se acelera cuando entras en la habitación. Cada día contigo es un regalo que nunca doy por sentado.",
+      "icon": "diamond"
+    },
+    {
+      "year": "2026",
+      "month": "Julio",
+      "title": "Cumpleaños de Diamante",
+      "description": "El hito que celebra la gema más preciosa de mi vida — tú. Por el para siempre, mi amor.",
+      "icon": "diamond"
+    }
+  ],
+  "triviaQuestions": [
+    {
+      "id": "t1",
+      "question": "¿Qué llevaba puesto el día que nos conocimos?",
+      "options": [
+        "Una chaqueta azul",
+        "Esa bufanda roja oscura",
+        "Una camisa blanca",
+        "Un abrigo negro"
+      ],
+      "correctIndex": 1,
+      "explanation": "Llevabas esa hermosa bufanda roja oscura — recuerdo pensar que combinaba con la calidez de tus ojos."
+    },
+    {
+      "id": "t2",
+      "question": "¿Cómo se llamaba el café de nuestra primera cita?",
+      "options": [
+        "The Rustic Bean",
+        "La Petite Rose",
+        "Golden Cup",
+        "The Velvet Spoon"
+      ],
+      "correctIndex": 1,
+      "explanation": "La Petite Rose — donde supe, incluso antes del primer sorbo de café, que me estaba enamorando de ti."
+    },
+    {
+      "id": "t3",
+      "question": "¿Qué canción sonaba cuando tuvimos nuestro primer baile?",
+      "options": [
+        "\"At Last\" de Etta James",
+        "\"Can't Help Falling in Love\" de Elvis",
+        "\"Lover\" de Taylor Swift",
+        "\"Perfect\" de Ed Sheeran"
+      ],
+      "correctIndex": 1,
+      "explanation": "\"Can't Help Falling in Love\" — y realmente no pude evitarlo. Me tenías desde el primer paso."
+    },
+    {
+      "id": "t4",
+      "question": "¿Cuál es mi comida favorita para cocinarte?",
+      "options": [
+        "Pasta carbonara",
+        "La receta de tu madre",
+        "Salmón a la parrilla",
+        "Soufflé de chocolate"
+      ],
+      "correctIndex": 1,
+      "explanation": "La receta de tu madre — porque ver tu sonrisa cuando la pruebas hace que todo el esfuerzo valga la pena."
+    },
+    {
+      "id": "t5",
+      "question": "¿Adónde fuimos en nuestras primeras vacaciones juntos?",
+      "options": [
+        "Las montañas",
+        "Un pueblo costero",
+        "Una gran ciudad",
+        "Una casa de campo"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ese hermoso pueblo costero, donde caminamos descalzos en la arena y prometimos volver cada año."
+    },
+    {
+      "id": "t6",
+      "question": "¿Cuál es el apodo que te pongo cuando estás siendo testaruda?",
+      "options": [
+        "Mi pequeña estrella",
+        "Mi hermosa tormenta",
+        "Dulce traviesa",
+        "Querida difícil"
+      ],
+      "correctIndex": 1,
+      "explanation": "\"Mi hermosa tormenta\" — porque incluso cuando eres testaruda, me dejas sin aliento."
+    },
+    {
+      "id": "t7",
+      "question": "¿Qué película te hizo llorar más (de la que me burlaba)?",
+      "options": [
+        "El Diario de una Pasión",
+        "Titanic",
+        "Up",
+        "Ha Nacido una Estrella"
+      ],
+      "correctIndex": 0,
+      "explanation": "El Diario de una Pasión — y fingía burlarme, pero en secreto yo también lloraba."
+    },
+    {
+      "id": "t8",
+      "question": "¿Qué es lo único que siempre te traigo cuando estás enferma?",
+      "options": [
+        "Sopa de pollo",
+        "Té con miel",
+        "Tus flores favoritas",
+        "Una manta caliente"
+      ],
+      "correctIndex": 2,
+      "explanation": "Tus flores favoritas — porque incluso cuando no te sientes bien, mereces sonreír."
+    }
+  ],
+  "galleryCategories": [
+    {
+      "id": "journey",
+      "name": "Nuestro Viaje",
+      "description": "Los lugares que hemos visitado y los recuerdos que hemos creado."
+    },
+    {
+      "id": "moments",
+      "name": "Momentos Dulces",
+      "description": "Magia cotidiana — los pequeños momentos que lo significan todo."
+    },
+    {
+      "id": "forever",
+      "name": "Tuya por Siempre",
+      "description": "Símbolos de nuestro amor y compromiso mutuo."
+    }
+  ],
+  "galleryImages": [
+    {
+      "id": "journey-1",
+      "src": "/photos/journey-1.svg",
+      "thumb": "/photos/journey-1.svg",
+      "alt": "Un atardecer sobre colinas onduladas, representando nuestros viajes juntos",
+      "caption": "Viendo el atardecer en nuestro primer viaje — el mundo se sentía nuestro.",
+      "category": "journey"
+    },
+    {
+      "id": "journey-2",
+      "src": "/photos/journey-2.svg",
+      "thumb": "/photos/journey-2.svg",
+      "alt": "Una acogedora cabaña en las montañas",
+      "caption": "Nuestra escapada a la montaña — chocolate caliente, mantas suaves y conversaciones interminables.",
+      "category": "journey"
+    },
+    {
+      "id": "journey-3",
+      "src": "/photos/journey-3.svg",
+      "thumb": "/photos/journey-3.svg",
+      "alt": "Una playa en la hora dorada",
+      "caption": "Caminando de la mano por la orilla, escribiendo nuestros nombres en la arena.",
+      "category": "journey"
+    },
+    {
+      "id": "journey-4",
+      "src": "/photos/journey-4.svg",
+      "thumb": "/photos/journey-4.svg",
+      "alt": "Una calle urbana vibrante de noche",
+      "caption": "Perdiéndonos en las luces de la ciudad — nuestro tipo favorito de aventura.",
+      "category": "journey"
+    },
+    {
+      "id": "moments-1",
+      "src": "/photos/moments-1.svg",
+      "thumb": "/photos/moments-1.svg",
+      "alt": "Una cena a la luz de las velas",
+      "caption": "Esa cena perfecta donde hablamos hasta que el restaurante cerró.",
+      "category": "moments"
+    },
+    {
+      "id": "moments-2",
+      "src": "/photos/moments-2.svg",
+      "thumb": "/photos/moments-2.svg",
+      "alt": "Dos tazas de café en un alféizar lluvioso",
+      "caption": "Los domingos lluviosos contigo son mis días favoritos.",
+      "category": "moments"
+    },
+    {
+      "id": "moments-3",
+      "src": "/photos/moments-3.svg",
+      "thumb": "/photos/moments-3.svg",
+      "alt": "Un ramo de flores silvestres",
+      "caption": "Flores silvestres recogidas solo para ti — porque mereces toda la belleza.",
+      "category": "moments"
+    },
+    {
+      "id": "moments-4",
+      "src": "/photos/moments-4.svg",
+      "thumb": "/photos/moments-4.svg",
+      "alt": "Un acogedor rincón de lectura con luces de hadas",
+      "caption": "Nuestro pequeño santuario — libros, té y el uno para el otro.",
+      "category": "moments"
+    },
+    {
+      "id": "forever-1",
+      "src": "/photos/forever-1.svg",
+      "thumb": "/photos/forever-1.svg",
+      "alt": "Dos anillos entrelazados",
+      "caption": "Dos corazones, un viaje, entrelazados para siempre.",
+      "category": "forever"
+    },
+    {
+      "id": "forever-2",
+      "src": "/photos/forever-2.svg",
+      "thumb": "/photos/forever-2.svg",
+      "alt": "Un diamante brillando con luz cálida",
+      "caption": "Como un diamante, nuestro amor se vuelve más brillante con cada año que pasa.",
+      "category": "forever"
+    },
+    {
+      "id": "forever-3",
+      "src": "/photos/forever-3.svg",
+      "thumb": "/photos/forever-3.svg",
+      "alt": "Un candado en forma de corazón en un puente",
+      "caption": "Guardando nuestro amor al mundo — una promesa que nunca se romperá.",
+      "category": "forever"
+    },
+    {
+      "id": "forever-4",
+      "src": "/photos/forever-4.svg",
+      "thumb": "/photos/forever-4.svg",
+      "alt": "Silueta de una pareja abrazándose al atardecer",
+      "caption": "En tus brazos es donde pertenezco. Siempre.",
+      "category": "forever"
+    }
+  ],
+  "wife": {
+    "name": "Mi Amor",
+    "petName": "my love",
+    "age": 30,
+    "birthday": "1996-07-15",
+    "birthstone": "Ruby",
+    "favoriteColor": "Wine red",
+    "yearsTogether": 8,
+    "anniversary": "2017-03-20",
+    "specialMessage": "Eres el diamante de mi vida — brillante, única y la cosa más hermosa que jamás he encontrado."
+  },
+  "content": {
+    "app": {
+      "loading": "Cargando...",
+      "loadingLabel": "Cargando aplicación",
+      "skipLink": "Saltar al contenido principal"
+    },
+    "hero": {
+      "greetingLabel": "Saludo de bienvenida",
+      "title": "Feliz Cumpleaños de Diamante",
+      "ageTemplate": "{age} años, brillantemente hermosa",
+      "scrollHint": "Desplázate para explorar"
+    },
+    "timeline": {
+      "title": "Nuestra Historia",
+      "subtitle": "Un viaje a través de los momentos que importan"
+    },
+    "letters": {
+      "title": "Cartas para Ti",
+      "subtitle": "Palabras de mi corazón al tuyo"
+    },
+    "gallery": {
+      "title": "Nuestro Álbum de Fotos",
+      "subtitle": "Momentos capturados en el tiempo",
+      "tablistLabel": "Categorías de fotos",
+      "allTab": "Todas",
+      "emptyCategory": "Aún no hay fotos en esta categoría.",
+      "errorTitle": "No se pudieron cargar las fotos",
+      "errorDesc": "Los datos del álbum de fotos no están disponibles ahora. Por favor, vuelve más tarde.",
+      "openPhotoTemplate": "Abrir foto: {alt}"
+    },
+    "galleryModal": {
+      "closeViewer": "Cerrar visor de fotos",
+      "prevPhoto": "Foto anterior",
+      "nextPhoto": "Siguiente foto",
+      "ofTemplate": "{current} de {total}",
+      "photoAriaLabel": "Foto {index} de {total}"
+    },
+    "surprise": {
+      "title": "Una Pequeña Sorpresa",
+      "prompt": "Algo especial te espera...",
+      "revealButton": "Toca para Descubrir",
+      "headline": "Eres Mi Diamante",
+      "message1": "Así como un diamante se forma bajo presión, nuestro amor se ha forjado a través de cada desafío, cada risa, cada lágrima y cada momento hermoso que hemos compartido. Eres única. Eres preciosa. Eres irremplazable.",
+      "message2": "En este cumpleaños de diamante, quiero que sepas que eres la gema más brillante de mi universo — y pasaré el resto de mi vida atesorando cada una de tus facetas.",
+      "signature": "Tuyo por siempre"
+    },
+    "memoriesButton": {
+      "buttonLabel": "Abrir recuerdos fotográficos",
+      "buttonText": "Recuerdos",
+      "overlayLabel": "Recuerdos fotográficos",
+      "closeLabel": "Cerrar recuerdos"
+    },
+    "footer": {
+      "line1": "Hecho con todo mi corazón, para el diamante más precioso de mi vida.",
+      "line2": "Te amo. Por siempre y para siempre."
+    },
+    "trivia": {
+      "title": "¿Qué Tanto Nos Conoces?",
+      "subtitle": "Un pequeño cuestionario de amor, solo para ti",
+      "progressLabel": "Opciones de respuesta",
+      "nextQuestion": "Siguiente Pregunta →",
+      "seeResults": "Ver Resultados",
+      "playAgain": "Jugar de Nuevo",
+      "perfect": "¡Perfecto! ¡Nos conoces mejor que nadie! ✦",
+      "good": "¡Maravilloso! Nuestra historia de amor está en buenas manos. ♥",
+      "tryAgain": "¡Deberíamos crear más recuerdos juntos! Intentemos de nuevo.",
+      "noQuestions": "No hay preguntas disponibles. ¡Vuelve más tarde!",
+      "scoreTemplate": "{score}/{total}",
+      "ofTemplate": "{current} de {total}"
+    },
+    "spinner": {
+      "title": "Ruleta del Romance",
+      "subtitle": "Gira para descubrir nuestra próxima aventura romántica",
+      "spinning": "Girando...",
+      "spinButton": "Gira por Amor",
+      "resultTemplate": "Esta noche: {result}",
+      "ariaSpinning": "La ruleta está girando...",
+      "ariaResultTemplate": "Resultado: {result}",
+      "ariaDefault": "Ruleta del romance",
+      "options": [
+        {
+          "label": "Bésame ♥"
+        },
+        {
+          "label": "Baila Esta Noche"
+        },
+        {
+          "label": "Carta de Amor"
+        },
+        {
+          "label": "Cena a la Luz de Velas"
+        },
+        {
+          "label": "Mirar las Estrellas ✦"
+        },
+        {
+          "label": "Cita Sorpresa"
+        },
+        {
+          "label": "Masaje de Pies"
+        },
+        {
+          "label": "Noche de Película"
+        },
+        {
+          "label": "Desayuno en la Cama"
+        },
+        {
+          "label": "Vals Juntos"
+        }
+      ]
+    },
+    "miniGames": {
+      "title": "Minijuegos",
+      "subtitle": "Un poco de diversión, solo para ti",
+      "playTemplate": "Jugar {name}",
+      "loading": "Cargando juego...",
+      "loadingLabel": "Cargando juego",
+      "games": [
+        {
+          "id": "flappy",
+          "name": "Flappy Love",
+          "desc": "Toca para volar entre corazones"
+        },
+        {
+          "id": "snake",
+          "name": "Serpiente de Amor",
+          "desc": "Colecciona corazones, crece más"
+        },
+        {
+          "id": "lane-runner",
+          "name": "Carril del Amor",
+          "desc": "Esquiva obstáculos, permanece juntos"
+        },
+        {
+          "id": "memory",
+          "name": "Juego de Memoria",
+          "desc": "Encuentra los pares coincidentes"
+        }
+      ]
+    },
+    "games": {
+      "backText": "Atrás"
+    },
+    "scratchCard": {
+      "title": "Un Mensaje para Ti",
+      "subtitle": "Raspa para descubrir lo que hay en mi corazón",
+      "scratchHere": "✨ Raspa Aquí ✨",
+      "scratchHint": "Frota suavemente para revelar",
+      "hiddenMessage": "Eres lo más hermoso que me ha pasado. Cada día a tu lado es un regalo. Te amo más allá de toda medida. ♥",
+      "ariaHiddenLabel": "Tarjeta raspable con mensaje oculto"
+    },
+    "gameMemoryMatch": {
+      "title": "Juego de Memoria",
+      "backLabel": "Volver al menú de juegos",
+      "hiddenCardLabel": "Carta oculta",
+      "cardLabelTemplate": "Carta: {emoji}",
+      "hint": "¡Toca cualquier carta para empezar!",
+      "movesLabel": "Movimientos: {count}",
+      "matchedLabel": "Emparejadas: {matched}/{total}",
+      "bestLabel": "Mejor: {score}",
+      "bestDash": "Mejor: —",
+      "winTitle": "¡Lo Lograste!",
+      "winText": "¡Todos los pares encontrados en {moves} movimientos!",
+      "playAgain": "Jugar de Nuevo",
+      "gridLabel": "Tablero del juego de memoria"
+    },
+    "gameFlappy": {
+      "title": "Flappy Love",
+      "backLabel": "Volver al menú de juegos",
+      "ariaLabel": "Juego Flappy Bird. Toca o presiona Espacio para aletear.",
+      "canvasGameOver": "Juego Terminado",
+      "canvasScoreTemplate": "Puntuación: {score}",
+      "canvasTapRestart": "Toca para reiniciar",
+      "canvasBestTemplate": "Mejor: {best}",
+      "hint": {
+        "idle": "Toca para empezar — ¡toca para aletear!",
+        "playing": "Toca para volar a través de los corazones",
+        "over": "¡Juego terminado! Puntuación: {score}. Toca para intentar de nuevo."
+      }
+    },
+    "gameSnake": {
+      "title": "Serpiente de Amor",
+      "backLabel": "Volver al menú de juegos",
+      "ariaLabel": "Juego de la serpiente. Usa las teclas de flecha para controlar la serpiente.",
+      "hint": "Usa las teclas de flecha para moverte. ¡Colecciona corazones para crecer!",
+      "canvasStart": "Presiona las flechas para empezar",
+      "canvasGameOver": "Juego Terminado",
+      "canvasScoreTemplate": "Puntuación: {score}",
+      "canvasRestart": "Presiona cualquier flecha para reiniciar",
+      "canvasBestTemplate": "Mejor: {best}"
+    },
+    "gameLaneRunner": {
+      "title": "Carril del Amor",
+      "backLabel": "Volver al menú de juegos",
+      "ariaLabel": "Juego de carriles. Usa las teclas de flecha izquierda y derecha para esquivar obstáculos.",
+      "moveLeft": "Mover a la izquierda",
+      "moveRight": "Mover a la derecha",
+      "controlsHint": "Teclas de flecha",
+      "hint": "¡Esquiva los obstáculos! ← y → para cambiar de carril.",
+      "canvasStart": "←  →  para empezar",
+      "canvasGameOver": "Juego Terminado",
+      "canvasScoreTemplate": "Puntuación: {score}",
+      "canvasRestart": "Presiona ← o → para reiniciar",
+      "canvasBestTemplate": "Mejor: {best}"
+    }
+  }
+}

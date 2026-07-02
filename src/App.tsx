@@ -6,12 +6,13 @@ import Gallery from './components/Gallery';
 import Surprise from './components/Surprise';
 import MemoriesButton from './components/MemoriesButton';
 import Footer from './components/Footer';
+import { content } from './content/page';
 
 function AppLoading() {
   return (
-    <div className="app-loading" role="status" aria-label="Loading application">
+    <div className="app-loading" role="status" aria-label={content.app.loadingLabel}>
       <div className="app-loading__spinner" aria-hidden="true">✦</div>
-      <p>Loading...</p>
+      <p>{content.app.loading}</p>
     </div>
   );
 }
@@ -26,7 +27,7 @@ export default function App() {
   return (
     <div className="app">
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {content.app.skipLink}
       </a>
 
       <main id="main-content">

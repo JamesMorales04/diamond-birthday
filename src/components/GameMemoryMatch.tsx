@@ -4,6 +4,8 @@ import { gameSettings, defaultHighScores, GAME_STORAGE_KEY } from '../data/games
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { shuffle } from '../utils/shuffle';
 import { createConfetti } from '../utils/confetti';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 interface Card {
   id: number;
@@ -130,32 +132,34 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
   return (
     <div className="game-container">
       <div className="game-container__header">
-        <button className="game-container__back" onClick={onBack} aria-label="Back to games menu">
-          ← Back
+        <button className="game-container__back" onClick={onBack} aria-label={content.gameMemoryMatch.backLabel}>
+          ← {content.games.backText}
         </button>
-        <h3 className="game-container__title">Memory Match</h3>
+        <h3 className="game-container__title">{content.gameMemoryMatch.title}</h3>
       </div>
 
       {gameWon ? (
-        <div className="memory__win">
+          <div className="memory__win">
           <div className="memory__win-icon" aria-hidden="true">✦</div>
-          <h4 className="memory__win-title">You Did It!</h4>
+          <h4 className="memory__win-title">{content.gameMemoryMatch.winTitle}</h4>
           <p className="memory__win-text">
-            All pairs matched in {moves} moves!
+            {tpl(content.gameMemoryMatch.winText, { moves })}
           </p>
           <button className="memory__win-btn" onClick={resetGame}>
-            Play Again
+            {content.gameMemoryMatch.playAgain}
           </button>
         </div>
       ) : (
         <>
           <div className="memory__stats">
-            <span>Moves: {moves}</span>
+            <span>{tpl(content.gameMemoryMatch.movesLabel, { count: moves })}</span>
             <span>
-              Matched: {matchedPairs}/{totalPairs}
+              {tpl(content.gameMemoryMatch.matchedLabel, { matched: matchedPairs, total: totalPairs })}
             </span>
             <span className="memory__best">
-              Best: {highScore.memoryMatch > 0 ? `${highScore.memoryMatch}s` : '—'}
+              {highScore.memoryMatch > 0
+                ? tpl(content.gameMemoryMatch.bestLabel, { score: `${highScore.memoryMatch}s` })
+                : content.gameMemoryMatch.bestDash}
             </span>
           </div>
 
@@ -166,7 +170,7 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
               maxWidth: `${gridCols * 80}px`,
             }}
             role="grid"
-            aria-label="Memory match game grid"
+            aria-label={content.gameMemoryMatch.gridLabel}
           >
             {cards.map((card) => (
               <button
@@ -176,8 +180,8 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
                 disabled={card.matched || isChecking}
                 aria-label={
                   card.flipped || card.matched
-                    ? `Card: ${card.emoji}`
-                    : 'Hidden card'
+                    ? tpl(content.gameMemoryMatch.cardLabelTemplate, { emoji: card.emoji })
+                    : content.gameMemoryMatch.hiddenCardLabel
                 }
                 style={{
                   transitionDuration: reducedMotion ? '0ms' : '400ms',
@@ -196,7 +200,7 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
           </div>
 
           {!gameStarted && (
-            <p className="game-container__hint">Click any card to start!</p>
+            <p className="game-container__hint">{content.gameMemoryMatch.hint}</p>
           )}
         </>
       )}

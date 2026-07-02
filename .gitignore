@@ -21,5 +21,8 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Test output
+/test-results/
+
 # TypeScript build info
 node_modules/.tmp/

@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GalleryModal from './GalleryModal';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 const baseImage = {
   id: 'test-1',
@@ -36,7 +38,7 @@ describe('GalleryModal', () => {
     expect(dialog).toHaveAttribute('aria-modal', 'true');
 
     expect(screen.getByText('A meaningful caption')).toBeInTheDocument();
-    expect(screen.getByLabelText('Close photo viewer')).toBeInTheDocument();
+    expect(screen.getByLabelText(content.galleryModal.closeViewer)).toBeInTheDocument();
   });
 
   it('shows the photo counter when total and index are provided', () => {
@@ -53,7 +55,7 @@ describe('GalleryModal', () => {
       />,
     );
 
-    expect(screen.getByText('3 of 8')).toBeInTheDocument();
+    expect(screen.getByText(tpl(content.galleryModal.ofTemplate, { current: 3, total: 8 }))).toBeInTheDocument();
   });
 
   it('renders prev / next nav buttons only when hasPrev / hasNext is true', () => {
@@ -68,8 +70,8 @@ describe('GalleryModal', () => {
       />,
     );
 
-    expect(screen.getByLabelText('Previous photo')).toBeInTheDocument();
-    expect(screen.getByLabelText('Next photo')).toBeInTheDocument();
+    expect(screen.getByLabelText(content.galleryModal.prevPhoto)).toBeInTheDocument();
+    expect(screen.getByLabelText(content.galleryModal.nextPhoto)).toBeInTheDocument();
 
     rerender(
       <GalleryModal
@@ -82,8 +84,8 @@ describe('GalleryModal', () => {
       />,
     );
 
-    expect(screen.queryByLabelText('Previous photo')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('Next photo')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(content.galleryModal.prevPhoto)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(content.galleryModal.nextPhoto)).not.toBeInTheDocument();
   });
 
   /* ---------- keyboard navigation ---------- */
@@ -189,8 +191,8 @@ describe('GalleryModal', () => {
       />,
     );
 
-    const closeBtn = screen.getByLabelText('Close photo viewer');
-    const nextBtn = screen.getByLabelText('Next photo');
+    const closeBtn = screen.getByLabelText(content.galleryModal.closeViewer);
+    const nextBtn = screen.getByLabelText(content.galleryModal.nextPhoto);
 
     closeBtn.focus();
     expect(document.activeElement).toBe(closeBtn);
@@ -216,8 +218,8 @@ describe('GalleryModal', () => {
       />,
     );
 
-    const closeBtn = screen.getByLabelText('Close photo viewer');
-    const nextBtn = screen.getByLabelText('Next photo');
+    const closeBtn = screen.getByLabelText(content.galleryModal.closeViewer);
+    const nextBtn = screen.getByLabelText(content.galleryModal.nextPhoto);
 
     closeBtn.focus();
     expect(document.activeElement).toBe(closeBtn);
@@ -262,7 +264,7 @@ describe('GalleryModal', () => {
 
     // Click the close button (child). It has its own onClick → onClose fires.
     // But the backdrop click handler must not also fire.
-    await userEvent.click(screen.getByLabelText('Close photo viewer'));
+    await userEvent.click(screen.getByLabelText(content.galleryModal.closeViewer));
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });

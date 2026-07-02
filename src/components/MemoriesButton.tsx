@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Gallery from './Gallery';
+import { content } from '../content/page';
 
 export default function MemoriesButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,11 +61,11 @@ export default function MemoriesButton() {
         ref={triggerRef}
         className="memories-btn"
         onClick={() => setIsOpen(true)}
-        aria-label="Open photo memories"
-        title="Memories"
+        aria-label={content.memoriesButton.buttonLabel}
+        title={content.memoriesButton.buttonText}
       >
         <span className="memories-btn__icon" aria-hidden="true">◆</span>
-        <span className="memories-btn__text">Memories</span>
+        <span className="memories-btn__text">{content.memoriesButton.buttonText}</span>
       </button>
 
       {isOpen && (
@@ -73,13 +74,13 @@ export default function MemoriesButton() {
           className="memories-overlay"
           role="dialog"
           aria-modal="true"
-          aria-label="Photo memories"
+          aria-label={content.memoriesButton.overlayLabel}
         >
           <div className="memories-overlay__header">
             <button
               className="memories-overlay__close"
               onClick={() => setIsOpen(false)}
-              aria-label="Close memories"
+              aria-label={content.memoriesButton.closeLabel}
             >
               ✕
             </button>

@@ -2,6 +2,8 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { gameSettings, defaultHighScores, GAME_STORAGE_KEY } from '../data/games';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 interface FlappyGame {
   bird: { x: number; y: number; vy: number; size: number };
@@ -155,7 +157,7 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
         ctx.fillStyle = '#C9B99A';
         ctx.font = '18px "Cormorant Garamond", Georgia, serif';
         ctx.textAlign = 'center';
-        ctx.fillText('Tap / Click to Flap', CANVAS_W / 2, CANVAS_H / 2 - 30);
+        ctx.fillText(content.gameFlappy.hint.idle, CANVAS_W / 2, CANVAS_H / 2 - 30);
         ctx.fillText('♥', CANVAS_W / 2, CANVAS_H / 2 + 20);
         return;
       }
@@ -210,7 +212,7 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
       ctx.fillStyle = '#C9B99A';
       ctx.font = '14px "Inter", sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText(`Best: ${highScoreRef.current}`, CANVAS_W - 10, 25);
+      ctx.fillText(tpl(content.gameFlappy.canvasBestTemplate, { best: highScoreRef.current }), CANVAS_W - 10, 25);
 
       // Game over overlay
       if (game.gameOver) {
@@ -219,13 +221,13 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
         ctx.fillStyle = '#FFFDD0';
         ctx.font = '32px "Cormorant Garamond", Georgia, serif';
         ctx.textAlign = 'center';
-        ctx.fillText('Game Over', CANVAS_W / 2, CANVAS_H / 2 - 30);
+        ctx.fillText(content.gameFlappy.canvasGameOver, CANVAS_W / 2, CANVAS_H / 2 - 30);
         ctx.fillStyle = '#D4A5A5';
         ctx.font = '20px "Cormorant Garamond", Georgia, serif';
-        ctx.fillText(`Score: ${game.score}`, CANVAS_W / 2, CANVAS_H / 2 + 20);
+        ctx.fillText(tpl(content.gameFlappy.canvasScoreTemplate, { score: game.score }), CANVAS_W / 2, CANVAS_H / 2 + 20);
         ctx.fillStyle = '#C9B99A';
         ctx.font = '14px "Inter", sans-serif';
-        ctx.fillText('Tap to restart', CANVAS_W / 2, CANVAS_H / 2 + 60);
+        ctx.fillText(content.gameFlappy.canvasTapRestart, CANVAS_W / 2, CANVAS_H / 2 + 60);
       }
     };
 
@@ -237,10 +239,10 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
   return (
     <div className="game-container">
       <div className="game-container__header">
-        <button className="game-container__back" onClick={onBack} aria-label="Back to games menu">
-          ← Back
+        <button className="game-container__back" onClick={onBack} aria-label={content.gameFlappy.backLabel}>
+          ← {content.games.backText}
         </button>
-        <h3 className="game-container__title">Flappy Love</h3>
+        <h3 className="game-container__title">{content.gameFlappy.title}</h3>
       </div>
 
       <div
@@ -249,15 +251,15 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
         onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); jump(); } }}
         role="button"
         tabIndex={0}
-        aria-label="Flappy bird game. Tap or press Space to flap."
+        aria-label={content.gameFlappy.ariaLabel}
       >
         <canvas ref={canvasRef} className="game-container__canvas" />
       </div>
 
       <p className="game-container__hint">
-        {gameState === 'idle' && 'Tap to start — tap to flap!'}
-        {gameState === 'playing' && 'Tap to fly through the hearts'}
-        {gameState === 'over' && `Game over! Score: ${score}. Tap to try again.`}
+        {gameState === 'idle' && content.gameFlappy.hint.idle}
+        {gameState === 'playing' && content.gameFlappy.hint.playing}
+        {gameState === 'over' && tpl(content.gameFlappy.hint.over, { score })}
       </p>
     </div>
   );

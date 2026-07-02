@@ -3,6 +3,8 @@ import { useSwipe } from '../hooks/useSwipe';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { assetUrl } from '../utils/assets';
 import type { GalleryImage } from '../data/gallery';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 interface GalleryModalProps {
   image: GalleryImage;
@@ -109,7 +111,10 @@ export default function GalleryModal({
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
-      aria-label={`Photo ${index != null ? (index + 1) : ''}${total ? ` of ${total}` : ''}`}
+      aria-label={tpl(content.galleryModal.photoAriaLabel, {
+        index: index != null ? String(index + 1) : '',
+        total: total != null ? String(total) : '',
+      })}
       aria-describedby={captionId}
       ref={dialogRef}
       tabIndex={-1}
@@ -119,7 +124,7 @@ export default function GalleryModal({
           <div className="gallery-modal__info">
             {total != null && index != null && (
               <span className="gallery-modal__counter" aria-hidden="true">
-                {index + 1} of {total}
+                {tpl(content.galleryModal.ofTemplate, { current: String(index + 1), total: String(total) })}
               </span>
             )}
             <span id={captionId} className="gallery-modal__caption">
@@ -129,7 +134,7 @@ export default function GalleryModal({
           <button
             className="gallery-modal__close"
             onClick={onClose}
-            aria-label="Close photo viewer"
+            aria-label={content.galleryModal.closeViewer}
           >
             ✕
           </button>
@@ -140,7 +145,7 @@ export default function GalleryModal({
             <button
               className="gallery-modal__nav gallery-modal__nav--prev"
               onClick={onPrev}
-              aria-label="Previous photo"
+              aria-label={content.galleryModal.prevPhoto}
             >
               ‹
             </button>
@@ -164,7 +169,7 @@ export default function GalleryModal({
             <button
               className="gallery-modal__nav gallery-modal__nav--next"
               onClick={onNext}
-              aria-label="Next photo"
+              aria-label={content.galleryModal.nextPhoto}
             >
               ›
             </button>

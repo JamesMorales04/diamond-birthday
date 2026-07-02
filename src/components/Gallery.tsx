@@ -3,6 +3,8 @@ import { galleryImages, galleryCategories, type GalleryImage } from '../data/gal
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { assetUrl } from '../utils/assets';
 import GalleryModal from './GalleryModal';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 function GalleryThumbnail({
   image,
@@ -21,7 +23,7 @@ function GalleryThumbnail({
       ref={ref}
       className={`gallery__thumb ${isVisible ? 'gallery__thumb--visible' : ''}`}
       onClick={() => onOpen(image.id)}
-      aria-label={`Open photo: ${image.alt}`}
+      aria-label={tpl(content.gallery.openPhotoTemplate, { alt: image.alt })}
       style={{ transitionDelay: `${index * 50}ms` }}
     >
       <div className="gallery__thumb-inner">
@@ -98,21 +100,21 @@ export default function Gallery() {
       aria-labelledby="gallery-title"
     >
       <h2 id="gallery-title" className="section__title">
-        Our Photo Album
+        {content.gallery.title}
       </h2>
-      <p className="section__subtitle">Moments captured in time</p>
+      <p className="section__subtitle">{content.gallery.subtitle}</p>
 
       {!hasImages ? (
         <div className="gallery__error" role="alert">
           <span className="gallery__error-icon" aria-hidden="true">✦</span>
-          <p className="gallery__error-title">Unable to load photos</p>
+          <p className="gallery__error-title">{content.gallery.errorTitle}</p>
           <p className="gallery__error-desc">
-            The photo album data is not available right now. Please check back later.
+            {content.gallery.errorDesc}
           </p>
         </div>
       ) : (
         <>
-          <div className="gallery__categories" role="tablist" aria-label="Photo categories">
+          <div className="gallery__categories" role="tablist" aria-label={content.gallery.tablistLabel}>
             <button
               id="gallery-tab-all"
               className={`gallery__cat-btn ${activeCategory === 'all' ? 'gallery__cat-btn--active' : ''}`}
@@ -121,7 +123,7 @@ export default function Gallery() {
               aria-selected={activeCategory === 'all'}
               aria-controls={tabpanelId}
             >
-              All
+              {content.gallery.allTab}
             </button>
             {galleryCategories.map((cat) => (
               <button
@@ -140,7 +142,7 @@ export default function Gallery() {
 
           {filtered.length === 0 ? (
             <div className="gallery__empty" role="status">
-              <p>No photos in this category yet.</p>
+              <p>{content.gallery.emptyCategory}</p>
             </div>
           ) : (
             <div

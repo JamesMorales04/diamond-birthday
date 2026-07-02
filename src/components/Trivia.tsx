@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 import { getShuffledTrivia, type TriviaQuestion } from '../data/trivia';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { createConfetti } from '../utils/confetti';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 interface TriviaState {
   questions: TriviaQuestion[];
@@ -74,26 +76,26 @@ export default function Trivia() {
       aria-labelledby="trivia-title"
     >
       <h2 id="trivia-title" className="section__title">
-        How Well Do You Know Us?
+        {content.trivia.title}
       </h2>
-      <p className="section__subtitle">A little love quiz, just for you</p>
+      <p className="section__subtitle">{content.trivia.subtitle}</p>
 
       {finished ? (
         <div className="trivia__result">
           <div className="trivia__score-ring">
             <span className="trivia__score-num">
-              {score}/{questions.length}
+              {tpl(content.trivia.scoreTemplate, { score: String(score), total: String(questions.length) })}
             </span>
           </div>
           <p className="trivia__result-text">
             {score === questions.length
-              ? 'Perfect! You know us better than anyone! ✦'
+              ? content.trivia.perfect
               : score >= questions.length * 0.6
-                ? 'Wonderful! Our love story is in good hands. ♥'
-                : "We should make more memories together! Let's try again."}
+                ? content.trivia.good
+                : content.trivia.tryAgain}
           </p>
           <button className="trivia__restart-btn" onClick={handleRestart}>
-            Play Again
+            {content.trivia.playAgain}
           </button>
         </div>
       ) : question ? (
@@ -104,13 +106,13 @@ export default function Trivia() {
               style={{ width: `${((current + 1) / questions.length) * 100}%` }}
             />
             <span className="trivia__progress-label">
-              {current + 1} of {questions.length}
+              {tpl(content.trivia.ofTemplate, { current: String(current + 1), total: String(questions.length) })}
             </span>
           </div>
 
           <p className="trivia__question">{question.question}</p>
 
-          <div className="trivia__options" role="radiogroup" aria-label="Answer options">
+          <div className="trivia__options" role="radiogroup" aria-label={content.trivia.progressLabel}>
             {question.options.map((option, i) => {
               let className = 'trivia__option';
               if (answered) {
@@ -142,13 +144,13 @@ export default function Trivia() {
 
           {answered && (
             <button className="trivia__next-btn" onClick={handleNext}>
-              {current < questions.length - 1 ? 'Next Question →' : 'See Results'}
+              {current < questions.length - 1 ? content.trivia.nextQuestion : content.trivia.seeResults}
             </button>
           )}
         </div>
       ) : (
         <div className="trivia__empty" role="status">
-          <p>No questions available. Come back later!</p>
+          <p>{content.trivia.noQuestions}</p>
         </div>
       )}
     </section>

@@ -1,6 +1,8 @@
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { wife } from '../data/wife';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 export default function Hero() {
   const [ref, isVisible] = useIntersectionObserver({ threshold: 0.3, triggerOnce: true });
@@ -10,7 +12,7 @@ export default function Hero() {
     <section
       ref={ref}
       className={`hero ${isVisible ? 'hero--visible' : ''}`}
-      aria-label="Hero greeting"
+      aria-label={content.hero.greetingLabel}
     >
       <div className="hero__bg" aria-hidden="true">
         <div className="hero__glow hero__glow--1" />
@@ -20,7 +22,7 @@ export default function Hero() {
       <div className="hero__content">
         <p className="hero__subtitle">
           <span className="hero__diamond" aria-hidden="true">✦</span>
-          {' '}Happy Diamond Birthday{' '}
+          {' '}{content.hero.title}{' '}
           <span className="hero__diamond" aria-hidden="true">✦</span>
         </p>
 
@@ -41,12 +43,12 @@ export default function Hero() {
           </svg>
         </div>
 
-        <p className="hero__age">{wife.age} years, brilliantly beautiful</p>
+        <p className="hero__age">{tpl(content.hero.ageTemplate, { age: wife.age })}</p>
 
         <p className="hero__message">{wife.specialMessage}</p>
 
         <div className="hero__scroll" aria-hidden="true">
-          <span className="hero__scroll-text">Scroll to explore</span>
+          <span className="hero__scroll-text">{content.hero.scrollHint}</span>
           <span className="hero__scroll-arrow">↓</span>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { letters } from '../data/messages';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { content } from '../content/page';
 
 function LetterCard({
   letter,
@@ -72,9 +73,9 @@ export default function Letters() {
       aria-labelledby="letters-title"
     >
       <h2 id="letters-title" className="section__title">
-        Letters for You
+        {content.letters.title}
       </h2>
-      <p className="section__subtitle">Words from my heart to yours</p>
+      <p className="section__subtitle">{content.letters.subtitle}</p>
 
       <div className="letters__list" role="list">
         {letters.map((letter, i) => (

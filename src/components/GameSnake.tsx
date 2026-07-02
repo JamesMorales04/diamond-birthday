@@ -2,6 +2,8 @@ import { useRef, useEffect, useCallback } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { gameSettings, defaultHighScores, GAME_STORAGE_KEY } from '../data/games';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 interface SnakeSegment {
   x: number;
@@ -160,7 +162,7 @@ export default function GameSnake({ onBack }: { onBack: () => void }) {
       ctx.fillStyle = '#C9B99A';
       ctx.font = '12px "Inter", sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText(`Best: ${highScoreRef.current}`, CANVAS_W - 10, 20);
+      ctx.fillText(tpl(content.gameSnake.canvasBestTemplate, { best: highScoreRef.current }), CANVAS_W - 10, 20);
 
       if (g.gameOver) {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -168,18 +170,18 @@ export default function GameSnake({ onBack }: { onBack: () => void }) {
         ctx.fillStyle = '#FFFDD0';
         ctx.font = '32px "Cormorant Garamond", Georgia, serif';
         ctx.textAlign = 'center';
-        ctx.fillText('Game Over', CANVAS_W / 2, CANVAS_H / 2 - 30);
+        ctx.fillText(content.gameSnake.canvasGameOver, CANVAS_W / 2, CANVAS_H / 2 - 30);
         ctx.fillStyle = '#D4A5A5';
         ctx.font = '20px "Cormorant Garamond", Georgia, serif';
-        ctx.fillText(`Score: ${g.snake.length - 3}`, CANVAS_W / 2, CANVAS_H / 2 + 20);
+        ctx.fillText(tpl(content.gameSnake.canvasScoreTemplate, { score: g.snake.length - 3 }), CANVAS_W / 2, CANVAS_H / 2 + 20);
         ctx.fillStyle = '#C9B99A';
         ctx.font = '14px "Inter", sans-serif';
-        ctx.fillText('Press any arrow key to restart', CANVAS_W / 2, CANVAS_H / 2 + 60);
+        ctx.fillText(content.gameSnake.canvasRestart, CANVAS_W / 2, CANVAS_H / 2 + 60);
       } else if (!g.started) {
         ctx.fillStyle = '#C9B99A';
         ctx.font = '18px "Cormorant Garamond", Georgia, serif';
         ctx.textAlign = 'center';
-        ctx.fillText('Press arrow keys to start', CANVAS_W / 2, CANVAS_H / 2 - 30);
+        ctx.fillText(content.gameSnake.canvasStart, CANVAS_W / 2, CANVAS_H / 2 - 30);
         ctx.fillText('♥', CANVAS_W / 2, CANVAS_H / 2 + 20);
       }
     };
@@ -287,23 +289,23 @@ export default function GameSnake({ onBack }: { onBack: () => void }) {
   return (
     <div className="game-container">
       <div className="game-container__header">
-        <button className="game-container__back" onClick={onBack} aria-label="Back to games menu">
-          ← Back
+        <button className="game-container__back" onClick={onBack} aria-label={content.gameSnake.backLabel}>
+          ← {content.games.backText}
         </button>
-        <h3 className="game-container__title">Love Snake</h3>
+        <h3 className="game-container__title">{content.gameSnake.title}</h3>
       </div>
 
       <div
         className="game-container__canvas-wrap"
         role="application"
-        aria-label="Snake game. Use arrow keys to control the snake."
+        aria-label={content.gameSnake.ariaLabel}
         tabIndex={0}
       >
         <canvas ref={canvasRef} className="game-container__canvas" />
       </div>
 
       <p className="game-container__hint">
-        Use arrow keys to move. Collect hearts to grow!
+        {content.gameSnake.hint}
       </p>
     </div>
   );

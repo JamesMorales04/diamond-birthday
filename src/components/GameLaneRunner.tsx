@@ -2,6 +2,8 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { gameSettings, defaultHighScores, GAME_STORAGE_KEY } from '../data/games';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 const LANES = 3;
 const CANVAS_W = 300;
@@ -156,14 +158,14 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       ctx.fillStyle = '#C9B99A';
       ctx.font = '12px "Inter", sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText(`Best: ${highScoreRef.current}`, CANVAS_W - 10, 20);
+      ctx.fillText(tpl(content.gameLaneRunner.canvasBestTemplate, { best: highScoreRef.current }), CANVAS_W - 10, 20);
 
       // Idle state
       if (gameState === 'idle') {
         ctx.fillStyle = '#C9B99A';
         ctx.font = '18px "Cormorant Garamond", Georgia, serif';
         ctx.textAlign = 'center';
-        ctx.fillText('←  →  to start', CANVAS_W / 2, CANVAS_H / 2 - 30);
+        ctx.fillText(content.gameLaneRunner.canvasStart, CANVAS_W / 2, CANVAS_H / 2 - 30);
         ctx.fillText('♥', CANVAS_W / 2, CANVAS_H / 2 + 20);
       }
 
@@ -174,13 +176,13 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
         ctx.fillStyle = '#FFFDD0';
         ctx.font = '32px "Cormorant Garamond", Georgia, serif';
         ctx.textAlign = 'center';
-        ctx.fillText('Game Over', CANVAS_W / 2, CANVAS_H / 2 - 30);
+        ctx.fillText(content.gameLaneRunner.canvasGameOver, CANVAS_W / 2, CANVAS_H / 2 - 30);
         ctx.fillStyle = '#D4A5A5';
         ctx.font = '20px "Cormorant Garamond", Georgia, serif';
-        ctx.fillText(`Score: ${g.score}`, CANVAS_W / 2, CANVAS_H / 2 + 20);
+        ctx.fillText(tpl(content.gameLaneRunner.canvasScoreTemplate, { score: g.score }), CANVAS_W / 2, CANVAS_H / 2 + 20);
         ctx.fillStyle = '#C9B99A';
         ctx.font = '14px "Inter", sans-serif';
-        ctx.fillText('Press ← or → to restart', CANVAS_W / 2, CANVAS_H / 2 + 60);
+        ctx.fillText(content.gameLaneRunner.canvasRestart, CANVAS_W / 2, CANVAS_H / 2 + 60);
       }
     };
 
@@ -272,16 +274,16 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
   return (
     <div className="game-container">
       <div className="game-container__header">
-        <button className="game-container__back" onClick={onBack} aria-label="Back to games menu">
-          ← Back
+        <button className="game-container__back" onClick={onBack} aria-label={content.gameLaneRunner.backLabel}>
+          ← {content.games.backText}
         </button>
-        <h3 className="game-container__title">Lane of Love</h3>
+        <h3 className="game-container__title">{content.gameLaneRunner.title}</h3>
       </div>
 
       <div
         className="game-container__canvas-wrap"
         role="application"
-        aria-label="Lane runner game. Use left and right arrow keys to dodge obstacles."
+        aria-label={content.gameLaneRunner.ariaLabel}
         tabIndex={0}
       >
         <canvas ref={canvasRef} className="game-container__canvas" />
@@ -291,22 +293,22 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
         <button
           className="game-container__ctrl-btn"
           onClick={() => switchLane('left')}
-          aria-label="Move left"
+          aria-label={content.gameLaneRunner.moveLeft}
         >
           ←
         </button>
-        <span className="game-container__ctrl-hint">Arrow keys</span>
+        <span className="game-container__ctrl-hint">{content.gameLaneRunner.controlsHint}</span>
         <button
           className="game-container__ctrl-btn"
           onClick={() => switchLane('right')}
-          aria-label="Move right"
+          aria-label={content.gameLaneRunner.moveRight}
         >
           →
         </button>
       </div>
 
       <p className="game-container__hint">
-        Dodge the obstacles! ← and → to move lanes.
+        {content.gameLaneRunner.hint}
       </p>
     </div>
   );

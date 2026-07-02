@@ -1,5 +1,6 @@
 import { timeline } from '../data/timeline';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { content } from '../content/page';
 
 const iconMap: Record<string, string> = {
   heart: '♥',
@@ -49,9 +50,9 @@ export default function Timeline() {
       aria-labelledby="timeline-title"
     >
       <h2 id="timeline-title" className="section__title">
-        Our Story
+        {content.timeline.title}
       </h2>
-      <p className="section__subtitle">A journey through the moments that matter</p>
+      <p className="section__subtitle">{content.timeline.subtitle}</p>
 
       <div className="timeline__line" aria-hidden="true" />
 

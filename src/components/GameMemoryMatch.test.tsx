@@ -3,6 +3,8 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GameMemoryMatch from './GameMemoryMatch';
 import { GAME_STORAGE_KEY, defaultHighScores } from '../data/games';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
 
 // Mock shuffle to be identity so adjacent card indices form matching pairs.
 // With createCards(): [♥, ♥, ✦, ✦, ◆, ◆, ♡, ♡, ✿, ✿, ◇, ◇, ♤, ♤, ○, ○]
@@ -42,28 +44,28 @@ describe('GameMemoryMatch', () => {
   it('renders the game header and grid', () => {
     render(<GameMemoryMatch onBack={onBack} />);
 
-    expect(screen.getByText('Memory Match')).toBeInTheDocument();
+    expect(screen.getByText(content.gameMemoryMatch.title)).toBeInTheDocument();
     expect(screen.getByRole('grid')).toBeInTheDocument();
-    expect(screen.getByLabelText('Back to games menu')).toBeInTheDocument();
+    expect(screen.getByLabelText(content.gameMemoryMatch.backLabel)).toBeInTheDocument();
   });
 
   it('shows 16 hidden cards (4×4 grid)', () => {
     render(<GameMemoryMatch onBack={onBack} />);
 
-    const hiddenCards = screen.getAllByRole('button', { name: 'Hidden card' });
+    const hiddenCards = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
     expect(hiddenCards).toHaveLength(16);
   });
 
   it('shows a hint before any card is clicked', () => {
     render(<GameMemoryMatch onBack={onBack} />);
 
-    expect(screen.getByText('Click any card to start!')).toBeInTheDocument();
+    expect(screen.getByText(content.gameMemoryMatch.hint)).toBeInTheDocument();
   });
 
   it('renders move counter at zero initially', () => {
     render(<GameMemoryMatch onBack={onBack} />);
 
-    expect(screen.getByText(/Moves:\s*0/)).toBeInTheDocument();
+    expect(screen.getByText(tpl(content.gameMemoryMatch.movesLabel, { count: 0 }))).toBeInTheDocument();
   });
 
   /* ---------- back button ---------- */
@@ -72,7 +74,7 @@ describe('GameMemoryMatch', () => {
     const user = userEvent.setup();
     render(<GameMemoryMatch onBack={onBack} />);
 
-    await user.click(screen.getByLabelText('Back to games menu'));
+    await user.click(screen.getByLabelText(content.gameMemoryMatch.backLabel));
     expect(onBack).toHaveBeenCalledOnce();
   });
 
@@ -82,18 +84,19 @@ describe('GameMemoryMatch', () => {
     const user = userEvent.setup();
     render(<GameMemoryMatch onBack={onBack} />);
 
-    const hiddenCards = screen.getAllByRole('button', { name: 'Hidden card' });
+    const hiddenCards = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
     expect(hiddenCards).toHaveLength(16);
 
     await user.click(hiddenCards[0]);
 
-    // One card is no longer hidden — it now has an aria-label like "Card: ♥"
-    const stillHidden = screen.getAllByRole('button', { name: 'Hidden card' });
+    // One card is no longer hidden — it now has an aria-label like "Carta: ♥"
+    const stillHidden = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
     expect(stillHidden).toHaveLength(15);
 
-    // The flipped card is revealed with a "Card:" aria-label
+    // The flipped card is revealed with a "Carta:" aria-label prefix
+    const labelPrefix = tpl(content.gameMemoryMatch.cardLabelTemplate, { emoji: '' });
     const revealedCards = screen.getAllByRole('button').filter(
-      (btn) => btn.getAttribute('aria-label')?.startsWith('Card:'),
+      (btn) => btn.getAttribute('aria-label')?.startsWith(labelPrefix),
     );
     expect(revealedCards).toHaveLength(1);
   });
@@ -102,31 +105,31 @@ describe('GameMemoryMatch', () => {
     const user = userEvent.setup();
     render(<GameMemoryMatch onBack={onBack} />);
 
-    expect(screen.getByText('Click any card to start!')).toBeInTheDocument();
+    expect(screen.getByText(content.gameMemoryMatch.hint)).toBeInTheDocument();
 
-    await user.click(screen.getAllByRole('button', { name: 'Hidden card' })[0]);
+    await user.click(screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel })[0]);
 
-    expect(screen.queryByText('Click any card to start!')).not.toBeInTheDocument();
+    expect(screen.queryByText(content.gameMemoryMatch.hint)).not.toBeInTheDocument();
   });
 
   it('increments moves when two cards are clicked', async () => {
     const user = userEvent.setup();
     render(<GameMemoryMatch onBack={onBack} />);
 
-    const hiddenCards = screen.getAllByRole('button', { name: 'Hidden card' });
+    const hiddenCards = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
 
     await user.click(hiddenCards[0]);
     await user.click(hiddenCards[1]);
 
-    expect(screen.getByText(/Moves:\s*1/)).toBeInTheDocument();
+    expect(screen.getByText(tpl(content.gameMemoryMatch.movesLabel, { count: 1 }))).toBeInTheDocument();
   });
 
   /* ---------- match / mismatch ---------- */
 
-  it('handles a pair click through the flip-delay cycle without error', () => {
+  it('handles a matching pair click through the flip-delay cycle', () => {
     render(<GameMemoryMatch onBack={onBack} />);
 
-    const hiddenCards = screen.getAllByRole('button', { name: 'Hidden card' });
+    const hiddenCards = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
 
     // Use fireEvent (synchronous) with consistent fake timers to avoid
     // switching timer implementations mid-test.
@@ -134,12 +137,50 @@ describe('GameMemoryMatch', () => {
     fireEvent.click(hiddenCards[0]);
     fireEvent.click(hiddenCards[1]);
 
-    // Advance past flipDelay so the match/unmatch completes
+    // Advance past flipDelay so the match completes
     act(() => {
       vi.advanceTimersByTime(700);
     });
 
-    expect(screen.getByRole('grid')).toBeInTheDocument();
+    // After a match, two cards should be revealed with emoji labels
+    const labelPrefix = tpl(content.gameMemoryMatch.cardLabelTemplate, { emoji: '' });
+    const revealedCards = screen.getAllByRole('button').filter(
+      (btn) => btn.getAttribute('aria-label')?.startsWith(labelPrefix),
+    );
+    expect(revealedCards).toHaveLength(2);
+
+    // Moves counter should be 1
+    expect(screen.getByText(tpl(content.gameMemoryMatch.movesLabel, { count: 1 }))).toBeInTheDocument();
+
+    // The matched pair's emoji (♥) should appear in the revealed labels
+    const emojiLabel = tpl(content.gameMemoryMatch.cardLabelTemplate, { emoji: '♥' });
+    expect(screen.getAllByLabelText(emojiLabel)).toHaveLength(2);
+
+    vi.useRealTimers();
+  });
+
+  it('flips mismatched cards back after the delay cycle', () => {
+    render(<GameMemoryMatch onBack={onBack} />);
+
+    vi.useFakeTimers();
+
+    // Cards at indices 0 (♥) and 2 (✦) do NOT match with identity shuffle
+    const hiddenCards = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
+    fireEvent.click(hiddenCards[0]);
+    fireEvent.click(hiddenCards[2]);
+
+    // Advance past flipDelay so the unmatch completes
+    act(() => {
+      vi.advanceTimersByTime(700);
+    });
+
+    // After a mismatch, all cards should be hidden again
+    const afterMismatch = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
+    expect(afterMismatch).toHaveLength(16);
+
+    // Moves counter should still be 1
+    expect(screen.getByText(tpl(content.gameMemoryMatch.movesLabel, { count: 1 }))).toBeInTheDocument();
+
     vi.useRealTimers();
   });
 
@@ -153,13 +194,13 @@ describe('GameMemoryMatch', () => {
 
     render(<GameMemoryMatch onBack={onBack} />);
 
-    expect(screen.getByText('Best: 55s')).toBeInTheDocument();
+    expect(screen.getByText(tpl(content.gameMemoryMatch.bestLabel, { score: '55s' }))).toBeInTheDocument();
   });
 
   it('displays a dash when no high score record exists', () => {
     render(<GameMemoryMatch onBack={onBack} />);
 
-    expect(screen.getByText('Best: —')).toBeInTheDocument();
+    expect(screen.getByText(content.gameMemoryMatch.bestDash)).toBeInTheDocument();
   });
 
   /* ---------- game won ---------- */
@@ -173,7 +214,7 @@ describe('GameMemoryMatch', () => {
     vi.useFakeTimers();
 
     for (let p = 0; p < 8; p++) {
-      const cards = screen.getAllByRole('button', { name: 'Hidden card' });
+      const cards = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
       fireEvent.click(cards[0]);
       fireEvent.click(cards[1]);
       act(() => {
@@ -184,9 +225,13 @@ describe('GameMemoryMatch', () => {
     vi.useRealTimers();
 
     // Win screen should now be visible
-    expect(screen.getByText('You Did It!')).toBeInTheDocument();
-    expect(screen.getByText(/All pairs matched in/)).toBeInTheDocument();
-    expect(screen.getByText('Play Again')).toBeInTheDocument();
+    expect(screen.getByText(content.gameMemoryMatch.winTitle)).toBeInTheDocument();
+    // Use a regex to match the win text with any number of moves
+    const winTextPattern = new RegExp(
+      tpl(content.gameMemoryMatch.winText, { moves: '\\d+' })
+    );
+    expect(screen.getByText(winTextPattern)).toBeInTheDocument();
+    expect(screen.getByText(content.gameMemoryMatch.playAgain)).toBeInTheDocument();
   });
 
   it('persists high score to localStorage when game is won', () => {
@@ -200,7 +245,7 @@ describe('GameMemoryMatch', () => {
     vi.useFakeTimers();
 
     for (let p = 0; p < 8; p++) {
-      const cards = screen.getAllByRole('button', { name: 'Hidden card' });
+      const cards = screen.getAllByRole('button', { name: content.gameMemoryMatch.hiddenCardLabel });
       fireEvent.click(cards[0]);
       fireEvent.click(cards[1]);
       act(() => {
@@ -211,7 +256,7 @@ describe('GameMemoryMatch', () => {
     vi.useRealTimers();
 
     // Verify win screen
-    expect(screen.getByText('You Did It!')).toBeInTheDocument();
+    expect(screen.getByText(content.gameMemoryMatch.winTitle)).toBeInTheDocument();
 
     // Verify localStorage now contains a high score for memoryMatch
     const stored = window.localStorage.getItem(GAME_STORAGE_KEY);

@@ -17,6 +17,39 @@ window.matchMedia = vi.fn().mockImplementation((query: string) => ({
 })) as unknown as typeof window.matchMedia;
 
 /**
+ * jsdom does not implement IntersectionObserver, which is used by the
+ * useIntersectionObserver hook. Provide a minimal stub so components
+ * render during tests without crashing.
+ */
+if (typeof window.IntersectionObserver === 'undefined') {
+  class MockIntersectionObserver {
+    readonly root: Element | Document | null = null;
+    readonly rootMargin: string = '0px';
+    readonly thresholds: ReadonlyArray<number> = [0];
+    constructor(
+      private callback: IntersectionObserverCallback,
+      _options?: IntersectionObserverInit,
+    ) {
+      // noop
+    }
+    observe(_target: Element) {
+      // Immediately mark as intersecting so lazy content renders
+      this.callback([{ isIntersecting: true, target: _target } as IntersectionObserverEntry], this);
+    }
+    unobserve() {}
+    disconnect() {}
+    takeRecords(): IntersectionObserverEntry[] {
+      return [];
+    }
+  }
+  Object.defineProperty(window, 'IntersectionObserver', {
+    value: MockIntersectionObserver,
+    writable: true,
+    configurable: true,
+  });
+}
+
+/**
  * jsdom does not provide localStorage in some Node versions.
  * Provide a minimal working implementation.
  */

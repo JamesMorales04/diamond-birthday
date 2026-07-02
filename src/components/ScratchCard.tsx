@@ -2,11 +2,10 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { createConfetti } from '../utils/confetti';
+import { content } from '../content/page';
 
 const SCRATCH_RADIUS = 24;
 const REVEAL_THRESHOLD = 0.4; // 40% scratched to reveal
-
-const hiddenMessage = `You are the most beautiful thing that has ever happened to me. Every day with you is a gift. I love you beyond measure. ♥`;
 
 export default function ScratchCard() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -44,9 +43,9 @@ export default function ScratchCard() {
     ctx.fillStyle = '#FFFDD0';
     ctx.font = 'bold 22px "Cormorant Garamond", Georgia, serif';
     ctx.textAlign = 'center';
-    ctx.fillText('✨ Scratch Here ✨', w / 2, h / 2 - 10);
+    ctx.fillText(content.scratchCard.scratchHere, w / 2, h / 2 - 10);
     ctx.font = '16px "Cormorant Garamond", Georgia, serif';
-    ctx.fillText('Gently rub to reveal', w / 2, h / 2 + 30);
+    ctx.fillText(content.scratchCard.scratchHint, w / 2, h / 2 + 30);
 
     if (reducedMotion) {
       // Auto-reveal for reduced motion
@@ -137,18 +136,18 @@ export default function ScratchCard() {
       aria-labelledby="scratch-title"
     >
       <h2 id="scratch-title" className="section__title">
-        A Message for You
+        {content.scratchCard.title}
       </h2>
-      <p className="section__subtitle">Scratch to reveal what is in my heart</p>
+      <p className="section__subtitle">{content.scratchCard.subtitle}</p>
 
       <div
         className={`scratch__card ${isRevealed ? 'scratch__card--revealed' : ''}`}
         role="img"
-        aria-label={isRevealed ? hiddenMessage : 'Scratch card with hidden message'}
+        aria-label={isRevealed ? content.scratchCard.hiddenMessage : content.scratchCard.ariaHiddenLabel}
       >
         <div className="scratch__message" aria-hidden={!isRevealed}>
           <div className="scratch__ornament" aria-hidden="true">~ ♥ ~</div>
-          <p>{hiddenMessage}</p>
+          <p>{content.scratchCard.hiddenMessage}</p>
         </div>
 
         <canvas
