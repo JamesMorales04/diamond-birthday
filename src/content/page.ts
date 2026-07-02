@@ -4,6 +4,7 @@
  */
 
 import page from "./page.json";
+import type { GameId } from "../data/gameRegistry";
 
 export interface Letter {
   id: string;
@@ -148,7 +149,7 @@ export interface SpinnerContent {
 }
 
 export interface MiniGameEntry {
-  id: "flappy" | "lane-runner" | "memory";
+  id: GameId;
   name: string;
   desc: string;
 }

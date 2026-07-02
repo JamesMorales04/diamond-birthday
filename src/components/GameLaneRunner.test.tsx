@@ -498,7 +498,7 @@ describe("GameLaneRunner", () => {
       // Set an existing low score to ensure we beat it
       window.localStorage.setItem(
         GAME_STORAGE_KEY,
-        JSON.stringify({ ...defaultHighScores, laneRunner: 0 }),
+        JSON.stringify({ ...defaultHighScores, "lane-runner": 0 }),
       );
 
       render(<GameLaneRunner onBack={onBack} />);
@@ -514,14 +514,14 @@ describe("GameLaneRunner", () => {
       const stored = window.localStorage.getItem(GAME_STORAGE_KEY);
       expect(stored).not.toBeNull();
       const parsed = JSON.parse(stored!);
-      expect(parsed.laneRunner).toBeGreaterThan(0);
+      expect(parsed["lane-runner"]).toBeGreaterThan(0);
     });
 
     it("does not overwrite a higher existing best score", () => {
       // Set an unrealistically high existing score
       window.localStorage.setItem(
         GAME_STORAGE_KEY,
-        JSON.stringify({ ...defaultHighScores, laneRunner: 9999 }),
+        JSON.stringify({ ...defaultHighScores, "lane-runner": 9999 }),
       );
 
       render(<GameLaneRunner onBack={onBack} />);
@@ -537,7 +537,7 @@ describe("GameLaneRunner", () => {
       const stored = window.localStorage.getItem(GAME_STORAGE_KEY);
       expect(stored).not.toBeNull();
       const parsed = JSON.parse(stored!);
-      expect(parsed.laneRunner).toBe(9999);
+      expect(parsed["lane-runner"]).toBe(9999);
     });
 
     it("restarts the game after game-over via keyboard input", () => {

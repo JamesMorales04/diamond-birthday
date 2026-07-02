@@ -189,7 +189,7 @@ describe('GameMemoryMatch', () => {
   it('displays a best score loaded from localStorage', () => {
     window.localStorage.setItem(
       GAME_STORAGE_KEY,
-      JSON.stringify({ ...defaultHighScores, memoryMatch: 55 }),
+      JSON.stringify({ ...defaultHighScores, memory: 55 }),
     );
 
     render(<GameMemoryMatch onBack={onBack} />);
@@ -258,10 +258,10 @@ describe('GameMemoryMatch', () => {
     // Verify win screen
     expect(screen.getByText(content.gameMemoryMatch.winTitle)).toBeInTheDocument();
 
-    // Verify localStorage now contains a high score for memoryMatch
+    // Verify localStorage now contains a high score for memory
     const stored = window.localStorage.getItem(GAME_STORAGE_KEY);
     expect(stored).not.toBeNull();
     const parsed = JSON.parse(stored!);
-    expect(parsed.memoryMatch).toBeGreaterThan(0);
+    expect(parsed.memory).toBeGreaterThan(0);
   });
 });

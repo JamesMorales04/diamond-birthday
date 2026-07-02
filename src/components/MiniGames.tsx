@@ -1,22 +1,23 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, ComponentType } from "react";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { content } from "../content/page";
 import { tpl } from "../utils/tpl";
+import { GAME_ICONS } from "../data/gameRegistry";
+import type { GameId } from "../data/gameRegistry";
 
 const GameFlappy = lazy(() => import("./GameFlappy"));
 const GameLaneRunner = lazy(() => import("./GameLaneRunner"));
 const GameMemoryMatch = lazy(() => import("./GameMemoryMatch"));
 
-const GAMES = content.miniGames.games;
+type GameProps = { onBack: () => void };
 
-type GameId = (typeof GAMES)[number]["id"];
-
-/** Presentation-only game card icons — kept local, not in content */
-const GAME_ICONS: Record<GameId, string> = {
-  flappy: "♥",
-  "lane-runner": "◆",
-  memory: "♡",
+const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
+  flappy: GameFlappy,
+  "lane-runner": GameLaneRunner,
+  memory: GameMemoryMatch,
 };
+
+const GAMES = content.miniGames.games;
 
 function GameLoading() {
   return (
@@ -43,13 +44,12 @@ export default function MiniGames() {
   const renderGame = () => {
     if (!activeGame) return null;
 
-    const gameProps = { onBack: () => setActiveGame(null) };
+    const GameComponent = GAME_COMPONENTS[activeGame];
+    const gameProps: GameProps = { onBack: () => setActiveGame(null) };
 
     return (
       <Suspense fallback={<GameLoading />}>
-        {activeGame === "flappy" && <GameFlappy {...gameProps} />}
-        {activeGame === "lane-runner" && <GameLaneRunner {...gameProps} />}
-        {activeGame === "memory" && <GameMemoryMatch {...gameProps} />}
+        <GameComponent {...gameProps} />
       </Suspense>
     );
   };

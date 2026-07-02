@@ -111,7 +111,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     GAME_STORAGE_KEY,
     defaultHighScores,
   );
-  const highScoreRef = useRef(highScore.laneRunner);
+  const highScoreRef = useRef(highScore["lane-runner"]);
   const [gameState, setGameState] = useState<"idle" | "playing" | "over">(
     "idle",
   );
@@ -131,8 +131,8 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
 
   /* ── Sync high-score ref ── */
   useEffect(() => {
-    highScoreRef.current = highScore.laneRunner;
-  }, [highScore.laneRunner]);
+    highScoreRef.current = highScore["lane-runner"];
+  }, [highScore["lane-runner"]]);
 
   /* ── Preload dog frames (per-frame success tracking) ── */
   useEffect(() => {
@@ -167,7 +167,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       playerLane: 1,
       obstacles: [],
       speed:
-        gameSettings.laneRunner.baseSpeed *
+        gameSettings["lane-runner"].baseSpeed *
         (reducedMotionRef.current ? 0.5 : 1),
       score: 0,
       gameOver: false,
@@ -310,7 +310,8 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     };
 
     const spawnObstacle = (game: GameData) => {
-      const freq = gameSettings.laneRunner.obstacleFrequency * (rm() ? 2 : 1);
+      const freq =
+        gameSettings["lane-runner"].obstacleFrequency * (rm() ? 2 : 1);
       if (game.frame % freq !== 0) return;
       const lane = Math.floor(Math.random() * LANES);
       const type: Obstacle["type"] = Math.random() > 0.5 ? "rock" : "thorn";
@@ -340,7 +341,8 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
 
     const increaseDifficulty = (game: GameData) => {
       game.score++;
-      game.speed += gameSettings.laneRunner.speedIncrement * (rm() ? 0.3 : 1);
+      game.speed +=
+        gameSettings["lane-runner"].speedIncrement * (rm() ? 0.3 : 1);
     };
 
     /** Returns true when a collision triggers game-over */
@@ -375,7 +377,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
           setDisplayScore(game.score);
           setHighScore((prev) => ({
             ...prev,
-            laneRunner: Math.max(prev.laneRunner, game.score),
+            "lane-runner": Math.max(prev["lane-runner"], game.score),
           }));
           return true;
         }
