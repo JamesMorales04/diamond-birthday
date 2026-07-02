@@ -36,8 +36,8 @@ export const gameSettings: GameSettings = {
     gridSize: 20,
   },
   laneRunner: {
-    baseSpeed: 3,
-    speedIncrement: 0.2,
+    baseSpeed: 2,
+    speedIncrement: 0.15,
     obstacleFrequency: 60, // frames between obstacles
   },
   memoryMatch: {

@@ -3,7 +3,7 @@
  * Keep the JSON as the source of truth; this file preserves the existing API.
  */
 
-import page from './page.json';
+import page from "./page.json";
 
 export interface Letter {
   id: string;
@@ -19,7 +19,7 @@ export interface TimelineEntry {
   month?: string;
   title: string;
   description: string;
-  icon?: 'heart' | 'star' | 'diamond' | 'flower' | 'ring';
+  icon?: "heart" | "star" | "diamond" | "flower" | "ring";
 }
 
 export interface TriviaQuestion {
@@ -148,7 +148,7 @@ export interface SpinnerContent {
 }
 
 export interface MiniGameEntry {
-  id: 'flappy' | 'snake' | 'lane-runner' | 'memory';
+  id: "flappy" | "snake" | "lane-runner" | "memory";
   name: string;
   desc: string;
 }
@@ -224,6 +224,8 @@ export interface GameLaneRunnerContent {
   ariaLabel: string;
   moveLeft: string;
   moveRight: string;
+  moveUp: string;
+  moveDown: string;
   controlsHint: string;
   hint: string;
   canvasStart: string;
@@ -231,6 +233,10 @@ export interface GameLaneRunnerContent {
   canvasScoreTemplate: string;
   canvasRestart: string;
   canvasBestTemplate: string;
+  canvasJumpHint: string;
+  canvasSlideHint: string;
+  canvasPaused: string;
+  canvasResumeHint: string;
 }
 
 export interface ContentData {

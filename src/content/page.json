@@ -515,16 +515,22 @@
     "gameLaneRunner": {
       "title": "Carril del Amor",
       "backLabel": "Volver al menú de juegos",
-      "ariaLabel": "Juego de carriles. Usa las teclas de flecha izquierda y derecha para esquivar obstáculos.",
+      "ariaLabel": "Juego de carriles. Usa las flechas para moverte, arriba/espacio para saltar, abajo para agacharte.",
       "moveLeft": "Mover a la izquierda",
       "moveRight": "Mover a la derecha",
-      "controlsHint": "Teclas de flecha",
-      "hint": "¡Esquiva los obstáculos! ← y → para cambiar de carril.",
-      "canvasStart": "←  →  para empezar",
+      "moveUp": "Saltar",
+      "moveDown": "Agacharse",
+      "controlsHint": "←/A →/D ↑/W/Espacio saltar ↓/S agacharse",
+      "hint": "¡Esquiva los obstáculos! Cambia de carril, salta o agáchate.",
+      "canvasStart": "← → ↑ ↓ Espacio para empezar",
       "canvasGameOver": "Juego Terminado",
       "canvasScoreTemplate": "Puntuación: {score}",
-      "canvasRestart": "Presiona ← o → para reiniciar",
-      "canvasBestTemplate": "Mejor: {best}"
+      "canvasRestart": "Presiona ← → ↑ ↓ para reiniciar",
+      "canvasBestTemplate": "Mejor: {best}",
+      "canvasJumpHint": "↑ Saltar",
+      "canvasSlideHint": "↓ Agacharse",
+      "canvasPaused": "En Pausa",
+      "canvasResumeHint": "Presiona P para reanudar"
     }
   }
 }
