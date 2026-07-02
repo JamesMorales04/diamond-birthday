@@ -97,7 +97,6 @@ diamond-birthday/
 │   │   ├── Spinner.tsx
 │   │   ├── MiniGames.tsx
 │   │   ├── GameFlappy.tsx
-│   │   ├── GameSnake.tsx
 │   │   ├── GameLaneRunner.tsx
 │   │   ├── GameMemoryMatch.tsx
 │   │   ├── MemoriesButton.tsx
@@ -352,7 +351,6 @@ diamond-birthday-games
 ```typescript
 {
   flappy: number,       // best score in Flappy Love
-  snake: number,        // best score in Love Snake
   laneRunner: number,   // best score in Lane of Love
   memoryMatch: number,  // best time (seconds) in Memory Match
 }
@@ -360,7 +358,7 @@ diamond-birthday-games
 
 ### Where it is used
 
-Only the **Memory Match** game currently persists high scores (`GameMemoryMatch.tsx`). The other mini-games (Flappy, Snake, Lane Runner) and the Trivia quiz are in-memory only and reset on page reload.
+Only the **Memory Match** game currently persists high scores (`GameMemoryMatch.tsx`). The other mini-games (Flappy, Lane Runner) and the Trivia quiz are in-memory only and reset on page reload.
 
 ### How it works
 

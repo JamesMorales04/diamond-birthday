@@ -6,11 +6,6 @@ export interface GameSettings {
     pipeGap: number;
     pipeFrequency: number;
   };
-  snake: {
-    initialSpeed: number;
-    speedIncrement: number;
-    gridSize: number;
-  };
   laneRunner: {
     baseSpeed: number;
     speedIncrement: number;
@@ -30,11 +25,6 @@ export const gameSettings: GameSettings = {
     pipeGap: 150,
     pipeFrequency: 90, // frames between pipes
   },
-  snake: {
-    initialSpeed: 150, // ms per tick
-    speedIncrement: 2,
-    gridSize: 20,
-  },
   laneRunner: {
     baseSpeed: 2,
     speedIncrement: 0.15,
@@ -48,16 +38,14 @@ export const gameSettings: GameSettings = {
 
 export interface GameHighScore {
   flappy: number;
-  snake: number;
   laneRunner: number;
   memoryMatch: number; // best time in seconds (0 = no record)
 }
 
 export const defaultHighScores: GameHighScore = {
   flappy: 0,
-  snake: 0,
   laneRunner: 0,
   memoryMatch: 0,
 };
 
-export const GAME_STORAGE_KEY = 'diamond-birthday-games';
+export const GAME_STORAGE_KEY = "diamond-birthday-games";

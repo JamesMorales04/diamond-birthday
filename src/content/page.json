@@ -445,11 +445,6 @@
           "desc": "Toca para volar entre corazones"
         },
         {
-          "id": "snake",
-          "name": "Serpiente de Amor",
-          "desc": "Colecciona corazones, crece más"
-        },
-        {
           "id": "lane-runner",
           "name": "Carril del Amor",
           "desc": "Esquiva obstáculos, permanece juntos"
@@ -500,17 +495,6 @@
         "playing": "Toca para volar a través de los corazones",
         "over": "¡Juego terminado! Puntuación: {score}. Toca para intentar de nuevo."
       }
-    },
-    "gameSnake": {
-      "title": "Serpiente de Amor",
-      "backLabel": "Volver al menú de juegos",
-      "ariaLabel": "Juego de la serpiente. Usa las teclas de flecha para controlar la serpiente.",
-      "hint": "Usa las teclas de flecha para moverte. ¡Colecciona corazones para crecer!",
-      "canvasStart": "Presiona las flechas para empezar",
-      "canvasGameOver": "Juego Terminado",
-      "canvasScoreTemplate": "Puntuación: {score}",
-      "canvasRestart": "Presiona cualquier flecha para reiniciar",
-      "canvasBestTemplate": "Mejor: {best}"
     },
     "gameLaneRunner": {
       "title": "Carril del Amor",

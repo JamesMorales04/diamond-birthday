@@ -148,7 +148,7 @@ export interface SpinnerContent {
 }
 
 export interface MiniGameEntry {
-  id: "flappy" | "snake" | "lane-runner" | "memory";
+  id: "flappy" | "lane-runner" | "memory";
   name: string;
   desc: string;
 }
@@ -206,18 +206,6 @@ export interface GameFlappyContent {
   };
 }
 
-export interface GameSnakeContent {
-  title: string;
-  backLabel: string;
-  ariaLabel: string;
-  hint: string;
-  canvasStart: string;
-  canvasGameOver: string;
-  canvasScoreTemplate: string;
-  canvasRestart: string;
-  canvasBestTemplate: string;
-}
-
 export interface GameLaneRunnerContent {
   title: string;
   backLabel: string;
@@ -256,7 +244,6 @@ export interface ContentData {
   scratchCard: ScratchCardContent;
   gameMemoryMatch: GameMemoryMatchContent;
   gameFlappy: GameFlappyContent;
-  gameSnake: GameSnakeContent;
   gameLaneRunner: GameLaneRunnerContent;
 }
 
