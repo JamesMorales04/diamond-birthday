@@ -350,15 +350,15 @@ diamond-birthday-games
 
 ```typescript
 {
-  flappy: number,       // best score in Flappy Love
-  laneRunner: number,   // best score in Lane of Love
-  memoryMatch: number,  // best time (seconds) in Memory Match
+  flappy: number,             // pipes passed (1 per pipe)
+  "lane-runner": number,      // total points (passive + obstacle passes); higher is better
+  memory: number,             // time bonus derived from moves: max(0, 60 − moves)
 }
 ```
 
 ### Where it is used
 
-Only the **Memory Match** game currently persists high scores (`GameMemoryMatch.tsx`). The other mini-games (Flappy, Lane Runner) and the Trivia quiz are in-memory only and reset on page reload.
+All three mini-games (`flappy`, `lane-runner`, and `memory`) persist high scores to `localStorage`. Only the trivia quiz is in-memory and resets on page reload.
 
 ### How it works
 

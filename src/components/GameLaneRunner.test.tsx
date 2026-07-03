@@ -9,144 +9,14 @@ import {
 } from "../data/games";
 import { tpl } from "../utils/tpl";
 import { DOG_FRAMES, DOG_FRAME_PATH } from "../data/dogRunnerAssets";
-
-/* ──────────────────────────────────────────────
-   Helpers – shared mock infrastructure
-   ────────────────────────────────────────────── */
-
-/**
- * Build a mock CanvasRenderingContext2D that never throws.
- * Every method is a vi.fn() so callers can assert on calls if needed.
- */
-function createMockCtx(): CanvasRenderingContext2D {
-  const ctx = {
-    canvas: {} as HTMLCanvasElement,
-    clearRect: vi.fn(),
-    fillRect: vi.fn(),
-    fillText: vi.fn(),
-    beginPath: vi.fn(),
-    moveTo: vi.fn(),
-    lineTo: vi.fn(),
-    bezierCurveTo: vi.fn(),
-    fill: vi.fn(),
-    stroke: vi.fn(),
-    roundRect: vi.fn(),
-    setLineDash: vi.fn(),
-    drawImage: vi.fn(),
-    arc: vi.fn(),
-    closePath: vi.fn(),
-    save: vi.fn(),
-    restore: vi.fn(),
-    translate: vi.fn(),
-    scale: vi.fn(),
-    rotate: vi.fn(),
-    createLinearGradient: vi.fn(() => ({ addColorStop: vi.fn() })),
-    measureText: vi.fn(() => ({ width: 10 })),
-    getImageData: vi.fn(() => ({ data: [], width: 0, height: 0 })),
-    putImageData: vi.fn(),
-    createPattern: vi.fn(() => null),
-    createRadialGradient: vi.fn(() => ({ addColorStop: vi.fn() })),
-    isPointInPath: vi.fn(() => false),
-    isPointInStroke: vi.fn(() => false),
-    clip: vi.fn(),
-    fillStyle: "",
-    font: "",
-    textAlign: "left" as CanvasTextAlign,
-    textBaseline: "alphabetic" as CanvasTextBaseline,
-    strokeStyle: "",
-    lineWidth: 1,
-    lineCap: "butt" as CanvasLineCap,
-    lineJoin: "miter" as CanvasLineJoin,
-    miterLimit: 10,
-    shadowColor: "",
-    shadowBlur: 0,
-    shadowOffsetX: 0,
-    shadowOffsetY: 0,
-    globalAlpha: 1,
-    globalCompositeOperation: "source-over" as GlobalCompositeOperation,
-    direction: "ltr" as CanvasDirection,
-    filter: "none",
-    imageSmoothingEnabled: true,
-    imageSmoothingQuality: "low" as ImageSmoothingQuality,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getContextAttributes: vi.fn(() => ({})),
-    resetTransform: vi.fn(),
-    reset: vi.fn(),
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setTransform: vi.fn((_a?: never, _b?: never) => {}),
-    transform: vi.fn(),
-    quadraticCurveTo: vi.fn(),
-    ellipse: vi.fn(),
-    rect: vi.fn(),
-  } as unknown as CanvasRenderingContext2D;
-  return ctx;
-}
-
-/**
- * Replace `window.requestAnimationFrame` / `cancelAnimationFrame` with
- * a controllable driver.  `tick()` advances exactly one frame; `tickMany(n)`
- * advances `n` frames.
- */
-let rafCallbacks: Map<number, FrameRequestCallback>;
-let nextRafId: number;
-
-function installRafMock() {
-  rafCallbacks = new Map();
-  nextRafId = 0;
-
-  vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-    (cb: FrameRequestCallback) => {
-      const id = ++nextRafId;
-      rafCallbacks.set(id, cb);
-      return id;
-    },
-  );
-  vi.spyOn(window, "cancelAnimationFrame").mockImplementation((id: number) => {
-    rafCallbacks.delete(id);
-  });
-}
-
-/** Advance exactly one animation frame.  After the call a new RAF callback is
- *  already scheduled (loop re-arms itself). */
-function tick() {
-  const ids = [...rafCallbacks.keys()];
-  for (const id of ids) {
-    const cb = rafCallbacks.get(id);
-    if (cb) {
-      rafCallbacks.delete(id);
-      cb(0); // timestamp is not used by the loop
-    }
-  }
-}
-
-function tickMany(n: number) {
-  for (let i = 0; i < n; i++) {
-    tick();
-  }
-}
-
-/**
- * Capture all `new Image()` calls so tests can trigger onload/onerror.
- */
-const imageInstances: Array<{
-  onload: (() => void) | null;
-  onerror: (() => void) | null;
-  src: string;
-}> = [];
-
-function installImageMock() {
-  imageInstances.length = 0;
-  const MockImage = vi.fn().mockImplementation(function () {
-    const self: { onload: (() => void) | null; onerror: (() => void) | null; src: string } = {
-      onload: null,
-      onerror: null,
-      src: "",
-    };
-    imageInstances.push(self);
-    return self;
-  });
-  vi.stubGlobal("Image", MockImage);
-}
+import {
+  createMockCtx,
+  installRafMock,
+  tickMany,
+  installImageMock,
+  imageInstances,
+  stubMatchMedia,
+} from "../test/gameTestHelpers";
 
 /* ──────────────────────────────────────────────
    Tests
@@ -167,18 +37,8 @@ describe("GameLaneRunner", () => {
       "getContext",
     ).mockReturnValue(createMockCtx());
 
-    // Ensure matchMedia stub is in place (setup.ts provides one but some
-    // tests re-mock it locally; protect against cross-test leakage)
-    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })) as unknown as typeof window.matchMedia;
+    // Ensure matchMedia stub is in place
+    stubMatchMedia(false);
   });
 
   afterEach(() => {
@@ -445,7 +305,8 @@ describe("GameLaneRunner", () => {
 
     afterEach(() => {
       // Clean up any mocked RAF state
-      rafCallbacks.clear();
+      // (rafCallbacks is module-level within the shared helper,
+      //  cleared automatically on next installRafMock call)
     });
 
     it("runs the game loop without throwing", () => {
@@ -467,9 +328,6 @@ describe("GameLaneRunner", () => {
       // Start the game via the gameRef mutation path
       // (simulate keyboard starting the game)
       act(() => {
-        // grab gameRef and set started=true directly – easier than
-        // coordinating userEvent with the RAF loop
-        // Instead: fire a keydown to trigger handleInput which sets started
         fireEvent.keyDown(document, { key: " " });
       });
 
@@ -487,7 +345,7 @@ describe("GameLaneRunner", () => {
       const scorePattern = new RegExp(
         tpl(content.gameLaneRunner.canvasScoreTemplate, {
           score: "\\d+",
-        }).replace(/\\/g, "\\"),
+        }),
       );
       // Use queryAllByText to allow partial matches – tpl uses {score} placeholders
       const scoreElements = screen.queryAllByText(scorePattern);
@@ -555,7 +413,7 @@ describe("GameLaneRunner", () => {
       const scorePattern = new RegExp(
         tpl(content.gameLaneRunner.canvasScoreTemplate, {
           score: "\\d+",
-        }).replace(/\\/g, "\\"),
+        }),
       );
       expect(screen.queryAllByText(scorePattern).length).toBeGreaterThanOrEqual(
         1,
@@ -596,16 +454,7 @@ describe("GameLaneRunner", () => {
 
     it("reduced-motion preference does not crash the component", () => {
       // Override matchMedia to signal reduced motion
-      window.matchMedia = vi.fn().mockImplementation((query: string) => ({
-        matches: query === "(prefers-reduced-motion: reduce)",
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })) as unknown as typeof window.matchMedia;
+      stubMatchMedia(true);
 
       render(<GameLaneRunner onBack={onBack} />);
 
@@ -620,16 +469,7 @@ describe("GameLaneRunner", () => {
     });
 
     it("initGame with reduced motion produces lower speed (test via no crash)", () => {
-      window.matchMedia = vi.fn().mockImplementation((query: string) => ({
-        matches: query === "(prefers-reduced-motion: reduce)",
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })) as unknown as typeof window.matchMedia;
+      stubMatchMedia(true);
 
       render(<GameLaneRunner onBack={onBack} />);
 

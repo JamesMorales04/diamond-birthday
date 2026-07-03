@@ -1458,6 +1458,11 @@ h1, h2, h3, h4, h5 {
   color: var(--color-cream);
 }
 
+.game-container__back:focus-visible {
+  outline: 2px solid var(--color-muted-gold);
+  outline-offset: 2px;
+}
+
 .game-container__title {
   font-family: var(--font-display);
   font-size: 22px;
@@ -1471,6 +1476,13 @@ h1, h2, h3, h4, h5 {
   border: 1px solid rgba(201, 185, 154, 0.15);
   background: #1a0e12;
   cursor: pointer;
+}
+
+/* Focus-ring: box-shadow is not clipped by overflow:hidden,
+   keeping the ring fully visible at rounded corners. */
+.game-container__canvas-wrap:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-muted-gold), 0 0 0 4px rgba(201, 185, 154, 0.2);
 }
 
 .game-container__canvas {

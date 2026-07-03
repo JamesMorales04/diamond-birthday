@@ -38,7 +38,7 @@ describe('Spinner', () => {
 
   it('renders the default aria-label on the wheel element', () => {
     render(<Spinner />);
-    expect(screen.getByLabelText(content.spinner.ariaDefault)).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: content.spinner.ariaDefault })).toBeInTheDocument();
   });
 
   it('shows the spinning state when the button is clicked', async () => {
@@ -102,12 +102,12 @@ describe('Spinner animation completion', () => {
     expect(screen.queryByText(content.spinner.spinning)).not.toBeInTheDocument();
 
     // A result template should be rendered (exact result is random)
-    expect(screen.getByText(/^Esta noche: /)).toBeInTheDocument();
+    expect(screen.getByText(/^Nuestro plan: /)).toBeInTheDocument();
 
     // The wheel aria-label should update to the result template
-    const resultText = screen.getByText(/^Esta noche: /).textContent!;
+    const resultText = screen.getByText(/^Nuestro plan: /).textContent!;
     const expectedAriaLabel = tpl(content.spinner.ariaResultTemplate, {
-      result: resultText.replace('Esta noche: ', ''),
+      result: resultText.replace('Nuestro plan: ', ''),
     });
     expect(screen.getByLabelText(expectedAriaLabel)).toBeInTheDocument();
   });
