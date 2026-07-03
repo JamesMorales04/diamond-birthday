@@ -470,8 +470,10 @@
     "gameMemoryMatch": {
       "title": "Juego de Memoria",
       "backLabel": "Volver al menú de juegos",
-      "hiddenCardLabel": "Carta oculta",
-      "cardLabelTemplate": "Carta: {emoji}",
+      "hiddenCardLabel": "Carta boca abajo",
+      "revealedCardLabel": "Carta revelada",
+      "matchedCardLabel": "Pareja encontrada",
+      "restartLabel": "Reiniciar juego",
       "hint": "¡Toca cualquier carta para empezar!",
       "movesLabel": "Movimientos: {count}",
       "matchedLabel": "Emparejadas: {matched}/{total}",

@@ -180,7 +180,9 @@ export interface GameMemoryMatchContent {
   title: string;
   backLabel: string;
   hiddenCardLabel: string;
-  cardLabelTemplate: string;
+  revealedCardLabel: string;
+  matchedCardLabel: string;
+  restartLabel: string;
   hint: string;
   movesLabel: string;
   matchedLabel: string;

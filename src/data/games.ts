@@ -25,7 +25,7 @@ export interface LaneRunnerSettings {
 }
 
 export interface MemoryMatchSettings {
-  gridSize: number; // 4 = 4×4 grid (8 pairs)
+  columns: number; // 5 = 5-column grid (5 pairs, 10 cards)
   flipDelay: number;
 }
 
@@ -60,7 +60,7 @@ export const gameSettings: GameSettings = {
     obstacleFrequency: 60,
   },
   memory: {
-    gridSize: 4,
+    columns: 5,
     flipDelay: 600,
   },
 };

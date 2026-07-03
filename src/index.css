@@ -1574,28 +1574,60 @@ h1, h2, h3, h4, h5 {
 
 .memory__card-front {
   background: var(--color-warm-dark);
-  font-size: 24px;
-  color: var(--color-muted-gold);
 }
 
-.memory__card-front:hover {
-  border-color: var(--color-muted-gold);
+.memory__card-front::after {
+  content: "◇";
+  font-size: 20px;
+  color: var(--color-muted-gold);
+  opacity: 0.25;
+  transition: opacity var(--transition-fast);
+}
+
+.memory__card-front:hover::after {
+  opacity: 0.45;
 }
 
 .memory__card-back {
-  background: rgba(45, 21, 24, 0.8);
+  background: var(--color-warm-dark);
   transform: rotateY(180deg);
-  font-size: 28px;
-  border-color: var(--color-dusty-pink);
+  border-color: rgba(201, 185, 154, 0.2);
+  overflow: hidden;
+  padding: 0;
+}
+
+.memory__card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 9px;
 }
 
 .memory__card--matched .memory__card-back {
-  background: rgba(74, 124, 89, 0.2);
   border-color: #4a7c59;
+  box-shadow: 0 0 12px rgba(74, 124, 89, 0.3);
 }
 
 .memory__card--matched {
   cursor: default;
+}
+
+/* Subtle reveal animation for matched pairs */
+.memory__card--matched .memory__card-inner {
+  animation: memory-match-reveal 0.5s ease-out;
+}
+
+@keyframes memory-match-reveal {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
 
 .memory__win {

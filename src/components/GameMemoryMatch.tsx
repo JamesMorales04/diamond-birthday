@@ -6,38 +6,14 @@ import {
   GAME_STORAGE_KEY,
 } from "../data/games";
 import { useReducedMotion } from "../hooks/useReducedMotion";
-import { shuffle } from "../utils/shuffle";
 import { createConfetti } from "../utils/confetti";
 import { content } from "../content/page";
 import { tpl } from "../utils/tpl";
-
-interface Card {
-  id: number;
-  emoji: string;
-  flipped: boolean;
-  matched: boolean;
-}
-
-const EMOJIS = ["♥", "✦", "◆", "♡", "✿", "◇", "♤", "○"];
+import { createMemoryMatchCards } from "../features/games/memory/memoryAssets";
+import type { MemoryCard as Card } from "../features/games/memory/memoryAssets";
 
 function createCards(): Card[] {
-  const totalCards =
-    gameSettings["memory"].gridSize * gameSettings["memory"].gridSize;
-  const requiredPairs = totalCards / 2;
-
-  if (requiredPairs > EMOJIS.length) {
-    throw new RangeError(
-      `Memory match grid of ${gameSettings["memory"].gridSize}×${gameSettings["memory"].gridSize} requires ${requiredPairs} unique pairs, but only ${EMOJIS.length} emojis are available. Increase EMOJIS or reduce gridSize in game settings.`,
-    );
-  }
-
-  const pairs = EMOJIS.slice(0, requiredPairs);
-  const cards: Card[] = [];
-  pairs.forEach((emoji, index) => {
-    cards.push({ id: index * 2, emoji, flipped: false, matched: false });
-    cards.push({ id: index * 2 + 1, emoji, flipped: false, matched: false });
-  });
-  return shuffle(cards);
+  return createMemoryMatchCards();
 }
 
 export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
@@ -74,40 +50,43 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
         prev.map((c) => (c.id === id ? { ...c, flipped: true } : c)),
       );
 
-      if (newFlipped.length === 2) {
-        setIsChecking(true);
-        setMoves((prev) => prev + 1);
+        if (newFlipped.length === 2) {
+          setIsChecking(true);
+          setMoves((prev) => prev + 1);
+          const currentMoves = moves + 1;
 
-        const [firstId, secondId] = newFlipped;
-        const first = cards.find((c) => c.id === firstId)!;
-        const second = cards.find((c) => c.id === secondId)!;
+          const [firstId, secondId] = newFlipped;
+          const first = cards.find((c) => c.id === firstId)!;
+          const second = cards.find((c) => c.id === secondId)!;
 
-        if (first.emoji === second.emoji) {
-          // Match!
-          setTimeout(() => {
-            setCards((prev) =>
-              prev.map((c) =>
-                c.id === firstId || c.id === secondId
-                  ? { ...c, matched: true }
-                  : c,
-              ),
-            );
-            setFlippedIds([]);
-            setIsChecking(false);
-            setMatchedPairs((prev) => {
-              const newCount = prev + 1;
-              if (newCount >= totalPairs) {
-                setGameWon(true);
-                const timeBonus = Math.max(0, 60 - moves);
-                setHighScore((s) => ({
-                  ...s,
-                  memory: Math.max(s.memory, timeBonus),
-                }));
-                createConfetti({ count: 50, duration: 3000 });
-              }
-              return newCount;
-            });
-          }, gameSettings["memory"].flipDelay);
+          if (first.pairId === second.pairId) {
+            // Match!
+            setTimeout(() => {
+              setCards((prev) =>
+                prev.map((c) =>
+                  c.id === firstId || c.id === secondId
+                    ? { ...c, matched: true }
+                    : c,
+                ),
+              );
+              setFlippedIds([]);
+              setIsChecking(false);
+              setMatchedPairs((prev) => {
+                const newCount = prev + 1;
+                if (newCount >= totalPairs) {
+                  setGameWon(true);
+                  const timeBonus = Math.max(0, 60 - currentMoves);
+                  setHighScore((s) => ({
+                    ...s,
+                    memory: Math.max(s.memory, timeBonus),
+                  }));
+                  if (!reducedMotion) {
+                    createConfetti({ count: 50, duration: 3000 });
+                  }
+                }
+                return newCount;
+              });
+            }, gameSettings["memory"].flipDelay);
         } else {
           // No match
           setTimeout(() => {
@@ -159,7 +138,7 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
     }
   }, [gameWon, resetGame]);
 
-  const gridCols = gameSettings["memory"].gridSize;
+  const gridCols = gameSettings["memory"].columns;
 
   return (
     <div className="game-container">
@@ -187,7 +166,11 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
           <p className="memory__win-text">
             {tpl(content.gameMemoryMatch.winText, { moves })}
           </p>
-          <button className="memory__win-btn" onClick={resetGame}>
+          <button
+            className="memory__win-btn"
+            onClick={resetGame}
+            aria-label={content.gameMemoryMatch.restartLabel}
+          >
             {content.gameMemoryMatch.playAgain}
           </button>
         </div>
@@ -228,22 +211,25 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
                 onClick={() => handleCardClick(card.id)}
                 disabled={card.matched || isChecking}
                 aria-label={
-                  card.flipped || card.matched
-                    ? tpl(content.gameMemoryMatch.cardLabelTemplate, {
-                        emoji: card.emoji,
-                      })
-                    : content.gameMemoryMatch.hiddenCardLabel
+                  card.matched
+                    ? content.gameMemoryMatch.matchedCardLabel
+                    : card.flipped
+                      ? content.gameMemoryMatch.revealedCardLabel
+                      : content.gameMemoryMatch.hiddenCardLabel
                 }
                 style={{
                   transitionDuration: reducedMotion ? "0ms" : "400ms",
                 }}
               >
                 <div className="memory__card-inner">
-                  <div className="memory__card-front" aria-hidden="true">
-                    <span>?</span>
-                  </div>
+                  <div className="memory__card-front" aria-hidden="true" />
                   <div className="memory__card-back" aria-hidden="true">
-                    <span>{card.emoji}</span>
+                    <img
+                      src={card.image}
+                      alt=""
+                      draggable={false}
+                      loading="lazy"
+                    />
                   </div>
                 </div>
               </button>
