@@ -1,4 +1,5 @@
 @frontend-implementer
+
 - Role: frontend implementation specialist.
 - Orchestrator must not self-implement frontend changes; always delegate.
 - Delegate for React/Vite/TypeScript pages, routes, components, UI patterns, data-driven content sections (timeline, gallery, letters), mini-games, animations, responsive styling, accessibility fixes, and frontend tests when paired with @test-implementer.

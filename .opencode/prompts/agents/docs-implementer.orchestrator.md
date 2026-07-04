@@ -1,4 +1,5 @@
 @docs-implementer
+
 - Role: documentation and decision-record implementation specialist.
 - Orchestrator must not self-implement documentation changes; always delegate.
 - Delegate for Markdown docs, ADRs, setup notes, prompt files, skill files, and README skill inventory updates.

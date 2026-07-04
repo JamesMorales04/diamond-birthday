@@ -6,7 +6,7 @@
  * settings interface and default value here.
  */
 
-import type { GameId } from "./gameRegistry";
+import type { GameId } from './gameRegistry';
 
 // ─── Per-game settings interfaces ────────────────────────────────────
 
@@ -37,11 +37,11 @@ export interface MemoryMatchSettings {
  * (the `never` branch will produce a type error at `gameSettings`).
  */
 export type GameSettings = {
-  [K in GameId]: K extends "flappy"
+  [K in GameId]: K extends 'flappy'
     ? FlappySettings
-    : K extends "lane-runner"
+    : K extends 'lane-runner'
       ? LaneRunnerSettings
-      : K extends "memory"
+      : K extends 'memory'
         ? MemoryMatchSettings
         : never;
 };
@@ -54,7 +54,7 @@ export const gameSettings: GameSettings = {
     pipeGap: 150,
     pipeFrequency: 90,
   },
-  "lane-runner": {
+  'lane-runner': {
     baseSpeed: 2,
     speedIncrement: 0.15,
     obstacleFrequency: 60,
@@ -82,8 +82,8 @@ export type GameHighScore = Record<GameId, number>;
 
 export const defaultHighScores: GameHighScore = {
   flappy: 0,
-  "lane-runner": 0,
+  'lane-runner': 0,
   memory: 0,
 };
 
-export const GAME_STORAGE_KEY = "diamond-birthday-games";
+export const GAME_STORAGE_KEY = 'diamond-birthday-games';

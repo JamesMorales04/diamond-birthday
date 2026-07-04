@@ -51,7 +51,9 @@ describe('useLocalStorage', () => {
 
   it('reads an existing value from localStorage', () => {
     mockStorage.getItem.mockReturnValueOnce('"stored-value"');
-    const { result } = renderHook(() => useLocalStorage('test-key', 'fallback'));
+    const { result } = renderHook(() =>
+      useLocalStorage('test-key', 'fallback'),
+    );
     expect(result.current[0]).toBe('stored-value');
     expect(mockStorage.getItem).toHaveBeenCalledWith('test-key');
   });

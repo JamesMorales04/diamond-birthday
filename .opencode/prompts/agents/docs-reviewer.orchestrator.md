@@ -1,4 +1,5 @@
 @docs-reviewer
+
 - Role: non-architectural documentation consistency reviewer. Uses the `docs-review-checklist` skill for detailed review procedure.
 - Orchestrator must not self-review documentation; always delegate.
 - Mandatory: delegate after changes that alter product behavior, setup, environment variables, commands, diagrams, or documented terminology.

@@ -9,7 +9,10 @@ const REVEAL_THRESHOLD = 0.4; // 40% scratched to reveal
 
 export default function ScratchCard() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.2, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
   const [isRevealed, setIsRevealed] = useState(false);
   const [scratchPercent, setScratchPercent] = useState(0);
   const isDrawing = useRef(false);
@@ -24,7 +27,7 @@ export default function ScratchCard() {
 
     const rect = canvas.parentElement?.getBoundingClientRect();
     const w = rect ? Math.min(rect.width, 500) : 500;
-    const h = rect ? Math.min(rect.height * 0.7, 350) : 300;
+    const h = rect ? Math.min(rect.height, 350) : 300;
     canvas.width = w * 2;
     canvas.height = h * 2;
     canvas.style.width = `${w}px`;
@@ -143,10 +146,16 @@ export default function ScratchCard() {
       <div
         className={`scratch__card ${isRevealed ? 'scratch__card--revealed' : ''}`}
         role="img"
-        aria-label={isRevealed ? content.scratchCard.hiddenMessage : content.scratchCard.ariaHiddenLabel}
+        aria-label={
+          isRevealed
+            ? content.scratchCard.hiddenMessage
+            : content.scratchCard.ariaHiddenLabel
+        }
       >
         <div className="scratch__message" aria-hidden={!isRevealed}>
-          <div className="scratch__ornament" aria-hidden="true">~ ♥ ~</div>
+          <div className="scratch__ornament" aria-hidden="true">
+            ~ ♥ ~
+          </div>
           <p>{content.scratchCard.hiddenMessage}</p>
         </div>
 
@@ -165,7 +174,11 @@ export default function ScratchCard() {
         {isRevealed && (
           <div className="scratch__sparkles" aria-hidden="true">
             {[...Array(8)].map((_, i) => (
-              <span key={i} className="scratch__sparkle" style={{ animationDelay: `${i * 0.2}s` }}>
+              <span
+                key={i}
+                className="scratch__sparkle"
+                style={{ animationDelay: `${i * 0.2}s` }}
+              >
                 ✦
               </span>
             ))}
@@ -174,7 +187,10 @@ export default function ScratchCard() {
       </div>
 
       <div className="scratch__progress" aria-hidden="true">
-        <div className="scratch__progress-bar" style={{ width: `${scratchPercent}%` }} />
+        <div
+          className="scratch__progress-bar"
+          style={{ width: `${scratchPercent}%` }}
+        />
       </div>
     </section>
   );

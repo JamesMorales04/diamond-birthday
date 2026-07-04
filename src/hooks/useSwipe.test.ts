@@ -37,7 +37,12 @@ describe('useSwipe', () => {
       useSwipe({ onSwipeRight }, { threshold: 50 }),
     );
 
-    const { start, end } = touchEvent({ startX: 100, startY: 100, endX: 200, endY: 100 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 100,
+      endX: 200,
+      endY: 100,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -50,7 +55,12 @@ describe('useSwipe', () => {
       useSwipe({ onSwipeLeft }, { threshold: 50 }),
     );
 
-    const { start, end } = touchEvent({ startX: 200, startY: 100, endX: 100, endY: 100 });
+    const { start, end } = touchEvent({
+      startX: 200,
+      startY: 100,
+      endX: 100,
+      endY: 100,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -64,7 +74,12 @@ describe('useSwipe', () => {
       useSwipe({ onSwipeRight, onSwipeLeft }, { threshold: 50 }),
     );
 
-    const { start, end } = touchEvent({ startX: 100, startY: 100, endX: 120, endY: 100 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 100,
+      endX: 120,
+      endY: 100,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -78,7 +93,12 @@ describe('useSwipe', () => {
       useSwipe({ onSwipeDown }, { threshold: 50 }),
     );
 
-    const { start, end } = touchEvent({ startX: 100, startY: 100, endX: 100, endY: 200 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 100,
+      endX: 100,
+      endY: 200,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -91,7 +111,12 @@ describe('useSwipe', () => {
       useSwipe({ onSwipeUp }, { threshold: 50 }),
     );
 
-    const { start, end } = touchEvent({ startX: 100, startY: 200, endX: 100, endY: 100 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 200,
+      endX: 100,
+      endY: 100,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -106,7 +131,12 @@ describe('useSwipe', () => {
     );
 
     // Large horizontal, small vertical → horizontal wins
-    const { start, end } = touchEvent({ startX: 100, startY: 100, endX: 200, endY: 110 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 100,
+      endX: 200,
+      endY: 110,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -130,7 +160,12 @@ describe('useSwipe', () => {
       useSwipe({ onSwipeRight }, { threshold: 150 }),
     );
 
-    const { start, end } = touchEvent({ startX: 100, startY: 100, endX: 200, endY: 100 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 100,
+      endX: 200,
+      endY: 100,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -148,7 +183,12 @@ describe('useSwipe', () => {
     );
 
     // Large vertical movement, small horizontal → vertical wins
-    const { start, end } = touchEvent({ startX: 100, startY: 100, endX: 110, endY: 200 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 100,
+      endX: 110,
+      endY: 200,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 
@@ -166,7 +206,12 @@ describe('useSwipe', () => {
     // diffX === diffY (45° diagonal) → neither |diffX| > |diffY| nor |diffY| > |diffX|
     // The `if (Math.abs(diffX) > Math.abs(diffY))` is false for equality,
     // so it enters the `else` (vertical) branch.
-    const { start, end } = touchEvent({ startX: 100, startY: 100, endX: 200, endY: 200 });
+    const { start, end } = touchEvent({
+      startX: 100,
+      startY: 100,
+      endX: 200,
+      endY: 200,
+    });
     result.current.onTouchStart(start);
     result.current.onTouchEnd(end);
 

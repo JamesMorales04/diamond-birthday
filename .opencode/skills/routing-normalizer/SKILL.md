@@ -10,8 +10,8 @@ license: MIT
 
 metadata:
   author: project
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # Routing Normalizer
@@ -29,15 +29,15 @@ Normalize a planner's raw output into a consistent, routable delegation plan. Th
 
 Every delegation task must contain all seven fields:
 
-| # | Field | Description |
-| --- | ------- | ------------- |
-| 1 | `id` | Unique task identifier (e.g., `T1`, `T2`) |
-| 2 | `summary` | One-sentence description of what needs to happen |
-| 3 | `agent` | Target agent name (e.g., `@frontend-implementer`) |
-| 4 | `scope` | Files, modules, or areas this task touches |
-| 5 | `dependencies` | Task IDs that must complete first (`[]` if none) |
-| 6 | `acceptance` | Concrete criteria that prove the task is done |
-| 7 | `risk` | Risk level: `low`, `medium`, or `high` |
+| #   | Field          | Description                                       |
+| --- | -------------- | ------------------------------------------------- |
+| 1   | `id`           | Unique task identifier (e.g., `T1`, `T2`)         |
+| 2   | `summary`      | One-sentence description of what needs to happen  |
+| 3   | `agent`        | Target agent name (e.g., `@frontend-implementer`) |
+| 4   | `scope`        | Files, modules, or areas this task touches        |
+| 5   | `dependencies` | Task IDs that must complete first (`[]` if none)  |
+| 6   | `acceptance`   | Concrete criteria that prove the task is done     |
+| 7   | `risk`         | Risk level: `low`, `medium`, or `high`            |
 
 ## Normalization Steps
 
@@ -75,10 +75,10 @@ Produce the seven-field plan in a clean table or structured list. Include a brie
 ```markdown
 ## Normalized Delegation Plan
 
-| ID | Summary | Agent | Scope | Dependencies | Acceptance | Risk |
-| ---- | --------- | ------- | ------- | -------------- | ------------ | ------ |
-| T1 | ... | @agent | ... | [] | ... | low |
-| T2 | ... | @agent | ... | [T1] | ... | medium |
+| ID  | Summary | Agent  | Scope | Dependencies | Acceptance | Risk   |
+| --- | ------- | ------ | ----- | ------------ | ---------- | ------ |
+| T1  | ...     | @agent | ...   | []           | ...        | low    |
+| T2  | ...     | @agent | ...   | [T1]         | ...        | medium |
 
 ### Conflicts Detected
 

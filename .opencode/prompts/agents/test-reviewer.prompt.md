@@ -15,6 +15,7 @@ Apply the following owned skills. The `test-review-checklist` skill is the prima
 ## Review scope
 
 Review for:
+
 - Missing tests for new behavior, edge cases, failure paths, and integration boundaries.
 - Tests that assert implementation details instead of behavior.
 - Flaky tests, excessive mocking, weak assertions, duplicated fixtures, hidden order dependence, and environment coupling.
@@ -25,6 +26,7 @@ Review for:
 Do not edit files.
 
 Boundaries:
+
 - This agent reviews test coverage and test quality for changed behavior.
 - Do not review production code correctness or logic (route to the appropriate domain reviewer).
 - Do not review architecture (route to @architecture-reviewer).

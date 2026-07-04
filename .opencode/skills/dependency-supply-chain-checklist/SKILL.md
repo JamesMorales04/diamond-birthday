@@ -4,7 +4,7 @@ description: Project-specific dependency and supply-chain checklist for manifest
 license: MIT
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Dependency Supply-Chain Checklist Skill
@@ -12,6 +12,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when implementing or reviewing dependency changes:
+
 - Adding or updating npm/pnpm packages
 - Modifying `package.json` or `pnpm-lock.yaml`
 - Changing GitHub Actions versions or third-party action references
@@ -21,9 +22,11 @@ Trigger this skill when implementing or reviewing dependency changes:
 ## Required Context
 
 Before making dependency edits, confirm the agent has applied:
+
 - `AGENTS.md`
 
 Key rules to check:
+
 - No framework-specific dependencies in root `package.json`
 - No version drift between root and sub-project `package.json` files
 
@@ -60,8 +63,8 @@ Key rules to check:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
+| Finding type                       | Route to               |
+| ---------------------------------- | ---------------------- |
 | Application code quality or naming | @code-quality-reviewer |
-| Frontend component behavior | @frontend-reviewer |
-| Documentation changes needed | @docs-implementer |
+| Frontend component behavior        | @frontend-reviewer     |
+| Documentation changes needed       | @docs-implementer      |

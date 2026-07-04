@@ -9,8 +9,8 @@ license: MIT
 
 metadata:
   author: opencode
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # PR Review Skill
@@ -18,6 +18,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when asked to review code changes, whether via:
+
 - PR number (e.g., "review PR 123")
   - Branch name (e.g., "review branch feature-gallery")
 - Commit hash (e.g., "review commit abc123")
@@ -47,29 +48,32 @@ Trigger this skill when asked to review code changes, whether via:
 **Diffs alone are NEVER enough.**
 
 For each changed file:
+
 1. Read the FULL file content, not just the diff
 2. Identify which parts of the file were modified vs pre-existing
 3. Check related files that the changed code depends on or references
 4. Look for interface/contract definitions that callers depend on
- 5. Verify consistency between:
-   - Component props/state definitions and their usage
-   - Data file schemas and component consumers
-   - TypeScript interface definitions and implementations
-   - Hook return types and their callers
+5. Verify consistency between:
+
+- Component props/state definitions and their usage
+- Data file schemas and component consumers
+- TypeScript interface definitions and implementations
+- Hook return types and their callers
 
 ## Step 3: Cross-Reference Verification
 
 **Always verify references across file boundaries:**
 
 1. **Type/Record Consistency**: If a class is instantiated with N arguments, verify the definition accepts those exact arguments
- 2. **Accessibility Checks**: Verify interactive elements are keyboard-accessible and have proper ARIA attributes
- 3. **State Consistency**: Verify component state and localStorage state are read/written consistently
- 4. **Error Boundaries**: Verify async operations have error handling and fallback UI
- 5. **Exception Handling**: Verify catch blocks don't swallow errors silently
+2. **Accessibility Checks**: Verify interactive elements are keyboard-accessible and have proper ARIA attributes
+3. **State Consistency**: Verify component state and localStorage state are read/written consistently
+4. **Error Boundaries**: Verify async operations have error handling and fallback UI
+5. **Exception Handling**: Verify catch blocks don't swallow errors silently
 
 ## Step 4: What to Look For (Checklist)
 
 ### Correctness
+
 - [ ] Compilation errors (mismatched constructors, missing imports)
 - [ ] Logic errors (null checks, off-by-one, incorrect conditionals)
 - [ ] Race conditions (read-then-write patterns without locking/upsert)
@@ -77,6 +81,7 @@ For each changed file:
 - [ ] Hardcoded values that should be configurable
 
 ### Architecture & Conventions
+
 - [ ] New code follows existing patterns in the codebase
 - [ ] Proper separation of concerns
 - [ ] Error handling uses specific error types, not generic throws
@@ -84,6 +89,7 @@ For each changed file:
 - [ ] Proper use of async/await
 
 ### Content Integration
+
 - [ ] Data file schemas match component expectations
 - [ ] Missing or malformed content data has fallback UI
 - [ ] Content additions follow existing data schema conventions
@@ -113,7 +119,7 @@ For each issue, provide ALL of the following:
 
 ### Example Output Structure:
 
-```
+````
 ### 🔴 Critical
 
 #### 1. [Brief Title]
@@ -123,9 +129,10 @@ For each issue, provide ALL of the following:
 
 ```csharp
 // The actual code here
-```
+````
 
 **Comment:** [Detailed explanation of the issue, impact, and fix]
+
 ```
 
 ## Step 7: Summary Table
@@ -133,12 +140,14 @@ For each issue, provide ALL of the following:
 End every review with a summary table:
 
 ```
-| Severity | Count | Categories |
-| --- | --- | --- |
-| 🔴 Critical | N | Compilation, Rendering, Data integrity |
-| 🟡 High | N | Correctness, UX regression |
-| 🟡 Medium | N | Race conditions, Performance |
-| 🔵 Low | N | Style, Conventions |
+
+| Severity    | Count | Categories                             |
+| ----------- | ----- | -------------------------------------- |
+| 🔴 Critical | N     | Compilation, Rendering, Data integrity |
+| 🟡 High     | N     | Correctness, UX regression             |
+| 🟡 Medium   | N     | Race conditions, Performance           |
+| 🔵 Low      | N     | Style, Conventions                     |
+
 ```
 
 Followed by a one-sentence recommendation on what must be fixed before merge.
@@ -152,3 +161,4 @@ Followed by a one-sentence recommendation on what must be fixed before merge.
 5. **Don't overstate severity**: Only call something a bug if you're certain
 6. **Don't ignore pre-existing issues in modified files**: If a file is changed, review the whole file's logic, not just changed lines
 7. **Don't skip compilation check**: If build tools are available, verify the code compiles
+```

@@ -15,12 +15,16 @@ describe('MemoriesButton', () => {
 
   it('renders the trigger button with the centralized text', () => {
     render(<MemoriesButton />);
-    expect(screen.getByText(content.memoriesButton.buttonText)).toBeInTheDocument();
+    expect(
+      screen.getByText(content.memoriesButton.buttonText),
+    ).toBeInTheDocument();
   });
 
   it('renders the trigger button with the centralized aria-label', () => {
     render(<MemoriesButton />);
-    expect(screen.getByLabelText(content.memoriesButton.buttonLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.memoriesButton.buttonLabel),
+    ).toBeInTheDocument();
   });
 
   it('shows the overlay when the button is clicked', async () => {
@@ -29,7 +33,9 @@ describe('MemoriesButton', () => {
 
     await user.click(screen.getByLabelText(content.memoriesButton.buttonLabel));
 
-    expect(screen.getByLabelText(content.memoriesButton.overlayLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.memoriesButton.overlayLabel),
+    ).toBeInTheDocument();
   });
 
   it('renders the close button inside the overlay with the centralized label', async () => {
@@ -38,7 +44,9 @@ describe('MemoriesButton', () => {
 
     await user.click(screen.getByLabelText(content.memoriesButton.buttonLabel));
 
-    expect(screen.getByLabelText(content.memoriesButton.closeLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.memoriesButton.closeLabel),
+    ).toBeInTheDocument();
   });
 
   it('hides the overlay when the close button is clicked', async () => {
@@ -46,10 +54,14 @@ describe('MemoriesButton', () => {
     render(<MemoriesButton />);
 
     await user.click(screen.getByLabelText(content.memoriesButton.buttonLabel));
-    expect(screen.getByLabelText(content.memoriesButton.overlayLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.memoriesButton.overlayLabel),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByLabelText(content.memoriesButton.closeLabel));
-    expect(screen.queryByLabelText(content.memoriesButton.overlayLabel)).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText(content.memoriesButton.overlayLabel),
+    ).not.toBeInTheDocument();
   });
 
   it('closes the overlay when Escape is pressed', async () => {
@@ -57,10 +69,14 @@ describe('MemoriesButton', () => {
     render(<MemoriesButton />);
 
     await user.click(screen.getByLabelText(content.memoriesButton.buttonLabel));
-    expect(screen.getByLabelText(content.memoriesButton.overlayLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.memoriesButton.overlayLabel),
+    ).toBeInTheDocument();
 
     await user.keyboard('{Escape}');
-    expect(screen.queryByLabelText(content.memoriesButton.overlayLabel)).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText(content.memoriesButton.overlayLabel),
+    ).not.toBeInTheDocument();
   });
 
   it('sets body overflow to hidden when overlay opens', async () => {

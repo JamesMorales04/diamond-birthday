@@ -38,7 +38,9 @@ describe('GalleryModal', () => {
     expect(dialog).toHaveAttribute('aria-modal', 'true');
 
     expect(screen.getByText('A meaningful caption')).toBeInTheDocument();
-    expect(screen.getByLabelText(content.galleryModal.closeViewer)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.galleryModal.closeViewer),
+    ).toBeInTheDocument();
   });
 
   it('shows the photo counter when total and index are provided', () => {
@@ -55,7 +57,11 @@ describe('GalleryModal', () => {
       />,
     );
 
-    expect(screen.getByText(tpl(content.galleryModal.ofTemplate, { current: 3, total: 8 }))).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        tpl(content.galleryModal.ofTemplate, { current: 3, total: 8 }),
+      ),
+    ).toBeInTheDocument();
   });
 
   it('renders prev / next nav buttons only when hasPrev / hasNext is true', () => {
@@ -70,8 +76,12 @@ describe('GalleryModal', () => {
       />,
     );
 
-    expect(screen.getByLabelText(content.galleryModal.prevPhoto)).toBeInTheDocument();
-    expect(screen.getByLabelText(content.galleryModal.nextPhoto)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.galleryModal.prevPhoto),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.galleryModal.nextPhoto),
+    ).toBeInTheDocument();
 
     rerender(
       <GalleryModal
@@ -84,8 +94,12 @@ describe('GalleryModal', () => {
       />,
     );
 
-    expect(screen.queryByLabelText(content.galleryModal.prevPhoto)).not.toBeInTheDocument();
-    expect(screen.queryByLabelText(content.galleryModal.nextPhoto)).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText(content.galleryModal.prevPhoto),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText(content.galleryModal.nextPhoto),
+    ).not.toBeInTheDocument();
   });
 
   /* ---------- keyboard navigation ---------- */
@@ -264,7 +278,9 @@ describe('GalleryModal', () => {
 
     // Click the close button (child). It has its own onClick → onClose fires.
     // But the backdrop click handler must not also fire.
-    await userEvent.click(screen.getByLabelText(content.galleryModal.closeViewer));
+    await userEvent.click(
+      screen.getByLabelText(content.galleryModal.closeViewer),
+    );
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });

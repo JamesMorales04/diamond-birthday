@@ -1,4 +1,5 @@
 @ops-reviewer
+
 - Role: CI, container, dependency, environment, and operational reviewer.
 - Orchestrator must not self-review ops changes; always delegate.
 - Mandatory: delegate after changes to Docker/container files, compose files, CI workflows, build scripts, task runners, package manifests, lockfiles, environment/configuration, or runtime setup.

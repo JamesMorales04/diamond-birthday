@@ -9,8 +9,8 @@ description: >
 license: MIT
 metadata:
   author: project
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # Finding Deduper
@@ -50,14 +50,14 @@ Group findings that reference the same file and overlapping line ranges. Two fin
 
 When merging findings:
 
-| Rule | Action |
-| ------ | -------- |
-| **Same location, same issue** | Keep the higher-severity finding; drop the duplicate |
-| **Same location, different symptoms** | Merge into one finding; combine evidence and impact |
-| **Same issue, different locations** | Keep as separate findings unless the fix is identical |
-| **Overlapping categories** | Prefer the more specific category (e.g., `security` over `architecture`) |
-| **Conflicting severity** | Keep the higher severity; note the discrepancy |
-| **Conflicting agent suggestions** | Prefer the agent that owns the category per routing matrix |
+| Rule                                  | Action                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------ |
+| **Same location, same issue**         | Keep the higher-severity finding; drop the duplicate                     |
+| **Same location, different symptoms** | Merge into one finding; combine evidence and impact                      |
+| **Same issue, different locations**   | Keep as separate findings unless the fix is identical                    |
+| **Overlapping categories**            | Prefer the more specific category (e.g., `security` over `architecture`) |
+| **Conflicting severity**              | Keep the higher severity; note the discrepancy                           |
+| **Conflicting agent suggestions**     | Prefer the agent that owns the category per routing matrix               |
 
 ### 4. Produce Canonical Remediation Targets
 
@@ -66,16 +66,16 @@ Output the deduplicated list:
 ```markdown
 ## Deduplicated Findings
 
-| # | Severity | Category | Location | Evidence | Impact | Fix | Agent |
-| --- | ---------- | ---------- | ---------- | ---------- | -------- | ----- | ------- |
-| F1 | High | frontend | `components/gallery.tsx:42-58` | ... | ... | ... | @frontend-reviewer |
-| F2 | Medium | maintainability | `src/data/timeline.ts:100-120` | ... | ... | ... | @quality-implementer |
+| #   | Severity | Category        | Location                       | Evidence | Impact | Fix | Agent                |
+| --- | -------- | --------------- | ------------------------------ | -------- | ------ | --- | -------------------- |
+| F1  | High     | frontend        | `components/gallery.tsx:42-58` | ...      | ...    | ... | @frontend-reviewer   |
+| F2  | Medium   | maintainability | `src/data/timeline.ts:100-120` | ...      | ...    | ... | @quality-implementer |
 
 ### Merged Duplicates
 
-| Original Findings | Merged Into | Reason |
-| ------------------- | ------------- | -------- |
-| F3 (from @frontend-reviewer), F5 (from @architecture-reviewer) | F2 | Same file, overlapping scope, frontend owns fix |
+| Original Findings                                              | Merged Into | Reason                                          |
+| -------------------------------------------------------------- | ----------- | ----------------------------------------------- |
+| F3 (from @frontend-reviewer), F5 (from @architecture-reviewer) | F2          | Same file, overlapping scope, frontend owns fix |
 
 ### Drop Count
 

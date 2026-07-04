@@ -10,7 +10,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Frontend Review Checklist Skill
@@ -18,6 +18,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when reviewing frontend code changes that involve:
+
 - React components, pages, routes, or layouts
 - Data-driven content sections (timeline, gallery, letters)
 - Mini-games or interactive features
@@ -139,15 +140,15 @@ Trigger this skill when reviewing frontend code changes that involve:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
-| Architecture (module boundaries, layering, dependency direction) | @architecture-reviewer |
-| Test coverage and test quality | @test-reviewer |
-| Code-level quality (naming, duplication, readability) | @code-quality-reviewer |
-| CI/CD, Docker, build pipeline, or deployment changes | @ops-reviewer |
-| Documentation accuracy and setup | @docs-reviewer |
-| Detailed a11y audit beyond basic checklist | Invoke the `frontend-a11y-checklist` skill directly |
-| Storybook coverage audit beyond basic checklist | Invoke the `frontend-storybook-checklist` skill directly |
+| Finding type                                                     | Route to                                                 |
+| ---------------------------------------------------------------- | -------------------------------------------------------- |
+| Architecture (module boundaries, layering, dependency direction) | @architecture-reviewer                                   |
+| Test coverage and test quality                                   | @test-reviewer                                           |
+| Code-level quality (naming, duplication, readability)            | @code-quality-reviewer                                   |
+| CI/CD, Docker, build pipeline, or deployment changes             | @ops-reviewer                                            |
+| Documentation accuracy and setup                                 | @docs-reviewer                                           |
+| Detailed a11y audit beyond basic checklist                       | Invoke the `frontend-a11y-checklist` skill directly      |
+| Storybook coverage audit beyond basic checklist                  | Invoke the `frontend-storybook-checklist` skill directly |
 
 ## Output
 

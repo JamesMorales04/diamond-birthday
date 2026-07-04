@@ -5,7 +5,7 @@ license: MIT
 compatibility: Works alongside ops-review-checklist.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Ops Implementation Checklist Skill
@@ -13,6 +13,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when **implementing** (not reviewing) operational changes that involve:
+
 - CI workflow definitions (GitHub Actions for build/deploy)
 - GitHub Pages deployment configuration
 - Build scripts, task runners, Makefiles, and local developer workflow commands
@@ -23,6 +24,7 @@ Trigger this skill when **implementing** (not reviewing) operational changes tha
 ## Required Context
 
 Before making ops edits, confirm the agent has applied:
+
 - `AGENTS.md`
 
 ## Implementation Discipline
@@ -56,6 +58,7 @@ Before making ops edits, confirm the agent has applied:
 ## Docs/Config Sync Handoff
 
 When the ops change affects documented behavior, workflow, or setup:
+
 - Flag the affected documentation for `@docs-implementer` sync (do not defer)
 - Note which docs files need updating in the output
 
@@ -67,6 +70,7 @@ When the ops change affects documented behavior, workflow, or setup:
 ## Output Shape
 
 Return work in a compact implementation summary with:
+
 - **Files changed**: list of modified files with brief description per file
 - **Operational impact**: how the change affects build, run, deploy, or developer workflows
 - **Rollback considerations**: how to reverse the change safely

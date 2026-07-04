@@ -1,16 +1,16 @@
-import { useState, useCallback, useEffect } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useState, useCallback, useEffect } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import {
   gameSettings,
   defaultHighScores,
   GAME_STORAGE_KEY,
-} from "../data/games";
-import { useReducedMotion } from "../hooks/useReducedMotion";
-import { createConfetti } from "../utils/confetti";
-import { content } from "../content/page";
-import { tpl } from "../utils/tpl";
-import { createMemoryMatchCards } from "../features/games/memory/memoryAssets";
-import type { MemoryCard as Card } from "../features/games/memory/memoryAssets";
+} from '../data/games';
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { createConfetti } from '../utils/confetti';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
+import { createMemoryMatchCards } from '../features/games/memory/memoryAssets';
+import type { MemoryCard as Card } from '../features/games/memory/memoryAssets';
 
 function createCards(): Card[] {
   return createMemoryMatchCards();
@@ -50,43 +50,43 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
         prev.map((c) => (c.id === id ? { ...c, flipped: true } : c)),
       );
 
-        if (newFlipped.length === 2) {
-          setIsChecking(true);
-          setMoves((prev) => prev + 1);
-          const currentMoves = moves + 1;
+      if (newFlipped.length === 2) {
+        setIsChecking(true);
+        setMoves((prev) => prev + 1);
+        const currentMoves = moves + 1;
 
-          const [firstId, secondId] = newFlipped;
-          const first = cards.find((c) => c.id === firstId)!;
-          const second = cards.find((c) => c.id === secondId)!;
+        const [firstId, secondId] = newFlipped;
+        const first = cards.find((c) => c.id === firstId)!;
+        const second = cards.find((c) => c.id === secondId)!;
 
-          if (first.pairId === second.pairId) {
-            // Match!
-            setTimeout(() => {
-              setCards((prev) =>
-                prev.map((c) =>
-                  c.id === firstId || c.id === secondId
-                    ? { ...c, matched: true }
-                    : c,
-                ),
-              );
-              setFlippedIds([]);
-              setIsChecking(false);
-              setMatchedPairs((prev) => {
-                const newCount = prev + 1;
-                if (newCount >= totalPairs) {
-                  setGameWon(true);
-                  const timeBonus = Math.max(0, 60 - currentMoves);
-                  setHighScore((s) => ({
-                    ...s,
-                    memory: Math.max(s.memory, timeBonus),
-                  }));
-                  if (!reducedMotion) {
-                    createConfetti({ count: 50, duration: 3000 });
-                  }
+        if (first.pairId === second.pairId) {
+          // Match!
+          setTimeout(() => {
+            setCards((prev) =>
+              prev.map((c) =>
+                c.id === firstId || c.id === secondId
+                  ? { ...c, matched: true }
+                  : c,
+              ),
+            );
+            setFlippedIds([]);
+            setIsChecking(false);
+            setMatchedPairs((prev) => {
+              const newCount = prev + 1;
+              if (newCount >= totalPairs) {
+                setGameWon(true);
+                const timeBonus = Math.max(0, 60 - currentMoves);
+                setHighScore((s) => ({
+                  ...s,
+                  memory: Math.max(s.memory, timeBonus),
+                }));
+                if (!reducedMotion) {
+                  createConfetti({ count: 50, duration: 3000 });
                 }
-                return newCount;
-              });
-            }, gameSettings["memory"].flipDelay);
+              }
+              return newCount;
+            });
+          }, gameSettings['memory'].flipDelay);
         } else {
           // No match
           setTimeout(() => {
@@ -99,7 +99,7 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
             );
             setFlippedIds([]);
             setIsChecking(false);
-          }, gameSettings["memory"].flipDelay);
+          }, gameSettings['memory'].flipDelay);
         }
       }
     },
@@ -129,16 +129,16 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
   useEffect(() => {
     if (gameWon) {
       const handler = (e: KeyboardEvent) => {
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === 'Enter' || e.key === ' ') {
           resetGame();
         }
       };
-      document.addEventListener("keydown", handler);
-      return () => document.removeEventListener("keydown", handler);
+      document.addEventListener('keydown', handler);
+      return () => document.removeEventListener('keydown', handler);
     }
   }, [gameWon, resetGame]);
 
-  const gridCols = gameSettings["memory"].columns;
+  const gridCols = gameSettings['memory'].columns;
 
   return (
     <div className="game-container">
@@ -207,7 +207,7 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
             {cards.map((card) => (
               <button
                 key={card.id}
-                className={`memory__card ${card.flipped ? "memory__card--flipped" : ""} ${card.matched ? "memory__card--matched" : ""}`}
+                className={`memory__card ${card.flipped ? 'memory__card--flipped' : ''} ${card.matched ? 'memory__card--matched' : ''}`}
                 onClick={() => handleCardClick(card.id)}
                 disabled={card.matched || isChecking}
                 aria-label={
@@ -218,7 +218,7 @@ export default function GameMemoryMatch({ onBack }: { onBack: () => void }) {
                       : content.gameMemoryMatch.hiddenCardLabel
                 }
                 style={{
-                  transitionDuration: reducedMotion ? "0ms" : "400ms",
+                  transitionDuration: reducedMotion ? '0ms' : '400ms',
                 }}
               >
                 <div className="memory__card-inner">

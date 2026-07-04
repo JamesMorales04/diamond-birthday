@@ -12,5 +12,8 @@ export type { TriviaQuestion } from '../content/page';
 export { triviaQuestions } from '../content/page';
 
 export function getShuffledTrivia(count: number = 5): TriviaQuestion[] {
-  return shuffle(triviaQuestions).slice(0, Math.min(count, triviaQuestions.length));
+  return shuffle(triviaQuestions).slice(
+    0,
+    Math.min(count, triviaQuestions.length),
+  );
 }

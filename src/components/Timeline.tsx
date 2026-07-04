@@ -17,7 +17,10 @@ function TimelineEntry({
   entry: (typeof timeline)[number];
   index: number;
 }) {
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.3, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.3,
+    triggerOnce: true,
+  });
 
   return (
     <div
@@ -31,7 +34,9 @@ function TimelineEntry({
       <div className="timeline__card">
         <div className="timeline__meta">
           <time className="timeline__year">{entry.year}</time>
-          {entry.month && <span className="timeline__month">{entry.month}</span>}
+          {entry.month && (
+            <span className="timeline__month">{entry.month}</span>
+          )}
         </div>
         <h3 className="timeline__title">{entry.title}</h3>
         <p className="timeline__desc">{entry.description}</p>
@@ -41,7 +46,10 @@ function TimelineEntry({
 }
 
 export default function Timeline() {
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
 
   return (
     <section
@@ -58,7 +66,11 @@ export default function Timeline() {
 
       <div className="timeline__entries">
         {timeline.map((entry, i) => (
-          <TimelineEntry key={`${entry.year}-${entry.title}`} entry={entry} index={i} />
+          <TimelineEntry
+            key={`${entry.year}-${entry.title}`}
+            entry={entry}
+            index={i}
+          />
         ))}
       </div>
     </section>

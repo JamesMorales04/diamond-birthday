@@ -1,15 +1,15 @@
-import { useRef, useEffect, useState, useCallback } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useRef, useEffect, useState, useCallback } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import {
   gameSettings,
   defaultHighScores,
   GAME_STORAGE_KEY,
-} from "../data/games";
-import { useReducedMotion } from "../hooks/useReducedMotion";
-import { useSwipe } from "../hooks/useSwipe";
-import { content } from "../content/page";
-import { tpl } from "../utils/tpl";
-import { assetUrl } from "../utils/assets";
+} from '../data/games';
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useSwipe } from '../hooks/useSwipe';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
+import { assetUrl } from '../utils/assets';
 import {
   DOG_FRAME_PATH,
   DOG_FRAMES,
@@ -23,7 +23,13 @@ import {
   DOG_ANIM_INTERVAL,
   DOG_CROUCH_FRAME,
   DOG_JUMP_FRAME,
-} from "../data/dogRunnerAssets";
+  LANES_IMAGE_PATH,
+  OBSTACLE_IMAGE_PATH,
+  OBSTACLE_SRC_X,
+  OBSTACLE_SRC_Y,
+  OBSTACLE_SRC_W,
+  OBSTACLE_SRC_H,
+} from '../data/dogRunnerAssets';
 
 const LANES = 3;
 const CANVAS_W = 300;
@@ -35,7 +41,7 @@ interface Obstacle {
   y: number;
   width: number;
   height: number;
-  type: "rock" | "thorn";
+  type: 'rock' | 'thorn';
   lane: number;
   /** Whether the player has been scored for passing this obstacle */
   scored: boolean;
@@ -48,7 +54,7 @@ interface GameData {
   score: number;
   gameOver: boolean;
   frame: number;
-  playerAction: "running" | "jumping" | "sliding";
+  playerAction: 'running' | 'jumping' | 'sliding';
   actionTimer: number;
   paused: boolean;
   started: boolean;
@@ -70,10 +76,8 @@ const OBSTACLE_REMOVE_THRESHOLD = 50; // px past canvas bottom before removal
 /* ── Collision box adjustments during sliding ── */
 const SLIDE_COLLISION_Y_OFFSET = 14;
 const SLIDE_COLLISION_H = 18;
-// Slide width and x-offset match standing (28px, centered at px).
-// Previously SLIDE_COLLISION_W was 34 — wider than standing — which
-// made collisions more likely during a dodge action.  Now the slide
-// box is the same width as standing (28px, not wider).
+// Slide collision width matches standing — same 28px, not wider, so
+// the dodge hitbox is no larger than the running hitbox.
 const SLIDE_COLLISION_W = DOG_COLLISION_W;
 const SLIDE_COLLISION_X_OFFSET = 0;
 
@@ -111,9 +115,9 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     GAME_STORAGE_KEY,
     defaultHighScores,
   );
-  const highScoreRef = useRef(highScore["lane-runner"]);
-  const [gameState, setGameState] = useState<"idle" | "playing" | "over">(
-    "idle",
+  const highScoreRef = useRef(highScore['lane-runner']);
+  const [gameState, setGameState] = useState<'idle' | 'playing' | 'over'>(
+    'idle',
   );
   const [displayScore, setDisplayScore] = useState(0);
   const gameRef = useRef<GameData | null>(null);
@@ -128,11 +132,15 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
 
   const dogFramesRef = useRef<HTMLImageElement[]>([]);
   const dogLoadedRef = useRef<boolean[]>([]);
+  const lanesImageRef = useRef<HTMLImageElement | null>(null);
+  const lanesLoadedRef = useRef(false);
+  const obstacleImageRef = useRef<HTMLImageElement | null>(null);
+  const obstacleLoadedRef = useRef(false);
 
   /* ── Sync high-score ref ── */
   useEffect(() => {
-    highScoreRef.current = highScore["lane-runner"];
-  }, [highScore["lane-runner"]]);
+    highScoreRef.current = highScore['lane-runner'];
+  }, [highScore['lane-runner']]);
 
   /* ── Preload dog frames (per-frame success tracking) ── */
   useEffect(() => {
@@ -161,18 +169,48 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     };
   }, []);
 
+  /* ── Preload lanes and obstacle images ── */
+  useEffect(() => {
+    const lanesImg = new Image();
+    lanesImg.src = assetUrl(LANES_IMAGE_PATH);
+    lanesImg.onload = () => {
+      lanesLoadedRef.current = true;
+    };
+    lanesImg.onerror = () => {
+      lanesLoadedRef.current = false;
+    };
+    lanesImageRef.current = lanesImg;
+
+    const obsImg = new Image();
+    obsImg.src = assetUrl(OBSTACLE_IMAGE_PATH);
+    obsImg.onload = () => {
+      obstacleLoadedRef.current = true;
+    };
+    obsImg.onerror = () => {
+      obstacleLoadedRef.current = false;
+    };
+    obstacleImageRef.current = obsImg;
+
+    return () => {
+      lanesImageRef.current = null;
+      lanesLoadedRef.current = false;
+      obstacleImageRef.current = null;
+      obstacleLoadedRef.current = false;
+    };
+  }, []);
+
   /* ── Factory (no reducedMotion dependency — reads ref at call time) ── */
   const initGame = useCallback(
     (): GameData => ({
       playerLane: 1,
       obstacles: [],
       speed:
-        gameSettings["lane-runner"].baseSpeed *
+        gameSettings['lane-runner'].baseSpeed *
         (reducedMotionRef.current ? 0.5 : 1),
       score: 0,
       gameOver: false,
       frame: 0,
-      playerAction: "running",
+      playerAction: 'running',
       actionTimer: 0,
       paused: false,
       started: false,
@@ -182,7 +220,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
 
   /* ── Input handler (left/right/up/down) ── */
   const handleInput = useCallback(
-    (action: "left" | "right" | "up" | "down") => {
+    (action: 'left' | 'right' | 'up' | 'down') => {
       const game = gameRef.current;
       if (!game) return;
 
@@ -190,7 +228,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       if (game.gameOver) {
         gameRef.current = initGame();
         gameRef.current.started = true;
-        setGameState("playing");
+        setGameState('playing');
         setDisplayScore(0);
         return;
       }
@@ -198,27 +236,27 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       if (game.paused) return;
 
       // Start game from idle
-      if (gameState === "idle") {
+      if (gameState === 'idle') {
         game.started = true;
-        setGameState("playing");
+        setGameState('playing');
       }
 
       switch (action) {
-        case "left":
+        case 'left':
           if (game.playerLane > 0) game.playerLane--;
           break;
-        case "right":
+        case 'right':
           if (game.playerLane < LANES - 1) game.playerLane++;
           break;
-        case "up":
-          if (game.playerAction === "running") {
-            game.playerAction = "jumping";
+        case 'up':
+          if (game.playerAction === 'running') {
+            game.playerAction = 'jumping';
             game.actionTimer = JUMP_DURATION;
           }
           break;
-        case "down":
-          if (game.playerAction === "running") {
-            game.playerAction = "sliding";
+        case 'down':
+          if (game.playerAction === 'running') {
+            game.playerAction = 'sliding';
             game.actionTimer = SLIDE_DURATION;
           }
           break;
@@ -239,58 +277,58 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       switch (e.key) {
-        case "ArrowLeft":
-        case "a":
-        case "A":
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
           e.preventDefault();
-          handleInput("left");
+          handleInput('left');
           break;
-        case "ArrowRight":
-        case "d":
-        case "D":
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
           e.preventDefault();
-          handleInput("right");
+          handleInput('right');
           break;
-        case "ArrowUp":
-        case "w":
-        case "W":
+        case 'ArrowUp':
+        case 'w':
+        case 'W':
           e.preventDefault();
-          handleInput("up");
+          handleInput('up');
           break;
-        case "ArrowDown":
-        case "s":
-        case "S":
+        case 'ArrowDown':
+        case 's':
+        case 'S':
           e.preventDefault();
-          handleInput("down");
+          handleInput('down');
           break;
-        case " ":
+        case ' ':
           e.preventDefault();
-          handleInput("up");
+          handleInput('up');
           break;
-        case "p":
-        case "P":
+        case 'p':
+        case 'P':
           e.preventDefault();
           togglePause();
           break;
       }
     };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [handleInput, togglePause]);
 
   /* ── Swipe ── */
   const swipeProps = useSwipe({
-    onSwipeLeft: () => handleInput("left"),
-    onSwipeRight: () => handleInput("right"),
-    onSwipeUp: () => handleInput("up"),
-    onSwipeDown: () => handleInput("down"),
+    onSwipeLeft: () => handleInput('left'),
+    onSwipeRight: () => handleInput('right'),
+    onSwipeUp: () => handleInput('up'),
+    onSwipeDown: () => handleInput('down'),
   });
 
   /* ── Canvas loop (stable — never re-runs on reducedMotion changes) ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     canvas.width = CANVAS_W;
@@ -298,28 +336,27 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
 
     gameRef.current = initGame();
 
-    const rm = () => reducedMotionRef.current; // read stable ref inside loop
-
     // ── Update sub-functions ──
 
     const updateActionTimer = (game: GameData) => {
-      if (game.playerAction === "jumping" || game.playerAction === "sliding") {
+      if (game.playerAction === 'jumping' || game.playerAction === 'sliding') {
         game.actionTimer--;
-        if (game.actionTimer <= 0) game.playerAction = "running";
+        if (game.actionTimer <= 0) game.playerAction = 'running';
       }
     };
 
     const spawnObstacle = (game: GameData) => {
       const freq =
-        gameSettings["lane-runner"].obstacleFrequency * (rm() ? 2 : 1);
+        gameSettings['lane-runner'].obstacleFrequency *
+        (reducedMotionRef.current ? 2 : 1);
       if (game.frame % freq !== 0) return;
       const lane = Math.floor(Math.random() * LANES);
-      const type: Obstacle["type"] = Math.random() > 0.5 ? "rock" : "thorn";
+      const type: Obstacle['type'] = Math.random() > 0.5 ? 'rock' : 'thorn';
       game.obstacles.push({
         x: lane * LANE_W + OBSTACLE_SPAWN_X_OFFSET,
         y: OBSTACLE_SPAWN_Y,
         width: LANE_W - OBSTACLE_MIN_GAP,
-        height: type === "rock" ? OBSTACLE_ROCK_HEIGHT : OBSTACLE_THORN_HEIGHT,
+        height: type === 'rock' ? OBSTACLE_ROCK_HEIGHT : OBSTACLE_THORN_HEIGHT,
         type,
         lane,
         scored: false,
@@ -342,7 +379,8 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     const increaseDifficulty = (game: GameData) => {
       game.score++;
       game.speed +=
-        gameSettings["lane-runner"].speedIncrement * (rm() ? 0.3 : 1);
+        gameSettings['lane-runner'].speedIncrement *
+        (reducedMotionRef.current ? 0.3 : 1);
     };
 
     /** Returns true when a collision triggers game-over */
@@ -355,10 +393,10 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       let colW = DOG_COLLISION_W;
       let colH = DOG_COLLISION_H;
 
-      if (game.playerAction === "jumping") {
+      if (game.playerAction === 'jumping') {
         colY -= getJumpOffset(game.actionTimer);
         colH = JUMP_COLLISION_H;
-      } else if (game.playerAction === "sliding") {
+      } else if (game.playerAction === 'sliding') {
         colY += SLIDE_COLLISION_Y_OFFSET;
         colH = SLIDE_COLLISION_H;
         colW = SLIDE_COLLISION_W;
@@ -373,11 +411,11 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
           colY + colH > obs.y
         ) {
           game.gameOver = true;
-          setGameState("over");
+          setGameState('over');
           setDisplayScore(game.score);
           setHighScore((prev) => ({
             ...prev,
-            "lane-runner": Math.max(prev["lane-runner"], game.score),
+            'lane-runner': Math.max(prev['lane-runner'], game.score),
           }));
           return true;
         }
@@ -406,12 +444,18 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
 
     const drawBackground = (ctx: CanvasRenderingContext2D) => {
       ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-      ctx.fillStyle = "#1a0e12";
-      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+      const img = lanesImageRef.current;
+      if (img && lanesLoadedRef.current) {
+        ctx.drawImage(img, 0, 0, CANVAS_W, CANVAS_H);
+      } else {
+        // Fallback: solid colour when lanes image hasn't loaded
+        ctx.fillStyle = '#1a0e12';
+        ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+      }
     };
 
     const drawLaneLines = (ctx: CanvasRenderingContext2D) => {
-      ctx.strokeStyle = "rgba(201, 185, 154, 0.1)";
+      ctx.strokeStyle = 'rgba(201, 185, 154, 0.1)';
       ctx.lineWidth = 1;
       for (let i = 1; i < LANES; i++) {
         ctx.setLineDash([5, 5]);
@@ -424,39 +468,78 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     };
 
     const drawGround = (ctx: CanvasRenderingContext2D) => {
-      ctx.fillStyle = "rgba(201, 185, 154, 0.05)";
+      ctx.fillStyle = 'rgba(201, 185, 154, 0.05)';
       ctx.fillRect(0, CANVAS_H - GROUND_HEIGHT, CANVAS_W, GROUND_HEIGHT);
+    };
+
+    /** Fallback procedural rock when obstacle image is unavailable */
+    const drawRockFallback = (
+      ctx: CanvasRenderingContext2D,
+      ox: number,
+      oy: number,
+      ow: number,
+      oh: number,
+    ) => {
+      ctx.fillStyle = '#722F37';
+      ctx.shadowColor = '#722F37';
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      ctx.roundRect(ox, oy, ow, oh, 4);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#9B1B30';
+      for (let t = 0; t < 3; t++) {
+        ctx.beginPath();
+        ctx.moveTo(ox + (ow * (t + 0.5)) / 3, oy);
+        ctx.lineTo(ox + (ow * (t + 0.3)) / 3, oy - 8);
+        ctx.lineTo(ox + (ow * (t + 0.7)) / 3, oy - 8);
+        ctx.fill();
+      }
+    };
+
+    /** Fallback procedural thorn when obstacle image is unavailable */
+    const drawThornFallback = (
+      ctx: CanvasRenderingContext2D,
+      ox: number,
+      oy: number,
+      ow: number,
+      oh: number,
+    ) => {
+      ctx.fillStyle = '#9B1B30';
+      ctx.shadowColor = '#9B1B30';
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      ctx.roundRect(ox, oy, ow, oh, 6);
+      ctx.fill();
+      ctx.shadowBlur = 0;
     };
 
     const drawObstacles = (
       ctx: CanvasRenderingContext2D,
       obstacles: Obstacle[],
     ) => {
+      const obsImg = obstacleImageRef.current;
+      const obsLoaded = obstacleLoadedRef.current;
+
       for (const obs of obstacles) {
-        if (obs.type === "rock") {
-          ctx.fillStyle = "#722F37";
-          ctx.shadowColor = "#722F37";
-          ctx.shadowBlur = 10;
-          ctx.beginPath();
-          ctx.roundRect(obs.x, obs.y, obs.width, obs.height, 4);
-          ctx.fill();
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = "#9B1B30";
-          for (let t = 0; t < 3; t++) {
-            ctx.beginPath();
-            ctx.moveTo(obs.x + (obs.width * (t + 0.5)) / 3, obs.y);
-            ctx.lineTo(obs.x + (obs.width * (t + 0.3)) / 3, obs.y - 8);
-            ctx.lineTo(obs.x + (obs.width * (t + 0.7)) / 3, obs.y - 8);
-            ctx.fill();
-          }
+        if (obsImg && obsLoaded) {
+          // Draw obstacle.png source-cropped to trim transparent padding,
+          // then scaled to the obstacle's current dimensions.
+          ctx.drawImage(
+            obsImg,
+            OBSTACLE_SRC_X,
+            OBSTACLE_SRC_Y,
+            OBSTACLE_SRC_W,
+            OBSTACLE_SRC_H,
+            obs.x,
+            obs.y,
+            obs.width,
+            obs.height,
+          );
+        } else if (obs.type === 'rock') {
+          drawRockFallback(ctx, obs.x, obs.y, obs.width, obs.height);
         } else {
-          ctx.fillStyle = "#9B1B30";
-          ctx.shadowColor = "#9B1B30";
-          ctx.shadowBlur = 8;
-          ctx.beginPath();
-          ctx.roundRect(obs.x, obs.y, obs.width, obs.height, 6);
-          ctx.fill();
-          ctx.shadowBlur = 0;
+          drawThornFallback(ctx, obs.x, obs.y, obs.width, obs.height);
         }
       }
     };
@@ -466,11 +549,11 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
      * Each branch clamps via `frameIndex()` so invalid config values never crash.
      */
     const selectFrame = (game: GameData): number => {
-      if (game.playerAction === "sliding") {
+      if (game.playerAction === 'sliding') {
         // Crouch/slide pose — use DOG_CROUCH_FRAME (default: frame 1)
         return frameIndex(DOG_CROUCH_FRAME);
       }
-      if (game.playerAction === "jumping") {
+      if (game.playerAction === 'jumping') {
         // Airborne pose — use DOG_JUMP_FRAME (default: frame 3 / mid-stretch)
         return frameIndex(DOG_JUMP_FRAME);
       }
@@ -490,9 +573,9 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       const dh = DOG_DISPLAY_H;
       let dy = py - dh / 2;
 
-      if (game.playerAction === "jumping") {
+      if (game.playerAction === 'jumping') {
         dy -= getJumpOffset(game.actionTimer);
-      } else if (game.playerAction === "sliding") {
+      } else if (game.playerAction === 'sliding') {
         dy += SLIDE_DRAW_Y_OFFSET;
       }
 
@@ -506,9 +589,9 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
         ctx.drawImage(frames[frameIdx], px - dw / 2, dy, dw, dh);
       } else {
         // Fallback heart when this specific frame isn't ready
-        ctx.shadowColor = "#D4A5A5";
+        ctx.shadowColor = '#D4A5A5';
         ctx.shadowBlur = 20;
-        ctx.fillStyle = "#D4A5A5";
+        ctx.fillStyle = '#D4A5A5';
         const hs = 15;
         ctx.beginPath();
         ctx.moveTo(px, dy + hs * 0.7);
@@ -534,14 +617,14 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     };
 
     const drawHUD = (ctx: CanvasRenderingContext2D, game: GameData) => {
-      ctx.fillStyle = "#FFFDD0";
+      ctx.fillStyle = '#FFFDD0';
       ctx.font = '18px "Cormorant Garamond", Georgia, serif';
-      ctx.textAlign = "left";
+      ctx.textAlign = 'left';
       ctx.fillText(`♥ ${game.score}`, 10, 25);
 
-      ctx.fillStyle = "#C9B99A";
+      ctx.fillStyle = '#C9B99A';
       ctx.font = '12px "Inter", sans-serif';
-      ctx.textAlign = "right";
+      ctx.textAlign = 'right';
       ctx.fillText(
         tpl(content.gameLaneRunner.canvasBestTemplate, {
           best: highScoreRef.current,
@@ -559,11 +642,11 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
     ) => {
       // Idle overlay — draw start instructions including jump/slide hints
       if (!game.started && !game.gameOver) {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
         ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-        ctx.fillStyle = "#C9B99A";
+        ctx.fillStyle = '#C9B99A';
         ctx.font = '18px "Cormorant Garamond", Georgia, serif';
-        ctx.textAlign = "center";
+        ctx.textAlign = 'center';
         ctx.fillText(
           content.gameLaneRunner.canvasStart,
           CANVAS_W / 2,
@@ -571,7 +654,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
         );
 
         // Jump / slide hints below the start text
-        ctx.fillStyle = "#D4A5A5";
+        ctx.fillStyle = '#D4A5A5';
         ctx.font = '13px "Inter", sans-serif';
         ctx.fillText(
           content.gameLaneRunner.canvasJumpHint,
@@ -595,25 +678,25 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
             DOG_DISPLAY_H,
           );
         } else {
-          ctx.fillStyle = "#C9B99A";
+          ctx.fillStyle = '#C9B99A';
           ctx.font = '18px "Cormorant Garamond", Georgia, serif';
-          ctx.fillText("♥", CANVAS_W / 2, CANVAS_H / 2 + 50);
+          ctx.fillText('♥', CANVAS_W / 2, CANVAS_H / 2 + 50);
         }
       }
 
       // Pause overlay
       if (game.paused && !game.gameOver) {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
         ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-        ctx.fillStyle = "#FFFDD0";
+        ctx.fillStyle = '#FFFDD0';
         ctx.font = '32px "Cormorant Garamond", Georgia, serif';
-        ctx.textAlign = "center";
+        ctx.textAlign = 'center';
         ctx.fillText(
           content.gameLaneRunner.canvasPaused,
           CANVAS_W / 2,
           CANVAS_H / 2 - 10,
         );
-        ctx.fillStyle = "#C9B99A";
+        ctx.fillStyle = '#C9B99A';
         ctx.font = '14px "Inter", sans-serif';
         ctx.fillText(
           content.gameLaneRunner.canvasResumeHint,
@@ -624,17 +707,17 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
 
       // Game over overlay
       if (game.gameOver) {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-        ctx.fillStyle = "#FFFDD0";
+        ctx.fillStyle = '#FFFDD0';
         ctx.font = '32px "Cormorant Garamond", Georgia, serif';
-        ctx.textAlign = "center";
+        ctx.textAlign = 'center';
         ctx.fillText(
           content.gameLaneRunner.canvasGameOver,
           CANVAS_W / 2,
           CANVAS_H / 2 - 30,
         );
-        ctx.fillStyle = "#D4A5A5";
+        ctx.fillStyle = '#D4A5A5';
         ctx.font = '20px "Cormorant Garamond", Georgia, serif';
         ctx.fillText(
           tpl(content.gameLaneRunner.canvasScoreTemplate, {
@@ -643,7 +726,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
           CANVAS_W / 2,
           CANVAS_H / 2 + 20,
         );
-        ctx.fillStyle = "#C9B99A";
+        ctx.fillStyle = '#C9B99A';
         ctx.font = '14px "Inter", sans-serif';
         ctx.fillText(
           content.gameLaneRunner.canvasRestart,
@@ -707,14 +790,14 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       <div className="game-container__controls">
         <button
           className="game-container__ctrl-btn"
-          onClick={() => handleInput("left")}
+          onClick={() => handleInput('left')}
           aria-label={content.gameLaneRunner.moveLeft}
         >
           ←
         </button>
         <button
           className="game-container__ctrl-btn"
-          onClick={() => handleInput("up")}
+          onClick={() => handleInput('up')}
           aria-label={content.gameLaneRunner.moveUp}
         >
           ↑
@@ -722,7 +805,7 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
         <button
           className="game-container__ctrl-btn"
           onClick={togglePause}
-          aria-label={content.gameLaneRunner.canvasPaused}
+          aria-label={content.gameLaneRunner.pauseLabel}
         >
           ⏸
         </button>
@@ -731,14 +814,14 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
         </span>
         <button
           className="game-container__ctrl-btn"
-          onClick={() => handleInput("down")}
+          onClick={() => handleInput('down')}
           aria-label={content.gameLaneRunner.moveDown}
         >
           ↓
         </button>
         <button
           className="game-container__ctrl-btn"
-          onClick={() => handleInput("right")}
+          onClick={() => handleInput('right')}
           aria-label={content.gameLaneRunner.moveRight}
         >
           →
@@ -746,8 +829,8 @@ export default function GameLaneRunner({ onBack }: { onBack: () => void }) {
       </div>
 
       <p className="game-container__hint">
-        {gameState === "idle" && content.gameLaneRunner.hint}
-        {gameState === "over" &&
+        {gameState === 'idle' && content.gameLaneRunner.hint}
+        {gameState === 'over' &&
           tpl(content.gameLaneRunner.canvasScoreTemplate, {
             score: displayScore,
           })}

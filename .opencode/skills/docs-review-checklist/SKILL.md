@@ -9,7 +9,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Docs Review Checklist Skill
@@ -17,6 +17,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when reviewing:
+
 - Documentation-only changes (Markdown, ADRs, setup docs, diagrams, prompt files)
 - Code or config changes that may have caused documentation drift
 - Terminology, naming, or concept consistency across documentation
@@ -68,6 +69,7 @@ Not every documentation inconsistency requires a finding. Apply materiality thre
 - **Low**: Stylistic inconsistency, minor terminology drift, or formatting issues that do not affect comprehension
 
 Do not report findings for:
+
 - Intentionally aspirational or future-state documentation (clearly marked as such)
 - Minor formatting differences that do not affect readability or searchability
 - Documentation for deprecated features that is clearly marked as deprecated
@@ -76,11 +78,11 @@ Do not report findings for:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
+| Finding type                                                                                    | Route to               |
+| ----------------------------------------------------------------------------------------------- | ---------------------- |
 | Architectural documentation (ADRs, diagrams describing structure/layering/dependency direction) | @architecture-reviewer |
-| CI/CD, Docker, build pipeline, or deployment documentation | @ops-reviewer |
-| Frontend implementation docs describing component behavior or UI patterns | @frontend-reviewer |
+| CI/CD, Docker, build pipeline, or deployment documentation                                      | @ops-reviewer          |
+| Frontend implementation docs describing component behavior or UI patterns                       | @frontend-reviewer     |
 
 ## Output
 

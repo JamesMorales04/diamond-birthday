@@ -6,6 +6,7 @@ import { content } from '../content/page';
 import { tpl } from '../utils/tpl';
 import {
   createMockCtx,
+  installCanvasMock,
   installRafMock,
   tickMany,
   installImageMock,
@@ -275,9 +276,7 @@ describe('GameFlappy', () => {
       await user.click(screen.getByLabelText(content.gameFlappy.ariaLabel));
 
       // Component should still be mounted and render the title
-      expect(
-        screen.getByText(content.gameFlappy.title),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameFlappy.title)).toBeInTheDocument();
     });
   });
 
@@ -290,10 +289,7 @@ describe('GameFlappy', () => {
       // Controllable RAF with progressive timestamps
       installRafMock();
       // Mock getContext so game-loop useEffect initialises
-      vi.spyOn(
-        HTMLCanvasElement.prototype,
-        'getContext',
-      ).mockReturnValue(createMockCtx());
+      installCanvasMock();
       // Stub Image so sprites are "loaded" immediately
       installImageMock();
       // useReducedMotion depends on matchMedia
@@ -315,7 +311,9 @@ describe('GameFlappy', () => {
       render(<GameFlappy onBack={onBack} />);
 
       // Initially idle
-      expect(screen.getByText(content.gameFlappy.hint.idle)).toBeInTheDocument();
+      expect(
+        screen.getByText(content.gameFlappy.hint.idle),
+      ).toBeInTheDocument();
 
       // First click → flap → gameState becomes 'playing'
       act(() => {
@@ -382,7 +380,10 @@ describe('GameFlappy', () => {
       // Confirm game over — score should be > 0
       const overHint = screen.getByText(OVER_HINT);
       expect(overHint).toBeInTheDocument();
-      const firstScore = parseInt(overHint.textContent!.match(/\d+/)?.[0] ?? '0', 10);
+      const firstScore = parseInt(
+        overHint.textContent!.match(/\d+/)?.[0] ?? '0',
+        10,
+      );
       expect(firstScore).toBeGreaterThan(0);
 
       // Click to restart
@@ -396,9 +397,7 @@ describe('GameFlappy', () => {
       ).toBeInTheDocument();
 
       // The over hint should be gone
-      expect(
-        screen.queryByText(OVER_HINT),
-      ).toBeNull();
+      expect(screen.queryByText(OVER_HINT)).toBeNull();
 
       // Now play a second round WITHOUT fast pipes — the bird will fall
       // to the ground before any pipe spawns, so the score stays 0.
@@ -483,7 +482,9 @@ describe('GameFlappy', () => {
 
     it('draws pipe sprite via drawImage with crop constants from pipes.png', () => {
       const mockCtx = createMockCtx();
-      vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(mockCtx);
+      vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(
+        mockCtx,
+      );
 
       render(<GameFlappy onBack={onBack} />);
 
@@ -508,7 +509,9 @@ describe('GameFlappy', () => {
       // (src matching pipes.png) and the exact crop constants — proves the
       // sprite-crop branch ran instead of the fallback.
       expect(mockCtx.drawImage).toHaveBeenCalledWith(
-        expect.objectContaining({ src: expect.stringContaining(FLAPPY_OBSTACLE_PATH) }),
+        expect.objectContaining({
+          src: expect.stringContaining(FLAPPY_OBSTACLE_PATH),
+        }),
         FLAPPY_OBSTACLE_SRC_X,
         FLAPPY_OBSTACLE_SRC_Y,
         FLAPPY_OBSTACLE_SRC_W,
@@ -533,10 +536,7 @@ describe('GameFlappy', () => {
     beforeEach(() => {
       window.localStorage.clear();
       installRafMock();
-      vi.spyOn(
-        HTMLCanvasElement.prototype,
-        'getContext',
-      ).mockReturnValue(createMockCtx());
+      installCanvasMock();
       installImageMock();
       stubMatchMedia();
     });
@@ -591,9 +591,7 @@ describe('GameFlappy', () => {
         tickMany(100);
       });
 
-      expect(
-        screen.getByText(OVER_HINT),
-      ).toBeInTheDocument();
+      expect(screen.getByText(OVER_HINT)).toBeInTheDocument();
 
       // Press Space to restart
       act(() => {
@@ -603,9 +601,7 @@ describe('GameFlappy', () => {
       expect(
         screen.getByText(content.gameFlappy.hint.playing),
       ).toBeInTheDocument();
-      expect(
-        screen.queryByText(OVER_HINT),
-      ).toBeNull();
+      expect(screen.queryByText(OVER_HINT)).toBeNull();
     });
 
     it('restarts from game-over on Enter key press', () => {
@@ -620,9 +616,7 @@ describe('GameFlappy', () => {
         tickMany(100);
       });
 
-      expect(
-        screen.getByText(OVER_HINT),
-      ).toBeInTheDocument();
+      expect(screen.getByText(OVER_HINT)).toBeInTheDocument();
 
       // Press Enter to restart
       act(() => {
@@ -660,10 +654,7 @@ describe('GameFlappy', () => {
     beforeEach(() => {
       window.localStorage.clear();
       installRafMock();
-      vi.spyOn(
-        HTMLCanvasElement.prototype,
-        'getContext',
-      ).mockReturnValue(createMockCtx());
+      installCanvasMock();
       installImageMock();
     });
 
@@ -695,9 +686,7 @@ describe('GameFlappy', () => {
       ).toBeInTheDocument();
 
       // The over/restart hint should be absent
-      expect(
-        screen.queryByText(OVER_HINT),
-      ).toBeNull();
+      expect(screen.queryByText(OVER_HINT)).toBeNull();
     });
 
     it('reduced-motion preference does not crash the component', () => {
@@ -710,9 +699,7 @@ describe('GameFlappy', () => {
         tickMany(10);
       });
 
-      expect(
-        screen.getByText(content.gameFlappy.title),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameFlappy.title)).toBeInTheDocument();
     });
   });
 
@@ -751,9 +738,7 @@ describe('GameFlappy', () => {
         img.onload?.();
       }
 
-      expect(
-        screen.getByText(content.gameFlappy.title),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameFlappy.title)).toBeInTheDocument();
     });
 
     it('renders without crashing when a single frame fails to load', () => {
@@ -766,9 +751,7 @@ describe('GameFlappy', () => {
         imageInstances[i].onload?.();
       }
 
-      expect(
-        screen.getByText(content.gameFlappy.title),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameFlappy.title)).toBeInTheDocument();
     });
 
     it('renders without crashing when all frames fail to load (heart fallback)', () => {
@@ -778,9 +761,7 @@ describe('GameFlappy', () => {
         img.onerror?.();
       }
 
-      expect(
-        screen.getByText(content.gameFlappy.title),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameFlappy.title)).toBeInTheDocument();
     });
   });
 });

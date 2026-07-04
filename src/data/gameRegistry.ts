@@ -10,12 +10,12 @@
  * derives its types and data from this registry.
  */
 
-export const GAME_IDS = ["flappy", "lane-runner", "memory"] as const;
+export const GAME_IDS = ['flappy', 'lane-runner', 'memory'] as const;
 export type GameId = (typeof GAME_IDS)[number];
 
 /** Presentation-only icons — kept here, not in content data. */
 export const GAME_ICONS: Record<GameId, string> = {
-  flappy: "♥",
-  "lane-runner": "◆",
-  memory: "♡",
+  flappy: '♥',
+  'lane-runner': '◆',
+  memory: '♡',
 };

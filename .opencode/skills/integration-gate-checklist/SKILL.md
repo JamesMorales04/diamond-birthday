@@ -8,7 +8,7 @@ description: >
 license: MIT
 metadata:
   author: project
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Integration Gate Checklist
@@ -18,6 +18,7 @@ A read-only, reusable checklist for local diff and completed-integration review.
 ## When to Use
 
 Trigger when reviewing:
+
 - Current uncommitted changes (local diff)
 - A completed integration before finalization
 - Pre-finalization readiness

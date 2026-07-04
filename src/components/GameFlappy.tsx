@@ -1,6 +1,10 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { gameSettings, defaultHighScores, GAME_STORAGE_KEY } from '../data/games';
+import {
+  gameSettings,
+  defaultHighScores,
+  GAME_STORAGE_KEY,
+} from '../data/games';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { content } from '../content/page';
 import { tpl } from '../utils/tpl';
@@ -89,9 +93,8 @@ function drawGame(
   game: FlappyGame,
   assets: DrawAssets,
 ): void {
-  const {
-    highScore, frames, loaded, bgImage, bgLoaded, pipeImg, pipeLoaded,
-  } = assets;
+  const { highScore, frames, loaded, bgImage, bgLoaded, pipeImg, pipeLoaded } =
+    assets;
 
   ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
   if (bgImage && bgLoaded) {
@@ -110,48 +113,48 @@ function drawGame(
     return;
   }
 
-    // Draw pipes. When the sprite is loaded, render the visible pipe art
-    // cropped from pipes.png so the transparent margins do not turn the pipe
-    // into a box. The top pipe is flipped so the cap faces the gap.
-    for (const pipe of game.pipes) {
-      if (pipeImg && pipeLoaded) {
-        ctx.save();
-        ctx.translate(pipe.x, pipe.top);
-        ctx.scale(1, -1);
-        ctx.drawImage(
-          pipeImg,
-          FLAPPY_OBSTACLE_SRC_X,
-          FLAPPY_OBSTACLE_SRC_Y,
-          FLAPPY_OBSTACLE_SRC_W,
-          FLAPPY_OBSTACLE_SRC_H,
-          0,
-          0,
-          PIPE_W,
-          pipe.top,
-        );
-        ctx.restore();
+  // Draw pipes. When the sprite is loaded, render the visible pipe art
+  // cropped from pipes.png so the transparent margins do not turn the pipe
+  // into a box. The top pipe is flipped so the cap faces the gap.
+  for (const pipe of game.pipes) {
+    if (pipeImg && pipeLoaded) {
+      ctx.save();
+      ctx.translate(pipe.x, pipe.top);
+      ctx.scale(1, -1);
+      ctx.drawImage(
+        pipeImg,
+        FLAPPY_OBSTACLE_SRC_X,
+        FLAPPY_OBSTACLE_SRC_Y,
+        FLAPPY_OBSTACLE_SRC_W,
+        FLAPPY_OBSTACLE_SRC_H,
+        0,
+        0,
+        PIPE_W,
+        pipe.top,
+      );
+      ctx.restore();
 
-        ctx.drawImage(
-          pipeImg,
-          FLAPPY_OBSTACLE_SRC_X,
-          FLAPPY_OBSTACLE_SRC_Y,
-          FLAPPY_OBSTACLE_SRC_W,
-          FLAPPY_OBSTACLE_SRC_H,
-          pipe.x,
-          pipe.bottom,
-          PIPE_W,
-          CANVAS_H - pipe.bottom,
-        );
-      } else {
-        ctx.fillStyle = COL_WINE;
-        ctx.strokeStyle = COL_MUTED_GOLD;
-        ctx.lineWidth = 2;
-        ctx.fillRect(pipe.x, 0, PIPE_W, pipe.top);
-        ctx.strokeRect(pipe.x, 0, PIPE_W, pipe.top);
-        ctx.fillRect(pipe.x, pipe.bottom, PIPE_W, CANVAS_H - pipe.bottom);
-        ctx.strokeRect(pipe.x, pipe.bottom, PIPE_W, CANVAS_H - pipe.bottom);
-      }
+      ctx.drawImage(
+        pipeImg,
+        FLAPPY_OBSTACLE_SRC_X,
+        FLAPPY_OBSTACLE_SRC_Y,
+        FLAPPY_OBSTACLE_SRC_W,
+        FLAPPY_OBSTACLE_SRC_H,
+        pipe.x,
+        pipe.bottom,
+        PIPE_W,
+        CANVAS_H - pipe.bottom,
+      );
+    } else {
+      ctx.fillStyle = COL_WINE;
+      ctx.strokeStyle = COL_MUTED_GOLD;
+      ctx.lineWidth = 2;
+      ctx.fillRect(pipe.x, 0, PIPE_W, pipe.top);
+      ctx.strokeRect(pipe.x, 0, PIPE_W, pipe.top);
+      ctx.fillRect(pipe.x, pipe.bottom, PIPE_W, CANVAS_H - pipe.bottom);
+      ctx.strokeRect(pipe.x, pipe.bottom, PIPE_W, CANVAS_H - pipe.bottom);
     }
+  }
 
   // ── Draw Chester sprite ──
   const bx = game.bird.x;
@@ -164,16 +167,21 @@ function drawGame(
   if (frameOk) {
     // Subtle rotation from vertical velocity (flap pulse doesn't affect rotation)
     const speed = Math.min(Math.abs(game.bird.vy) / ROTATION_VELOCITY_CAP, 1);
-    const rotation = game.bird.vy < 0
-      ? -MAX_ROTATION * speed
-      : MAX_ROTATION * speed;
+    const rotation =
+      game.bird.vy < 0 ? -MAX_ROTATION * speed : MAX_ROTATION * speed;
 
     ctx.shadowBlur = 0; // reset any stray shadow from pipe drawing
 
     ctx.save();
     ctx.translate(bx, by);
     ctx.rotate(rotation);
-    ctx.drawImage(frames[frameIdx], -FLAPPY_DISPLAY_W / 2, -FLAPPY_DISPLAY_H / 2, FLAPPY_DISPLAY_W, FLAPPY_DISPLAY_H);
+    ctx.drawImage(
+      frames[frameIdx],
+      -FLAPPY_DISPLAY_W / 2,
+      -FLAPPY_DISPLAY_H / 2,
+      FLAPPY_DISPLAY_W,
+      FLAPPY_DISPLAY_H,
+    );
     ctx.restore();
   } else {
     // Fallback heart when sprite frame isn't ready
@@ -198,7 +206,11 @@ function drawGame(
   ctx.fillStyle = COL_MUTED_GOLD;
   ctx.font = '14px "Inter", sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText(tpl(content.gameFlappy.canvasBestTemplate, { best: highScore }), CANVAS_W - 10, 25);
+  ctx.fillText(
+    tpl(content.gameFlappy.canvasBestTemplate, { best: highScore }),
+    CANVAS_W - 10,
+    25,
+  );
 
   // Game over overlay
   if (game.gameOver) {
@@ -207,22 +219,39 @@ function drawGame(
     ctx.fillStyle = COL_CREAM;
     ctx.font = '32px "Cormorant Garamond", Georgia, serif';
     ctx.textAlign = 'center';
-    ctx.fillText(content.gameFlappy.canvasGameOver, CANVAS_W / 2, CANVAS_H / 2 - 30);
+    ctx.fillText(
+      content.gameFlappy.canvasGameOver,
+      CANVAS_W / 2,
+      CANVAS_H / 2 - 30,
+    );
     ctx.fillStyle = COL_DUSTY_PINK;
     ctx.font = '20px "Cormorant Garamond", Georgia, serif';
-    ctx.fillText(tpl(content.gameFlappy.canvasScoreTemplate, { score: game.score }), CANVAS_W / 2, CANVAS_H / 2 + 20);
+    ctx.fillText(
+      tpl(content.gameFlappy.canvasScoreTemplate, { score: game.score }),
+      CANVAS_W / 2,
+      CANVAS_H / 2 + 20,
+    );
     ctx.fillStyle = COL_MUTED_GOLD;
     ctx.font = '14px "Inter", sans-serif';
-    ctx.fillText(content.gameFlappy.canvasTapRestart, CANVAS_W / 2, CANVAS_H / 2 + 60);
+    ctx.fillText(
+      content.gameFlappy.canvasTapRestart,
+      CANVAS_W / 2,
+      CANVAS_H / 2 + 60,
+    );
   }
 }
 
 export default function GameFlappy({ onBack }: { onBack: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [highScore, setHighScore] = useLocalStorage(GAME_STORAGE_KEY, defaultHighScores);
+  const [highScore, setHighScore] = useLocalStorage(
+    GAME_STORAGE_KEY,
+    defaultHighScores,
+  );
   const highScoreRef = useRef(highScore.flappy);
   const [score, setScore] = useState(0);
-  const [gameState, setGameState] = useState<'idle' | 'playing' | 'over'>('idle');
+  const [gameState, setGameState] = useState<'idle' | 'playing' | 'over'>(
+    'idle',
+  );
   const gameRef = useRef<FlappyGame | null>(null);
   const animRef = useRef<number>(0);
   const reducedMotion = useReducedMotion();
@@ -252,7 +281,11 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
       };
       img.onerror = () => {
         loaded[idx] = false;
-        if (import.meta.env.DEV) { console.warn(`[GameFlappy] Chester frame load failed: ${FLAPPY_FRAME_PATH(i)}`); }
+        if (import.meta.env.DEV) {
+          console.warn(
+            `[GameFlappy] Chester frame load failed: ${FLAPPY_FRAME_PATH(i)}`,
+          );
+        }
       };
       frames.push(img);
       loaded.push(false);
@@ -261,20 +294,32 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
     // Background image (uk.png)
     const bg = new Image();
     bg.src = assetUrl(FLAPPY_BG_PATH);
-    bg.onload = () => { bgLoadedRef.current = true; };
+    bg.onload = () => {
+      bgLoadedRef.current = true;
+    };
     bg.onerror = () => {
       bgLoadedRef.current = false;
-      if (import.meta.env.DEV) { console.warn(`[GameFlappy] Background image load failed: ${FLAPPY_BG_PATH}`); }
+      if (import.meta.env.DEV) {
+        console.warn(
+          `[GameFlappy] Background image load failed: ${FLAPPY_BG_PATH}`,
+        );
+      }
     };
     bgImageRef.current = bg;
 
     // Obstacle image (pipes.png)
     const obs = new Image();
     obs.src = assetUrl(FLAPPY_OBSTACLE_PATH);
-    obs.onload = () => { obstacleLoadedRef.current = true; };
+    obs.onload = () => {
+      obstacleLoadedRef.current = true;
+    };
     obs.onerror = () => {
       obstacleLoadedRef.current = false;
-      if (import.meta.env.DEV) { console.warn(`[GameFlappy] Obstacle image load failed: ${FLAPPY_OBSTACLE_PATH}`); }
+      if (import.meta.env.DEV) {
+        console.warn(
+          `[GameFlappy] Obstacle image load failed: ${FLAPPY_OBSTACLE_PATH}`,
+        );
+      }
     };
     obstacleImageRef.current = obs;
 
@@ -307,16 +352,19 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
     highScoreRef.current = highScore.flappy;
   }, [highScore.flappy]);
 
-  const initGame = useCallback((): FlappyGame => ({
-    bird: { x: 80, y: CANVAS_H / 2, vy: 0 },
-    pipes: [],
-    score: 0,
-    gameOver: false,
-    started: false,
-    scoreSaved: false,
-    pipeSpawnTimer: 0,
-    flapTimer: 0,
-  }), []);
+  const initGame = useCallback(
+    (): FlappyGame => ({
+      bird: { x: 80, y: CANVAS_H / 2, vy: 0 },
+      pipes: [],
+      score: 0,
+      gameOver: false,
+      started: false,
+      scoreSaved: false,
+      pipeSpawnTimer: 0,
+      flapTimer: 0,
+    }),
+    [],
+  );
 
   const jump = useCallback(() => {
     const g = gameRef.current;
@@ -399,7 +447,10 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
           game.pipeSpawnTimer += dt;
           if (game.pipeSpawnTimer >= spawnThreshold) {
             game.pipeSpawnTimer -= spawnThreshold;
-            const gapY = 100 + Math.random() * (CANVAS_H - settings.pipeGap - PIPE_GAP_TOP_MARGIN);
+            const gapY =
+              100 +
+              Math.random() *
+                (CANVAS_H - settings.pipeGap - PIPE_GAP_TOP_MARGIN);
             game.pipes.push({
               x: CANVAS_W,
               top: gapY,
@@ -418,8 +469,12 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
         game.pipes = game.pipes.filter((p) => p.x > PIPE_REMOVE_THRESHOLD);
 
         // ── Collision detection ──
-        const { left: birdLeft, right: birdRight, top: birdTop, bottom: birdBottom } =
-          getFlappyHitbox(game.bird.x, game.bird.y);
+        const {
+          left: birdLeft,
+          right: birdRight,
+          top: birdTop,
+          bottom: birdBottom,
+        } = getFlappyHitbox(game.bird.x, game.bird.y);
 
         // Walls
         if (birdTop <= 0 || birdBottom >= CANVAS_H) {
@@ -471,7 +526,11 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
   return (
     <div className="game-container">
       <div className="game-container__header">
-        <button className="game-container__back" onClick={onBack} aria-label={content.gameFlappy.backLabel}>
+        <button
+          className="game-container__back"
+          onClick={onBack}
+          aria-label={content.gameFlappy.backLabel}
+        >
           ← {content.games.backText}
         </button>
         <h3 className="game-container__title">{content.gameFlappy.title}</h3>
@@ -480,7 +539,12 @@ export default function GameFlappy({ onBack }: { onBack: () => void }) {
       <div
         className="game-container__canvas-wrap"
         onClick={jump}
-        onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); jump(); } }}
+        onKeyDown={(e) => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            jump();
+          }
+        }}
         role="button"
         tabIndex={0}
         aria-label={content.gameFlappy.ariaLabel}

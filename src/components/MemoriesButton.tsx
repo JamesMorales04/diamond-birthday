@@ -14,7 +14,9 @@ export default function MemoriesButton() {
     if (!overlay) return;
 
     // Focus the close button on open
-    const closeBtn = overlay.querySelector<HTMLButtonElement>('.memories-overlay__close');
+    const closeBtn = overlay.querySelector<HTMLButtonElement>(
+      '.memories-overlay__close',
+    );
     closeBtn?.focus();
 
     const focusableSelector =
@@ -27,7 +29,8 @@ export default function MemoriesButton() {
       }
 
       if (e.key === 'Tab') {
-        const focusable = overlay.querySelectorAll<HTMLElement>(focusableSelector);
+        const focusable =
+          overlay.querySelectorAll<HTMLElement>(focusableSelector);
         if (focusable.length === 0) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
@@ -64,8 +67,12 @@ export default function MemoriesButton() {
         aria-label={content.memoriesButton.buttonLabel}
         title={content.memoriesButton.buttonText}
       >
-        <span className="memories-btn__icon" aria-hidden="true">◆</span>
-        <span className="memories-btn__text">{content.memoriesButton.buttonText}</span>
+        <span className="memories-btn__icon" aria-hidden="true">
+          ◆
+        </span>
+        <span className="memories-btn__text">
+          {content.memoriesButton.buttonText}
+        </span>
       </button>
 
       {isOpen && (

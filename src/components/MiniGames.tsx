@@ -1,19 +1,19 @@
-import { useState, lazy, Suspense, ComponentType } from "react";
-import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
-import { content } from "../content/page";
-import { tpl } from "../utils/tpl";
-import { GAME_ICONS } from "../data/gameRegistry";
-import type { GameId } from "../data/gameRegistry";
+import { useState, lazy, Suspense, ComponentType } from 'react';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { content } from '../content/page';
+import { tpl } from '../utils/tpl';
+import { GAME_ICONS } from '../data/gameRegistry';
+import type { GameId } from '../data/gameRegistry';
 
-const GameFlappy = lazy(() => import("./GameFlappy"));
-const GameLaneRunner = lazy(() => import("./GameLaneRunner"));
-const GameMemoryMatch = lazy(() => import("./GameMemoryMatch"));
+const GameFlappy = lazy(() => import('./GameFlappy'));
+const GameLaneRunner = lazy(() => import('./GameLaneRunner'));
+const GameMemoryMatch = lazy(() => import('./GameMemoryMatch'));
 
 type GameProps = { onBack: () => void };
 
 const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   flappy: GameFlappy,
-  "lane-runner": GameLaneRunner,
+  'lane-runner': GameLaneRunner,
   memory: GameMemoryMatch,
 };
 
@@ -57,7 +57,7 @@ export default function MiniGames() {
   return (
     <section
       ref={ref}
-      className={`section minigames ${isVisible ? "minigames--visible" : ""}`}
+      className={`section minigames ${isVisible ? 'minigames--visible' : ''}`}
       aria-labelledby="minigames-title"
     >
       <h2 id="minigames-title" className="section__title">
@@ -77,7 +77,7 @@ export default function MiniGames() {
               })}
             >
               <span className="minigames__card-icon" aria-hidden="true">
-                {GAME_ICONS[game.id] ?? "✦"}
+                {GAME_ICONS[game.id] ?? '✦'}
               </span>
               <h3 className="minigames__card-name">{game.name}</h3>
               <p className="minigames__card-desc">{game.desc}</p>

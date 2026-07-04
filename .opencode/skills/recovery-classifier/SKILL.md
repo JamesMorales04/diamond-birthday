@@ -10,8 +10,8 @@ license: MIT
 
 metadata:
   author: project
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # Recovery Classifier
@@ -31,16 +31,16 @@ Classify agent failures into canonical recovery types so the orchestrator routes
 
 These are the **same canonical types the orchestrator uses for retry routing** (`orchestrator_append.md`). Every classification must use one of these exact type names — do not invent new labels.
 
-| Type | Signal | Description |
-| --- | --- | --- |
-| **PATCH_CONTEXT_MISMATCH** | Expected lines, hunks, or file context were not found during a patch/edit operation. | The agent's patch targeted outdated or missing file context. |
-| **TOOL_FAILURE** | Shell, patch, file read, write, or environment tool returned an error. | Includes network timeouts, API rate limits, 503/429 responses, and transient resource errors. |
-| **MISSING_CONTEXT** | The agent did not inspect enough repository context before acting. | Output addresses wrong files, references nonexistent modules, or misreads existing patterns. |
-| **WRONG_AGENT** | The task was routed to an agent with the wrong domain or capability. | Agent lacks ownership of the work it was given. |
-| **VALIDATION_FAILURE** | Build, test, lint, typecheck, migration, Docker, or CI-equivalent command failed. | The code change passed the agent's internal logic but broke a quality gate. |
-| **REVIEW_FAILURE** | Reviewer found blocking issues in the agent's output. | Includes both code-review and integration-review failures. |
-| **AMBIGUOUS_OUTPUT** | Agent response is incomplete, unclear, or does not prove completion. | Output is partial, contains placeholders, or omits required evidence. |
-| **CONFLICTING_RESULTS** | Two agents disagree or produce incompatible recommendations. | Includes contradictory file changes, incompatible architecture suggestions, or conflicting test outcomes. |
+| Type                       | Signal                                                                               | Description                                                                                               |
+| -------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| **PATCH_CONTEXT_MISMATCH** | Expected lines, hunks, or file context were not found during a patch/edit operation. | The agent's patch targeted outdated or missing file context.                                              |
+| **TOOL_FAILURE**           | Shell, patch, file read, write, or environment tool returned an error.               | Includes network timeouts, API rate limits, 503/429 responses, and transient resource errors.             |
+| **MISSING_CONTEXT**        | The agent did not inspect enough repository context before acting.                   | Output addresses wrong files, references nonexistent modules, or misreads existing patterns.              |
+| **WRONG_AGENT**            | The task was routed to an agent with the wrong domain or capability.                 | Agent lacks ownership of the work it was given.                                                           |
+| **VALIDATION_FAILURE**     | Build, test, lint, typecheck, migration, Docker, or CI-equivalent command failed.    | The code change passed the agent's internal logic but broke a quality gate.                               |
+| **REVIEW_FAILURE**         | Reviewer found blocking issues in the agent's output.                                | Includes both code-review and integration-review failures.                                                |
+| **AMBIGUOUS_OUTPUT**       | Agent response is incomplete, unclear, or does not prove completion.                 | Output is partial, contains placeholders, or omits required evidence.                                     |
+| **CONFLICTING_RESULTS**    | Two agents disagree or produce incompatible recommendations.                         | Includes contradictory file changes, incompatible architecture suggestions, or conflicting test outcomes. |
 
 ## Classification Steps
 

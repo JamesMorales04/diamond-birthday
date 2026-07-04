@@ -1,28 +1,34 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, act, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import GameLaneRunner from "./GameLaneRunner";
-import { content } from "../content/page";
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, act, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import GameLaneRunner from './GameLaneRunner';
+import { content } from '../content/page';
+import { GAME_STORAGE_KEY, defaultHighScores } from '../data/games';
+import { tpl } from '../utils/tpl';
 import {
-  GAME_STORAGE_KEY,
-  defaultHighScores,
-} from "../data/games";
-import { tpl } from "../utils/tpl";
-import { DOG_FRAMES, DOG_FRAME_PATH } from "../data/dogRunnerAssets";
+  DOG_FRAMES,
+  DOG_FRAME_PATH,
+  OBSTACLE_SRC_X,
+  OBSTACLE_SRC_Y,
+  OBSTACLE_SRC_W,
+  OBSTACLE_SRC_H,
+} from '../data/dogRunnerAssets';
 import {
-  createMockCtx,
+  installCanvasMock,
+  getMockCtx,
   installRafMock,
   tickMany,
   installImageMock,
   imageInstances,
+  loadAllImages,
   stubMatchMedia,
-} from "../test/gameTestHelpers";
+} from '../test/gameTestHelpers';
 
 /* ──────────────────────────────────────────────
    Tests
    ────────────────────────────────────────────── */
 
-describe("GameLaneRunner", () => {
+describe('GameLaneRunner', () => {
   const onBack = vi.fn();
 
   beforeEach(() => {
@@ -32,10 +38,7 @@ describe("GameLaneRunner", () => {
     // jsdom's HTMLCanvasElement.getContext() returns null, which prevents the
     // game loop effect from initialising gameRef.  Provide a mock context so
     // gameRef.current is populated and handleInput/keyboard handlers work.
-    vi.spyOn(
-      HTMLCanvasElement.prototype,
-      "getContext",
-    ).mockReturnValue(createMockCtx());
+    installCanvasMock();
 
     // Ensure matchMedia stub is in place
     stubMatchMedia(false);
@@ -48,33 +51,31 @@ describe("GameLaneRunner", () => {
 
   /* ── Rendering (existing + baseline) ── */
 
-  it("renders the game title from centralized content", () => {
+  it('renders the game title from centralized content', () => {
     render(<GameLaneRunner onBack={onBack} />);
-    expect(
-      screen.getByText(content.gameLaneRunner.title),
-    ).toBeInTheDocument();
+    expect(screen.getByText(content.gameLaneRunner.title)).toBeInTheDocument();
   });
 
-  it("renders the back button with the centralized aria-label", () => {
+  it('renders the back button with the centralized aria-label', () => {
     render(<GameLaneRunner onBack={onBack} />);
     expect(
       screen.getByLabelText(content.gameLaneRunner.backLabel),
     ).toBeInTheDocument();
   });
 
-  it("renders the canvas wrapper with the centralized aria-label", () => {
+  it('renders the canvas wrapper with the centralized aria-label', () => {
     render(<GameLaneRunner onBack={onBack} />);
     expect(
       screen.getByLabelText(content.gameLaneRunner.ariaLabel),
     ).toBeInTheDocument();
   });
 
-  it("renders the hint from centralized content", () => {
+  it('renders the hint from centralized content', () => {
     render(<GameLaneRunner onBack={onBack} />);
     expect(screen.getByText(content.gameLaneRunner.hint)).toBeInTheDocument();
   });
 
-  it("renders all on-screen control buttons with correct aria-labels", () => {
+  it('renders all on-screen control buttons with correct aria-labels', () => {
     render(<GameLaneRunner onBack={onBack} />);
     expect(
       screen.getByLabelText(content.gameLaneRunner.moveLeft),
@@ -89,18 +90,18 @@ describe("GameLaneRunner", () => {
       screen.getByLabelText(content.gameLaneRunner.moveDown),
     ).toBeInTheDocument();
     expect(
-      screen.getByLabelText(content.gameLaneRunner.canvasPaused),
+      screen.getByLabelText(content.gameLaneRunner.pauseLabel),
     ).toBeInTheDocument();
   });
 
-  it("renders the controls hint text", () => {
+  it('renders the controls hint text', () => {
     render(<GameLaneRunner onBack={onBack} />);
     expect(
       screen.getByText(content.gameLaneRunner.controlsHint),
     ).toBeInTheDocument();
   });
 
-  it("calls onBack when the back button is clicked", async () => {
+  it('calls onBack when the back button is clicked', async () => {
     const user = userEvent.setup();
     render(<GameLaneRunner onBack={onBack} />);
 
@@ -108,110 +109,106 @@ describe("GameLaneRunner", () => {
     expect(onBack).toHaveBeenCalledOnce();
   });
 
-  it("renders a canvas element inside the game wrapper", () => {
+  it('renders a canvas element inside the game wrapper', () => {
     render(<GameLaneRunner onBack={onBack} />);
 
     const wrapper = screen.getByLabelText(content.gameLaneRunner.ariaLabel);
-    const canvas = wrapper.querySelector("canvas");
+    const canvas = wrapper.querySelector('canvas');
     expect(canvas).toBeInTheDocument();
   });
 
   /* ── Keyboard input ── */
 
-  describe("keyboard input", () => {
-    it("starts the game with Space bar (idle hint disappears)", async () => {
+  describe('keyboard input', () => {
+    it('starts the game with Space bar (idle hint disappears)', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      expect(
-        screen.getByText(content.gameLaneRunner.hint),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameLaneRunner.hint)).toBeInTheDocument();
 
-      await user.keyboard(" ");
+      await user.keyboard(' ');
 
       expect(
         screen.queryByText(content.gameLaneRunner.hint),
       ).not.toBeInTheDocument();
     });
 
-    it("starts the game with ArrowUp", async () => {
+    it('starts the game with ArrowUp', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      expect(
-        screen.getByText(content.gameLaneRunner.hint),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameLaneRunner.hint)).toBeInTheDocument();
 
-      await user.keyboard("{ArrowUp}");
+      await user.keyboard('{ArrowUp}');
 
       expect(
         screen.queryByText(content.gameLaneRunner.hint),
       ).not.toBeInTheDocument();
     });
 
-    it("starts the game with w key", async () => {
+    it('starts the game with w key', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      await user.keyboard("w");
+      await user.keyboard('w');
 
       expect(
         screen.queryByText(content.gameLaneRunner.hint),
       ).not.toBeInTheDocument();
     });
 
-    it("starts the game with W (uppercase)", async () => {
+    it('starts the game with W (uppercase)', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      await user.keyboard("W");
+      await user.keyboard('W');
 
       expect(
         screen.queryByText(content.gameLaneRunner.hint),
       ).not.toBeInTheDocument();
     });
 
-    it("does not throw when ArrowLeft, ArrowRight, ArrowDown are pressed", async () => {
+    it('does not throw when ArrowLeft, ArrowRight, ArrowDown are pressed', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      await user.keyboard("{ArrowLeft}");
-      await user.keyboard("{ArrowRight}");
-      await user.keyboard("{ArrowDown}");
+      await user.keyboard('{ArrowLeft}');
+      await user.keyboard('{ArrowRight}');
+      await user.keyboard('{ArrowDown}');
 
       expect(
         screen.getByText(content.gameLaneRunner.title),
       ).toBeInTheDocument();
     });
 
-    it("does not throw when a/A, d/D, s/S are pressed", async () => {
+    it('does not throw when a/A, d/D, s/S are pressed', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      await user.keyboard("a");
-      await user.keyboard("A");
-      await user.keyboard("d");
-      await user.keyboard("D");
-      await user.keyboard("s");
-      await user.keyboard("S");
+      await user.keyboard('a');
+      await user.keyboard('A');
+      await user.keyboard('d');
+      await user.keyboard('D');
+      await user.keyboard('s');
+      await user.keyboard('S');
 
       expect(
         screen.getByText(content.gameLaneRunner.title),
       ).toBeInTheDocument();
     });
 
-    it("toggles pause with p and P without throwing", async () => {
+    it('toggles pause with p and P without throwing', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
       // start the game first so pause is meaningful
-      await user.keyboard(" ");
+      await user.keyboard(' ');
 
       // pause
-      await user.keyboard("p");
+      await user.keyboard('p');
 
       // unpause
-      await user.keyboard("P");
+      await user.keyboard('P');
 
       // Component is still rendered
       expect(
@@ -219,22 +216,20 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("pressing P before game starts is a no-op (no crash)", async () => {
+    it('pressing P before game starts is a no-op (no crash)', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      await user.keyboard("p");
+      await user.keyboard('p');
 
-      expect(
-        screen.getByText(content.gameLaneRunner.hint),
-      ).toBeInTheDocument();
+      expect(screen.getByText(content.gameLaneRunner.hint)).toBeInTheDocument();
     });
   });
 
   /* ── On-screen controls ── */
 
-  describe("on-screen controls", () => {
-    it("left button triggers movement without throwing", async () => {
+  describe('on-screen controls', () => {
+    it('left button triggers movement without throwing', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
@@ -244,19 +239,17 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("right button triggers movement without throwing", async () => {
+    it('right button triggers movement without throwing', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
-      await user.click(
-        screen.getByLabelText(content.gameLaneRunner.moveRight),
-      );
+      await user.click(screen.getByLabelText(content.gameLaneRunner.moveRight));
       expect(
         screen.getByText(content.gameLaneRunner.title),
       ).toBeInTheDocument();
     });
 
-    it("up button triggers jump without throwing", async () => {
+    it('up button triggers jump without throwing', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
@@ -266,7 +259,7 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("down button triggers slide without throwing", async () => {
+    it('down button triggers slide without throwing', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
@@ -276,15 +269,15 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("pause button toggles pause state without throwing", async () => {
+    it('pause button toggles pause state without throwing', async () => {
       const user = userEvent.setup();
       render(<GameLaneRunner onBack={onBack} />);
 
       // start the game first
-      await user.keyboard(" ");
+      await user.keyboard(' ');
 
       await user.click(
-        screen.getByLabelText(content.gameLaneRunner.canvasPaused),
+        screen.getByLabelText(content.gameLaneRunner.pauseLabel),
       );
 
       // Component should still be mounted
@@ -296,20 +289,14 @@ describe("GameLaneRunner", () => {
 
   /* ── Game loop (mocked RAF / canvas) ── */
 
-  describe("game loop and collision", () => {
+  describe('game loop and collision', () => {
     beforeEach(() => {
       installRafMock();
       // Deterministic obstacle spawning: always lane 1 (player's lane)
-      vi.spyOn(Math, "random").mockReturnValue(0.5);
+      vi.spyOn(Math, 'random').mockReturnValue(0.5);
     });
 
-    afterEach(() => {
-      // Clean up any mocked RAF state
-      // (rafCallbacks is module-level within the shared helper,
-      //  cleared automatically on next installRafMock call)
-    });
-
-    it("runs the game loop without throwing", () => {
+    it('runs the game loop without throwing', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       // Advance a few frames — the loop should not crash
@@ -322,13 +309,13 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("collision triggers game-over state and score template appears", () => {
+    it('collision triggers game-over state and score template appears', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       // Start the game via the gameRef mutation path
       // (simulate keyboard starting the game)
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
 
       // Advance enough frames for an obstacle to spawn and reach the player.
@@ -344,7 +331,7 @@ describe("GameLaneRunner", () => {
       // Game over → the hint paragraph shows the score template
       const scorePattern = new RegExp(
         tpl(content.gameLaneRunner.canvasScoreTemplate, {
-          score: "\\d+",
+          score: '\\d+',
         }),
       );
       // Use queryAllByText to allow partial matches – tpl uses {score} placeholders
@@ -352,17 +339,17 @@ describe("GameLaneRunner", () => {
       expect(scoreElements.length).toBeGreaterThanOrEqual(1);
     });
 
-    it("persists new best score to localStorage on collision", () => {
+    it('persists new best score to localStorage on collision', () => {
       // Set an existing low score to ensure we beat it
       window.localStorage.setItem(
         GAME_STORAGE_KEY,
-        JSON.stringify({ ...defaultHighScores, "lane-runner": 0 }),
+        JSON.stringify({ ...defaultHighScores, 'lane-runner': 0 }),
       );
 
       render(<GameLaneRunner onBack={onBack} />);
 
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
 
       act(() => {
@@ -372,20 +359,20 @@ describe("GameLaneRunner", () => {
       const stored = window.localStorage.getItem(GAME_STORAGE_KEY);
       expect(stored).not.toBeNull();
       const parsed = JSON.parse(stored!);
-      expect(parsed["lane-runner"]).toBeGreaterThan(0);
+      expect(parsed['lane-runner']).toBeGreaterThan(0);
     });
 
-    it("does not overwrite a higher existing best score", () => {
+    it('does not overwrite a higher existing best score', () => {
       // Set an unrealistically high existing score
       window.localStorage.setItem(
         GAME_STORAGE_KEY,
-        JSON.stringify({ ...defaultHighScores, "lane-runner": 9999 }),
+        JSON.stringify({ ...defaultHighScores, 'lane-runner': 9999 }),
       );
 
       render(<GameLaneRunner onBack={onBack} />);
 
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
 
       act(() => {
@@ -395,15 +382,15 @@ describe("GameLaneRunner", () => {
       const stored = window.localStorage.getItem(GAME_STORAGE_KEY);
       expect(stored).not.toBeNull();
       const parsed = JSON.parse(stored!);
-      expect(parsed["lane-runner"]).toBe(9999);
+      expect(parsed['lane-runner']).toBe(9999);
     });
 
-    it("restarts the game after game-over via keyboard input", () => {
+    it('restarts the game after game-over via keyboard input', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       // Start & collide
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
       act(() => {
         tickMany(250);
@@ -412,7 +399,7 @@ describe("GameLaneRunner", () => {
       // Verify we're in game-over state
       const scorePattern = new RegExp(
         tpl(content.gameLaneRunner.canvasScoreTemplate, {
-          score: "\\d+",
+          score: '\\d+',
         }),
       );
       expect(screen.queryAllByText(scorePattern).length).toBeGreaterThanOrEqual(
@@ -421,7 +408,7 @@ describe("GameLaneRunner", () => {
 
       // Restart via any directional key (handleInput checks game.gameOver first)
       act(() => {
-        fireEvent.keyDown(document, { key: "ArrowLeft" });
+        fireEvent.keyDown(document, { key: 'ArrowLeft' });
       });
 
       // After restart, the score template should be gone (game is now "playing")
@@ -443,16 +430,13 @@ describe("GameLaneRunner", () => {
 
   /* ── Reduced motion ── */
 
-  describe("reduced motion", () => {
+  describe('reduced motion', () => {
     beforeEach(() => {
       installRafMock();
-      vi.spyOn(
-        HTMLCanvasElement.prototype,
-        "getContext",
-      ).mockReturnValue(createMockCtx());
+      installCanvasMock();
     });
 
-    it("reduced-motion preference does not crash the component", () => {
+    it('reduced-motion preference does not crash the component', () => {
       // Override matchMedia to signal reduced motion
       stubMatchMedia(true);
 
@@ -468,14 +452,14 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("initGame with reduced motion produces lower speed (test via no crash)", () => {
+    it('initGame with reduced motion produces lower speed (test via no crash)', () => {
       stubMatchMedia(true);
 
       render(<GameLaneRunner onBack={onBack} />);
 
       // start game
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
 
       // Run many frames — should be stable even with halved speed
@@ -491,39 +475,41 @@ describe("GameLaneRunner", () => {
 
   /* ── Sprite loading / fallback ── */
 
-  describe("sprite loading", () => {
+  describe('sprite loading', () => {
     beforeEach(() => {
+      installRafMock();
       installImageMock();
     });
 
-    it("creates Image instances for all dog frames on mount", () => {
+    it('creates Image instances for dog frames, lanes, and obstacle on mount', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
-      // The component creates DOG_FRAMES (4) Image objects
-      expect(imageInstances).toHaveLength(DOG_FRAMES);
+      // The component creates DOG_FRAMES (4) + 2 (lanes + obstacle) Image objects
+      expect(imageInstances).toHaveLength(DOG_FRAMES + 2);
 
-      // Each instance should have a src matching a frame path
+      // First DOG_FRAMES instances should have src matching a frame path
       for (let i = 1; i <= DOG_FRAMES; i++) {
         expect(imageInstances[i - 1].src).toContain(
-          DOG_FRAME_PATH(i).replace("/assets", "assets"),
+          DOG_FRAME_PATH(i).replace('/assets', 'assets'),
         );
       }
+
+      // Last two instances are lanes and obstacle images
+      expect(imageInstances[DOG_FRAMES].src).toContain('lanes.png');
+      expect(imageInstances[DOG_FRAMES + 1].src).toContain('obstacle.png');
     });
 
-    it("handles all frames loading successfully without crashing", () => {
+    it('handles all frames loading successfully without crashing', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
-      // Simulate successful load for each frame
-      for (const img of imageInstances) {
-        if (img.onload) img.onload();
-      }
+      loadAllImages();
 
       expect(
         screen.getByText(content.gameLaneRunner.title),
       ).toBeInTheDocument();
     });
 
-    it("handles a single frame loading error without crashing", () => {
+    it('handles a single frame loading error without crashing', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       // Simulate first frame failing, rest succeeding
@@ -540,27 +526,48 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("handles all frames failing to load without crashing", () => {
+    it('uses fallback rendering when all images fail to load', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
+      // Simulate all images failing
       for (const img of imageInstances) {
         if (img.onerror) img.onerror();
       }
 
-      // The fallback heart rendering path should not throw
-      expect(
-        screen.getByText(content.gameLaneRunner.title),
-      ).toBeInTheDocument();
+      // Start the game and advance frames so the game loop runs and
+      // exercises the fallback drawing paths (background fill,
+      // procedural obstacles, heart-shape player).
+      act(() => {
+        fireEvent.keyDown(document, { key: ' ' });
+      });
+      act(() => {
+        tickMany(10);
+      });
+
+      const mockCtx = getMockCtx();
+
+      // Background fallback: solid colour rect instead of lanes.png
+      expect(mockCtx.fillRect).toHaveBeenCalledWith(0, 0, 300, 500);
+
+      // No drawImage calls because every image failed to load
+      // (lanes, obstacle, and all dog frames all use fallbacks)
+      expect(mockCtx.drawImage).not.toHaveBeenCalled();
     });
+  });
+
+  /* ── Obstacle source-crop constants ── */
+
+  it('exports the exact obstacle source-crop constants', () => {
+    expect(OBSTACLE_SRC_X).toBe(58);
+    expect(OBSTACLE_SRC_Y).toBe(354);
+    expect(OBSTACLE_SRC_W).toBe(892);
+    expect(OBSTACLE_SRC_H).toBe(323);
   });
 
   /* ── Swipe (touch events) ── */
 
-  describe("swipe gestures", () => {
-    function createTouchList(
-      clientX: number,
-      clientY: number,
-    ): TouchList {
+  describe('swipe gestures', () => {
+    function createTouchList(clientX: number, clientY: number): TouchList {
       const touch = { clientX, clientY } as Touch;
       const list = [touch] as unknown as TouchList;
       return list;
@@ -579,23 +586,19 @@ describe("GameLaneRunner", () => {
       });
     }
 
-    it("exposes touch event handlers on the canvas wrapper", () => {
+    it('exposes touch event handlers on the canvas wrapper', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
-      const wrapper = screen.getByLabelText(
-        content.gameLaneRunner.ariaLabel,
-      );
+      const wrapper = screen.getByLabelText(content.gameLaneRunner.ariaLabel);
 
       // The useSwipe hook attaches onTouchStart and onTouchEnd
-      expect(wrapper).toHaveProperty("ontouchstart");
-      expect(wrapper).toHaveProperty("ontouchend");
+      expect(wrapper).toHaveProperty('ontouchstart');
+      expect(wrapper).toHaveProperty('ontouchend');
     });
 
-    it("swipe left does not throw", () => {
+    it('swipe left does not throw', () => {
       render(<GameLaneRunner onBack={onBack} />);
-      const wrapper = screen.getByLabelText(
-        content.gameLaneRunner.ariaLabel,
-      );
+      const wrapper = screen.getByLabelText(content.gameLaneRunner.ariaLabel);
 
       // Swipe left: start at x=200, end at x=50 (diff 150 > threshold 50)
       expect(() => {
@@ -607,44 +610,36 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("swipe right does not throw", () => {
+    it('swipe right does not throw', () => {
       render(<GameLaneRunner onBack={onBack} />);
-      const wrapper = screen.getByLabelText(
-        content.gameLaneRunner.ariaLabel,
-      );
+      const wrapper = screen.getByLabelText(content.gameLaneRunner.ariaLabel);
 
       expect(() => {
         fireSwipe(wrapper, 50, 100, 200, 100);
       }).not.toThrow();
     });
 
-    it("swipe up does not throw", () => {
+    it('swipe up does not throw', () => {
       render(<GameLaneRunner onBack={onBack} />);
-      const wrapper = screen.getByLabelText(
-        content.gameLaneRunner.ariaLabel,
-      );
+      const wrapper = screen.getByLabelText(content.gameLaneRunner.ariaLabel);
 
       expect(() => {
         fireSwipe(wrapper, 100, 200, 100, 50);
       }).not.toThrow();
     });
 
-    it("swipe down does not throw", () => {
+    it('swipe down does not throw', () => {
       render(<GameLaneRunner onBack={onBack} />);
-      const wrapper = screen.getByLabelText(
-        content.gameLaneRunner.ariaLabel,
-      );
+      const wrapper = screen.getByLabelText(content.gameLaneRunner.ariaLabel);
 
       expect(() => {
         fireSwipe(wrapper, 100, 50, 100, 200);
       }).not.toThrow();
     });
 
-    it("short swipes below threshold are ignored without error", () => {
+    it('short swipes below threshold are ignored without error', () => {
       render(<GameLaneRunner onBack={onBack} />);
-      const wrapper = screen.getByLabelText(
-        content.gameLaneRunner.ariaLabel,
-      );
+      const wrapper = screen.getByLabelText(content.gameLaneRunner.ariaLabel);
 
       // Only 20px — below the 50px threshold
       expect(() => {
@@ -655,40 +650,35 @@ describe("GameLaneRunner", () => {
 
   /* ── Jump and slide collision geometry / action-state ── */
 
-  describe("jump and slide collision geometry", () => {
+  describe('jump and slide collision geometry', () => {
     beforeEach(() => {
       installRafMock();
       installImageMock();
-      vi.spyOn(Math, "random").mockReturnValue(0.5);
+      vi.spyOn(Math, 'random').mockReturnValue(0.5);
     });
 
-    it("pressing up during running switches to jump frame", () => {
+    it('pressing up during running switches to jump frame', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       // Load all frames so drawImage is called with the actual image
-      for (const img of imageInstances) {
-        img.onload?.();
-      }
+      loadAllImages();
 
       // Start game and advance a few frames
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
       act(() => {
         tickMany(10);
       });
 
-      // Capture the mock context
-      const mockCtx = (
-        HTMLCanvasElement.prototype.getContext as ReturnType<typeof vi.fn>
-      ).mock.results[0].value;
+      const mockCtx = getMockCtx();
 
       // Clear any previous drawImage calls (running frames)
       mockCtx.drawImage.mockClear();
 
       // Press up (jump)
       act(() => {
-        fireEvent.keyDown(document, { key: "ArrowUp" });
+        fireEvent.keyDown(document, { key: 'ArrowUp' });
       });
 
       // Advance one frame so drawPlayer runs with the jump action
@@ -699,37 +689,31 @@ describe("GameLaneRunner", () => {
       // During jump the component selects DOG_JUMP_FRAME (3) → frames[2].
       // imageInstances[i] is the same object stored in dogFramesRef.current[i].
       const calls = mockCtx.drawImage.mock.calls as Array<unknown[]>;
-      const jumpFrameCall = calls.find(
-        (args) => args[0] === imageInstances[2],
-      );
+      const jumpFrameCall = calls.find((args) => args[0] === imageInstances[2]);
       expect(jumpFrameCall).toBeTruthy();
     });
 
-    it("pressing down during running switches to slide/crouch frame", () => {
+    it('pressing down during running switches to slide/crouch frame', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
-      for (const img of imageInstances) {
-        img.onload?.();
-      }
+      loadAllImages();
 
       // Start game — Space triggers handleInput("up") which sets
       // playerAction="jumping".  Wait for the jump to finish (JUMP_DURATION=24)
       // plus a few extra running frames before testing the slide.
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
       act(() => {
         tickMany(30);
       });
 
-      const mockCtx = (
-        HTMLCanvasElement.prototype.getContext as ReturnType<typeof vi.fn>
-      ).mock.results[0].value;
+      const mockCtx = getMockCtx();
       mockCtx.drawImage.mockClear();
 
       // Press down (slide)
       act(() => {
-        fireEvent.keyDown(document, { key: "ArrowDown" });
+        fireEvent.keyDown(document, { key: 'ArrowDown' });
       });
       act(() => {
         tickMany(1);
@@ -744,11 +728,11 @@ describe("GameLaneRunner", () => {
       expect(slideFrameCall).toBeTruthy();
     });
 
-    it("pressing up/down repeatedly is idempotent (no state corruption)", () => {
+    it('pressing up/down repeatedly is idempotent (no state corruption)', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
       act(() => {
         tickMany(5);
@@ -757,10 +741,10 @@ describe("GameLaneRunner", () => {
       // Rapidly fire jump + slide — should not crash
       expect(() => {
         act(() => {
-          fireEvent.keyDown(document, { key: "ArrowUp" });
-          fireEvent.keyDown(document, { key: "ArrowDown" });
-          fireEvent.keyDown(document, { key: "ArrowUp" });
-          fireEvent.keyDown(document, { key: "ArrowDown" });
+          fireEvent.keyDown(document, { key: 'ArrowUp' });
+          fireEvent.keyDown(document, { key: 'ArrowDown' });
+          fireEvent.keyDown(document, { key: 'ArrowUp' });
+          fireEvent.keyDown(document, { key: 'ArrowDown' });
         });
         act(() => {
           tickMany(20);
@@ -772,31 +756,27 @@ describe("GameLaneRunner", () => {
       ).toBeInTheDocument();
     });
 
-    it("jump lifts collision box so dog can clear obstacles (forgiving geometry)", () => {
+    it('jump lifts collision box so dog can clear obstacles (forgiving geometry)', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       // Load images so drawPlayer uses real frame references
-      for (const img of imageInstances) {
-        img.onload?.();
-      }
+      loadAllImages();
 
       // Start game (Space → jump).  Wait for the initial jump to finish
       // (JUMP_DURATION=24) and a few more frames so the dog is running.
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
       act(() => {
         tickMany(30);
       });
 
-      const mockCtx = (
-        HTMLCanvasElement.prototype.getContext as ReturnType<typeof vi.fn>
-      ).mock.results[0].value;
+      const mockCtx = getMockCtx();
       mockCtx.drawImage.mockClear();
 
       // Jump
       act(() => {
-        fireEvent.keyDown(document, { key: "ArrowUp" });
+        fireEvent.keyDown(document, { key: 'ArrowUp' });
       });
       act(() => {
         tickMany(1);
@@ -810,29 +790,25 @@ describe("GameLaneRunner", () => {
       expect(jumpFrameCall).toBeTruthy();
     });
 
-    it("sliding lowers collision box for tight spaces (forgiving geometry)", () => {
+    it('sliding lowers collision box for tight spaces (forgiving geometry)', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
-      for (const img of imageInstances) {
-        img.onload?.();
-      }
+      loadAllImages();
 
       // Start game, wait past the initial jump, then advance a bit
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
       act(() => {
         tickMany(30);
       });
 
-      const mockCtx = (
-        HTMLCanvasElement.prototype.getContext as ReturnType<typeof vi.fn>
-      ).mock.results[0].value;
+      const mockCtx = getMockCtx();
       mockCtx.drawImage.mockClear();
 
       // Slide
       act(() => {
-        fireEvent.keyDown(document, { key: "ArrowDown" });
+        fireEvent.keyDown(document, { key: 'ArrowDown' });
       });
       act(() => {
         tickMany(1);
@@ -846,11 +822,11 @@ describe("GameLaneRunner", () => {
       expect(slideFrameCall).toBeTruthy();
     });
 
-    it("sliding does not extend horizontal collision width (no wider box)", () => {
+    it('sliding does not extend horizontal collision width (no wider box)', () => {
       render(<GameLaneRunner onBack={onBack} />);
 
       act(() => {
-        fireEvent.keyDown(document, { key: " " });
+        fireEvent.keyDown(document, { key: ' ' });
       });
       act(() => {
         tickMany(30);
@@ -858,7 +834,7 @@ describe("GameLaneRunner", () => {
 
       // Press slide when obstacle is present
       act(() => {
-        fireEvent.keyDown(document, { key: "ArrowDown" });
+        fireEvent.keyDown(document, { key: 'ArrowDown' });
       });
       act(() => {
         tickMany(100);

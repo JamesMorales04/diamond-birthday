@@ -11,8 +11,8 @@ license: MIT
 
 metadata:
   author: project
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # Prompt Drift Auditor
@@ -28,15 +28,15 @@ Detect and report drift across prompt files, runtime JSON, routing matrix refere
 
 ## Drift Dimensions
 
-| Dimension | What to Check |
-| ----------- | --------------- |
-| **Source → Runtime** | `oh-my-opencode-slim.source.jsonc` matches `oh-my-opencode-slim.json` |
-| **Prompt files → Source** | All `promptPath` / `orchestratorPromptPath` references resolve to existing files |
-| **Prompt content → Agent role** | Each prompt's content matches the agent's role in the routing matrix |
-| **Routing matrix → Agent list** | Every agent in `agent-routing-matrix.md` exists in the source config and vice versa |
-| **Skill references → Skill dirs** | Every skill ID referenced in agent configs has a corresponding `.opencode/skills/<id>/SKILL.md` |
-| **Orchestrator append → Routing matrix** | `orchestrator_append.md` rules are consistent with `agent-routing-matrix.md` |
-| **Cross-references** | Prompts that reference other agents or docs use correct, current paths |
+| Dimension                                | What to Check                                                                                   |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **Source → Runtime**                     | `oh-my-opencode-slim.source.jsonc` matches `oh-my-opencode-slim.json`                           |
+| **Prompt files → Source**                | All `promptPath` / `orchestratorPromptPath` references resolve to existing files                |
+| **Prompt content → Agent role**          | Each prompt's content matches the agent's role in the routing matrix                            |
+| **Routing matrix → Agent list**          | Every agent in `agent-routing-matrix.md` exists in the source config and vice versa             |
+| **Skill references → Skill dirs**        | Every skill ID referenced in agent configs has a corresponding `.opencode/skills/<id>/SKILL.md` |
+| **Orchestrator append → Routing matrix** | `orchestrator_append.md` rules are consistent with `agent-routing-matrix.md`                    |
+| **Cross-references**                     | Prompts that reference other agents or docs use correct, current paths                          |
 
 ## Audit Steps
 
@@ -88,20 +88,25 @@ For each agent, verify that:
 ## Prompt Drift Audit Report
 
 ### Source → Runtime: PASS | FAIL
+
 [Details if failed]
 
 ### Prompt Path Resolution: N/M resolved
+
 [Missing paths if any]
 
 ### Routing Matrix Completeness: N/M agents matched
+
 [Unmatched agents if any]
 
 ### Stale References: N found
+
 | File | Stale Reference | Suggested Fix |
-| ------ | ---------------- | --------------- |
-| ... | ... | ... |
+| ---- | --------------- | ------------- |
+| ...  | ...             | ...           |
 
 ### Content Consistency: PASS | WARNINGS
+
 [Contradictions or misalignments if any]
 
 ### Summary

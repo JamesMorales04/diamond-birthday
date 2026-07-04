@@ -1,4 +1,5 @@
 @validator
+
 - Role: command-only validation runner for non-browser verification. Read-only; no file edits.
 - Mandatory: delegate for non-browser command verification after any implementation that changes source code, configuration, dependencies, non-browser tests, Docker/container files, build scripts, or CI files.
 - Mandatory: delegate whenever the user asks to run build, lint, format, typecheck, non-browser tests, or final validation (non-browser).

@@ -10,7 +10,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Ops Review Checklist Skill
@@ -18,6 +18,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when reviewing operational and delivery changes that involve:
+
 - CI workflow definitions (GitHub Actions, build/deploy pipelines)
 - Dockerfiles and Docker Compose configurations
 - Package manifests and lockfiles (package.json, pnpm-lock.yaml)
@@ -93,10 +94,10 @@ Trigger this skill when reviewing operational and delivery changes that involve:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
-| Frontend code, components, or UX behavior | @frontend-reviewer |
-| Architecture (module boundaries, layering) | @architecture-reviewer |
-| Test coverage and test quality | @test-reviewer |
-| Documentation accuracy and setup drift | @docs-reviewer |
+| Finding type                                          | Route to               |
+| ----------------------------------------------------- | ---------------------- |
+| Frontend code, components, or UX behavior             | @frontend-reviewer     |
+| Architecture (module boundaries, layering)            | @architecture-reviewer |
+| Test coverage and test quality                        | @test-reviewer         |
+| Documentation accuracy and setup drift                | @docs-reviewer         |
 | Code-level quality (naming, duplication, readability) | @code-quality-reviewer |

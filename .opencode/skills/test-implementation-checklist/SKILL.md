@@ -4,7 +4,7 @@ description: Project-specific implementation-side checklist for writing, updatin
 license: MIT
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Test Implementation Checklist Skill
@@ -12,6 +12,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when **implementing** (not reviewing) tests that involve:
+
 - New or updated tests for acceptance criteria, bug fixes, or behavioral coverage
 - Tests for frontend components, content integration, game state logic, or utility functions
 - Missing coverage identified by `@test-reviewer` or `@integration-validator`
@@ -20,23 +21,25 @@ Trigger this skill when **implementing** (not reviewing) tests that involve:
 ## Required Context
 
 Before writing tests, confirm the agent has applied:
+
 - `AGENTS.md`
 
 ## 1. Test Type Selection
 
 Choose the lightest test type that proves the required behavior:
 
-| Test Type | Use When | Avoid When |
-|-----------|----------|------------|
-| **Unit** | Pure logic, utility functions, game state calculations, data transformations, parsers | Behavior depends on DOM, browser APIs, or complex component interactions |
-| **Component** | React component rendering, user interactions, state changes, a11y behavior | Simple pure functions with no UI (use unit test instead) |
-| **E2E** | Critical user journeys, content rendering flows, mini-game completion flows, multi-step workflows | Individual component behavior (use component tests instead) |
+| Test Type     | Use When                                                                                          | Avoid When                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Unit**      | Pure logic, utility functions, game state calculations, data transformations, parsers             | Behavior depends on DOM, browser APIs, or complex component interactions |
+| **Component** | React component rendering, user interactions, state changes, a11y behavior                        | Simple pure functions with no UI (use unit test instead)                 |
+| **E2E**       | Critical user journeys, content rendering flows, mini-game completion flows, multi-step workflows | Individual component behavior (use component tests instead)              |
 
 **Rule**: Prefer unit tests by default. Only escalate to component or E2E tests when the behavior genuinely requires browser or user interaction.
 
 ## 2. Framework Awareness
 
 ### Frontend (React/TypeScript with Vite)
+
 - **Vitest** + **React Testing Library** for component and hook tests
 - Use `@testing-library/user-event` for interaction simulation
 - Test accessible role and visible text, not internal component state
@@ -78,6 +81,7 @@ Production code changes for testability must be **tiny, explicitly scoped, and j
 ## Output Shape
 
 Return work in a compact implementation summary with:
+
 - Files changed
 - Coverage added (acceptance criteria and behaviors now covered)
 - Gaps remaining (scenarios not covered, deferred items)

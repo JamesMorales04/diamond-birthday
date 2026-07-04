@@ -12,9 +12,10 @@ The orchestrator delegates planning to @planner before non-trivial work. The fol
 - The planner must not assign implementation work to the orchestrator. The orchestrator must not self-implement under any circumstance.
 
 ## Tie-breakers for overlapping domains (orchestrator enforces these when routing through planner)
-  - Frontend + test coverage: route frontend to @frontend-implementer and test gaps to @test-implementer. Run in parallel when expected behavior is explicit.
-  - Architecture + code quality: route structural decisions to @architecture-reviewer (high-level) and code-level quality to @code-quality-reviewer (low-level within established structure). Do not route both to the same agent.
-  - Docs + any domain: route docs changes to @docs-implementer in parallel with code implementation; docs review to @docs-reviewer after.
-  - Playwright/browser E2E: route test authoring to @test-implementer, then route execution to @e2e-validator. Keep @validator out of browser-run ownership. Non-browser command validation stays with @validator.
+
+- Frontend + test coverage: route frontend to @frontend-implementer and test gaps to @test-implementer. Run in parallel when expected behavior is explicit.
+- Architecture + code quality: route structural decisions to @architecture-reviewer (high-level) and code-level quality to @code-quality-reviewer (low-level within established structure). Do not route both to the same agent.
+- Docs + any domain: route docs changes to @docs-implementer in parallel with code implementation; docs review to @docs-reviewer after.
+- Playwright/browser E2E: route test authoring to @test-implementer, then route execution to @e2e-validator. Keep @validator out of browser-run ownership. Non-browser command validation stays with @validator.
 - Recovery routing: follow the canonical Subagent Failure Recovery Protocol in `.opencode/oh-my-opencode-slim/default-preset/orchestrator_append.md`. The orchestrator must not self-implement after any failure.
 - Expected output from planner: use the canonical 7-item planner output list in `.opencode/oh-my-opencode-slim/default-preset/orchestrator_append.md` (Planning Gate section).

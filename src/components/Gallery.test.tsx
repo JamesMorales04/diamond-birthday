@@ -34,13 +34,17 @@ describe('Gallery', () => {
 
   it('renders the tablist with the centralized label', () => {
     render(<Gallery />);
-    expect(screen.getByLabelText(content.gallery.tablistLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.gallery.tablistLabel),
+    ).toBeInTheDocument();
   });
 
   it('renders image thumbnails with aria-labels from the centralized template', () => {
     render(<Gallery />);
     for (const img of galleryImages) {
-      const expectedLabel = tpl(content.gallery.openPhotoTemplate, { alt: img.alt });
+      const expectedLabel = tpl(content.gallery.openPhotoTemplate, {
+        alt: img.alt,
+      });
       expect(screen.getByLabelText(expectedLabel)).toBeInTheDocument();
     }
   });

@@ -7,9 +7,13 @@
  * Usage in a test file:
  * ```
  * import {
- *   createMockCtx,
- *   installRafMock, tickMany,
- *   installImageMock, imageInstances,
+ *   createMockCtx,            // low-level: build a mock CanvasRenderingContext2D
+ *   installCanvasMock,        // spy on HTMLCanvasElement.getContext
+ *   getMockCtx,               // retrieve the mock context after installCanvasMock+render
+ *   installRafMock, tickMany, // controllable requestAnimationFrame
+ *   installImageMock,
+ *   imageInstances,           // captured new Image() instances
+ *   loadAllImages,            // trigger onload on every captured image
  *   stubMatchMedia,
  * } from '../test/gameTestHelpers';
  * ```
@@ -190,4 +194,49 @@ export function stubMatchMedia(matches = false) {
         dispatchEvent: vi.fn(),
       }) as unknown as MediaQueryList,
   );
+}
+
+/* ── Convenience wrappers ────────────────────────────── */
+
+/**
+ * Spy on `HTMLCanvasElement.prototype.getContext` and return a mock
+ * `CanvasRenderingContext2D` that never throws.  Must be called in a
+ * `beforeEach` (or test body) before the component renders.
+ *
+ * Replaces the manual `vi.spyOn(HTMLCanvasElement.prototype, "getContext")`
+ * + `mockReturnValue(createMockCtx())` pattern.
+ */
+export function installCanvasMock() {
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(
+    createMockCtx(),
+  );
+}
+
+/**
+ * Retrieve the mock `CanvasRenderingContext2D` from the first call to
+ * `getContext`.  Requires that `installCanvasMock()` was called and that
+ * a `<canvas>` has been rendered.
+ *
+ * The return type is intentionally loose (`any`) so callers can access
+ * `mockClear()` and other `vi.fn()` members on the context's methods
+ * without additional casting.
+ */
+export function getMockCtx(): any {
+  return (
+    HTMLCanvasElement.prototype.getContext as unknown as ReturnType<
+      typeof vi.fn
+    >
+  ).mock.results[0].value;
+}
+
+/**
+ * Trigger the `onload` callback on every `Image` instance captured so far
+ * by `installImageMock()`.  This is equivalent to iterating `imageInstances`
+ * and calling `img.onload?.()`.  Useful for simulating successful sprite
+ * loading in one line.
+ */
+export function loadAllImages() {
+  for (const img of imageInstances) {
+    img.onload?.();
+  }
 }

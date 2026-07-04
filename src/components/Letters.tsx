@@ -14,7 +14,10 @@ function LetterCard({
   isOpen: boolean;
   onToggle: () => void;
 }) {
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.2, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
 
   return (
     <article
@@ -32,7 +35,10 @@ function LetterCard({
           <time className="letter-card__date">{letter.date}</time>
           <h3 className="letter-card__title">{letter.title}</h3>
         </div>
-        <span className={`letter-card__chevron ${isOpen ? 'letter-card__chevron--open' : ''}`} aria-hidden="true">
+        <span
+          className={`letter-card__chevron ${isOpen ? 'letter-card__chevron--open' : ''}`}
+          aria-hidden="true"
+        >
           ↓
         </span>
       </button>
@@ -43,7 +49,9 @@ function LetterCard({
         role="region"
         hidden={!isOpen}
       >
-        <div className="letter-card__ornament" aria-hidden="true">~ ✿ ~</div>
+        <div className="letter-card__ornament" aria-hidden="true">
+          ~ ✿ ~
+        </div>
         <p className="letter-card__excerpt">{letter.excerpt}</p>
         <div className="letter-card__content">
           {letter.content.split('\n\n').map((paragraph, i) => (
@@ -60,7 +68,10 @@ function LetterCard({
 
 export default function Letters() {
   const [openId, setOpenId] = useState<string | null>(letters[0]?.id ?? null);
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
 
   const handleToggle = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));

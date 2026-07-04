@@ -21,9 +21,17 @@
  * state here means also updating the loader loop in GameFlappy.
  */
 export const FLAPPY_SPRITE_MAP = {
-  up:   { path: '/photos/assets/flappy/chester3.png', index: 2, label: 'rising' },
-  mid:  { path: '/photos/assets/flappy/chester2.png', index: 1, label: 'gliding' },
-  down: { path: '/photos/assets/flappy/chester1.png', index: 0, label: 'falling' },
+  up: { path: '/photos/assets/flappy/chester3.png', index: 2, label: 'rising' },
+  mid: {
+    path: '/photos/assets/flappy/chester2.png',
+    index: 1,
+    label: 'gliding',
+  },
+  down: {
+    path: '/photos/assets/flappy/chester1.png',
+    index: 0,
+    label: 'falling',
+  },
 } as const;
 
 export type FlappySpriteState = keyof typeof FLAPPY_SPRITE_MAP;
@@ -63,14 +71,16 @@ export const FLAPPY_DISPLAY_H = 44;
  * hitbox to match his visible silhouette. Asymmetric values let us account
  * for the pose's centre-of-mass offset without a separate shift constant.
  */
-export const COLLISION_LEFT_INSET   = 10;
-export const COLLISION_RIGHT_INSET  = 10;
-export const COLLISION_TOP_INSET    = 7;   // less padding at the head
-export const COLLISION_BOTTOM_INSET = 9;   // more padding at the base
+export const COLLISION_LEFT_INSET = 10;
+export const COLLISION_RIGHT_INSET = 10;
+export const COLLISION_TOP_INSET = 7; // less padding at the head
+export const COLLISION_BOTTOM_INSET = 9; // more padding at the base
 
 /** Derived collision half-dimensions (convenience for simple checks). */
-export const COLLISION_HALF_W = (FLAPPY_DISPLAY_W - COLLISION_LEFT_INSET - COLLISION_RIGHT_INSET) / 2;
-export const COLLISION_HALF_H = (FLAPPY_DISPLAY_H - COLLISION_TOP_INSET - COLLISION_BOTTOM_INSET) / 2;
+export const COLLISION_HALF_W =
+  (FLAPPY_DISPLAY_W - COLLISION_LEFT_INSET - COLLISION_RIGHT_INSET) / 2;
+export const COLLISION_HALF_H =
+  (FLAPPY_DISPLAY_H - COLLISION_TOP_INSET - COLLISION_BOTTOM_INSET) / 2;
 
 /**
  * Pure helper — compute the collision rectangle for a bird at (x, y).
@@ -81,9 +91,9 @@ export function getFlappyHitbox(
   y: number,
 ): { left: number; right: number; top: number; bottom: number } {
   return {
-    left:   x - FLAPPY_DISPLAY_W / 2 + COLLISION_LEFT_INSET,
-    right:  x + FLAPPY_DISPLAY_W / 2 - COLLISION_RIGHT_INSET,
-    top:    y - FLAPPY_DISPLAY_H / 2 + COLLISION_TOP_INSET,
+    left: x - FLAPPY_DISPLAY_W / 2 + COLLISION_LEFT_INSET,
+    right: x + FLAPPY_DISPLAY_W / 2 - COLLISION_RIGHT_INSET,
+    top: y - FLAPPY_DISPLAY_H / 2 + COLLISION_TOP_INSET,
     bottom: y + FLAPPY_DISPLAY_H / 2 - COLLISION_BOTTOM_INSET,
   };
 }
@@ -113,7 +123,7 @@ export function selectFlappyFrame(
   flapTimer: number = 0,
 ): FlappySpriteState {
   if (flapTimer > 0) return 'up';
-  if (vy < -1)       return 'up';
-  if (vy > 1)        return 'down';
+  if (vy < -1) return 'up';
+  if (vy > 1) return 'down';
   return 'mid';
 }

@@ -3,6 +3,7 @@ You are E2E Validator for this project. Command-only browser-driven end-to-end v
 ## Context loading
 
 Before acting, read:
+
 - `AGENTS.md`
 
 ## Responsibilities

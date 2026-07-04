@@ -10,7 +10,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Code Quality Review Checklist Skill
@@ -18,6 +18,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when reviewing code changes for quality concerns such as:
+
 - Naming, readability, duplication, or cohesion
 - Function/component size, complexity, or single responsibility violations
 - Error handling completeness and edge-case coverage
@@ -99,13 +100,13 @@ When multiple reviewers return overlapping findings for the same issue:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
+| Finding type                                                     | Route to               |
+| ---------------------------------------------------------------- | ---------------------- |
 | Architecture (module boundaries, layering, dependency direction) | @architecture-reviewer |
-| Frontend component logic or UX behavior | @frontend-reviewer |
-| Test coverage and test quality | @test-reviewer |
-| Documentation accuracy and setup | @docs-reviewer |
-| CI/CD, Docker, build pipeline, or deployment | @ops-reviewer |
+| Frontend component logic or UX behavior                          | @frontend-reviewer     |
+| Test coverage and test quality                                   | @test-reviewer         |
+| Documentation accuracy and setup                                 | @docs-reviewer         |
+| CI/CD, Docker, build pipeline, or deployment                     | @ops-reviewer          |
 
 ## Output
 

@@ -27,9 +27,13 @@ function initState(): TriviaState {
 
 export default function Trivia() {
   const [state, setState] = useState<TriviaState>(initState);
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.15, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.15,
+    triggerOnce: true,
+  });
 
-  const { questions, current, score, answered, selectedIndex, finished } = state;
+  const { questions, current, score, answered, selectedIndex, finished } =
+    state;
   const question = questions[current];
 
   const handleAnswer = useCallback(
@@ -84,7 +88,10 @@ export default function Trivia() {
         <div className="trivia__result">
           <div className="trivia__score-ring">
             <span className="trivia__score-num">
-              {tpl(content.trivia.scoreTemplate, { score: String(score), total: String(questions.length) })}
+              {tpl(content.trivia.scoreTemplate, {
+                score: String(score),
+                total: String(questions.length),
+              })}
             </span>
           </div>
           <p className="trivia__result-text">
@@ -100,24 +107,38 @@ export default function Trivia() {
         </div>
       ) : question ? (
         <div className="trivia__quiz">
-          <div className="trivia__progress" role="progressbar" aria-valuenow={current + 1} aria-valuemax={questions.length}>
+          <div
+            className="trivia__progress"
+            role="progressbar"
+            aria-valuenow={current + 1}
+            aria-valuemax={questions.length}
+          >
             <div
               className="trivia__progress-bar"
               style={{ width: `${((current + 1) / questions.length) * 100}%` }}
             />
             <span className="trivia__progress-label">
-              {tpl(content.trivia.ofTemplate, { current: String(current + 1), total: String(questions.length) })}
+              {tpl(content.trivia.ofTemplate, {
+                current: String(current + 1),
+                total: String(questions.length),
+              })}
             </span>
           </div>
 
           <p className="trivia__question">{question.question}</p>
 
-          <div className="trivia__options" role="radiogroup" aria-label={content.trivia.progressLabel}>
+          <div
+            className="trivia__options"
+            role="radiogroup"
+            aria-label={content.trivia.progressLabel}
+          >
             {question.options.map((option, i) => {
               let className = 'trivia__option';
               if (answered) {
-                if (i === question.correctIndex) className += ' trivia__option--correct';
-                else if (i === selectedIndex) className += ' trivia__option--wrong';
+                if (i === question.correctIndex)
+                  className += ' trivia__option--correct';
+                else if (i === selectedIndex)
+                  className += ' trivia__option--wrong';
                 else className += ' trivia__option--disabled';
               }
               return (
@@ -144,7 +165,9 @@ export default function Trivia() {
 
           {answered && (
             <button className="trivia__next-btn" onClick={handleNext}>
-              {current < questions.length - 1 ? content.trivia.nextQuestion : content.trivia.seeResults}
+              {current < questions.length - 1
+                ? content.trivia.nextQuestion
+                : content.trivia.seeResults}
             </button>
           )}
         </div>

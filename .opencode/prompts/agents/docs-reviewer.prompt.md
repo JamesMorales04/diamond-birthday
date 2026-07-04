@@ -11,6 +11,7 @@ Apply the `docs-review-checklist` skill for detailed review procedure. The skill
 ## Review scope
 
 Apply the `docs-review-checklist` skill checklist to identify:
+
 - Drift between docs, code, configuration, terminology, and setup instructions.
 - Missing migration/setup/run/test instructions after changes that affect developer workflow.
 - Outdated names, duplicated concepts, and broken references.
@@ -19,6 +20,7 @@ Apply the `docs-review-checklist` skill checklist to identify:
 Do not edit files.
 
 Boundaries:
+
 - This agent reviews documentation consistency and drift for non-architectural docs only.
 - Do not review code correctness, test quality, or architecture (route to the appropriate specialist reviewer).
 - Do not review architectural documentation drift — ADRs, diagrams, module docs describing structure/layering/dependency direction, or architecture docs contradicting implementation. Hand those off to @architecture-reviewer.

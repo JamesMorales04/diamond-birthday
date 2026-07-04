@@ -12,8 +12,8 @@ license: MIT
 
 metadata:
   author: project
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # Acceptance Traceability Auditor
@@ -78,12 +78,12 @@ Compare the criterion list against the canonical source to detect:
 
 ### Criterion → Evidence Mapping
 
-| # | Acceptance Criterion | Source | Implementation Evidence | Test Evidence | Status |
-|---|----------------------|--------|------------------------|---------------|--------|
-| AC-1 | <text> | Issue #N AC-1 | `path/to/file.cs:42` | `tests/file_test.cs:18` | COVERED |
-| AC-2 | <text> | Issue #N AC-2 | `path/to/file.cs:100` | — | NOT_VALIDATED |
-| AC-3 | <text> | Issue #N AC-3 | — | — | NOT_COVERED |
-| AC-4 | <text> | Issue #N AC-4 | `path/to/file.cs:50` | `tests/file_test.cs:10` (partial) | PARTIALLY_COVERED |
+| #    | Acceptance Criterion | Source        | Implementation Evidence | Test Evidence                     | Status            |
+| ---- | -------------------- | ------------- | ----------------------- | --------------------------------- | ----------------- |
+| AC-1 | <text>               | Issue #N AC-1 | `path/to/file.cs:42`    | `tests/file_test.cs:18`           | COVERED           |
+| AC-2 | <text>               | Issue #N AC-2 | `path/to/file.cs:100`   | —                                 | NOT_VALIDATED     |
+| AC-3 | <text>               | Issue #N AC-3 | —                       | —                                 | NOT_COVERED       |
+| AC-4 | <text>               | Issue #N AC-4 | `path/to/file.cs:50`    | `tests/file_test.cs:10` (partial) | PARTIALLY_COVERED |
 
 ### Status Semantics
 

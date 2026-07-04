@@ -1,5 +1,9 @@
 import { useState, useMemo } from 'react';
-import { galleryImages, galleryCategories, type GalleryImage } from '../data/gallery';
+import {
+  galleryImages,
+  galleryCategories,
+  type GalleryImage,
+} from '../data/gallery';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { assetUrl } from '../utils/assets';
 import GalleryModal from './GalleryModal';
@@ -15,7 +19,10 @@ function GalleryThumbnail({
   index: number;
   onOpen: (id: string) => void;
 }) {
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -27,16 +34,16 @@ function GalleryThumbnail({
       style={{ transitionDelay: `${index * 50}ms` }}
     >
       <div className="gallery__thumb-inner">
-          {isVisible && (
-            <img
-              src={assetUrl(image.thumb)}
-              alt={image.alt}
-              loading="lazy"
-              onLoad={() => setLoaded(true)}
-              onError={() => setLoaded(false)}
-              className={`gallery__img ${loaded ? 'gallery__img--loaded' : ''}`}
-            />
-          )}
+        {isVisible && (
+          <img
+            src={assetUrl(image.thumb)}
+            alt={image.alt}
+            loading="lazy"
+            onLoad={() => setLoaded(true)}
+            onError={() => setLoaded(false)}
+            className={`gallery__img ${loaded ? 'gallery__img--loaded' : ''}`}
+          />
+        )}
         {!loaded && isVisible && (
           <div className="gallery__placeholder" aria-hidden="true">
             <span>✦</span>
@@ -55,7 +62,10 @@ function GalleryThumbnail({
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [modalImageId, setModalImageId] = useState<string | null>(null);
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.05, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.05,
+    triggerOnce: true,
+  });
 
   // Data-failure state: gallery source is empty or unavailable
   const hasImages = galleryImages.length > 0;
@@ -106,15 +116,19 @@ export default function Gallery() {
 
       {!hasImages ? (
         <div className="gallery__error" role="alert">
-          <span className="gallery__error-icon" aria-hidden="true">✦</span>
+          <span className="gallery__error-icon" aria-hidden="true">
+            ✦
+          </span>
           <p className="gallery__error-title">{content.gallery.errorTitle}</p>
-          <p className="gallery__error-desc">
-            {content.gallery.errorDesc}
-          </p>
+          <p className="gallery__error-desc">{content.gallery.errorDesc}</p>
         </div>
       ) : (
         <>
-          <div className="gallery__categories" role="tablist" aria-label={content.gallery.tablistLabel}>
+          <div
+            className="gallery__categories"
+            role="tablist"
+            aria-label={content.gallery.tablistLabel}
+          >
             <button
               id="gallery-tab-all"
               className={`gallery__cat-btn ${activeCategory === 'all' ? 'gallery__cat-btn--active' : ''}`}
@@ -152,7 +166,12 @@ export default function Gallery() {
               aria-labelledby={`gallery-tab-${activeCategory}`}
             >
               {filtered.map((image, i) => (
-                <GalleryThumbnail key={image.id} image={image} index={i} onOpen={handleOpen} />
+                <GalleryThumbnail
+                  key={image.id}
+                  image={image}
+                  index={i}
+                  onOpen={handleOpen}
+                />
               ))}
             </div>
           )}

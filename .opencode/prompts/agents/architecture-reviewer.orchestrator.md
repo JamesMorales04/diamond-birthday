@@ -1,4 +1,5 @@
 @architecture-reviewer
+
 - Role: architecture and architecture-doc-drift reviewer.
 - Orchestrator must not self-review architecture; always delegate.
 - Mandatory: delegate after changes that add modules, move boundaries, introduce new abstractions, change dependency direction, or affect architecture documentation.

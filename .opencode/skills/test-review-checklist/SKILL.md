@@ -11,7 +11,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: project
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Test Review Checklist Skill
@@ -19,6 +19,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when reviewing test code changes that involve:
+
 - Unit, component, or end-to-end tests
 - Test fixtures, mocks, stubs, or test data setup
 - Coverage additions or modifications for new behavior
@@ -96,9 +97,9 @@ Trigger this skill when reviewing test code changes that involve:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
-| Architecture (module boundaries, layering) | @architecture-reviewer |
+| Finding type                                    | Route to               |
+| ----------------------------------------------- | ---------------------- |
+| Architecture (module boundaries, layering)      | @architecture-reviewer |
 | Code quality (naming, duplication, readability) | @code-quality-reviewer |
-| Frontend component behavior or UI correctness | @frontend-reviewer |
-| Documentation accuracy or setup drift | @docs-reviewer |
+| Frontend component behavior or UI correctness   | @frontend-reviewer     |
+| Documentation accuracy or setup drift           | @docs-reviewer         |

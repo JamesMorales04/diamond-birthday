@@ -8,7 +8,9 @@ import { tpl } from '../utils/tpl';
 describe('Hero', () => {
   it('renders the greeting label on the section', () => {
     render(<Hero />);
-    expect(screen.getByLabelText(content.hero.greetingLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.hero.greetingLabel),
+    ).toBeInTheDocument();
   });
 
   it('renders the diamond birthday title', () => {

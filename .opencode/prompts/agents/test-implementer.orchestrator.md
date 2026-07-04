@@ -1,4 +1,5 @@
 @test-implementer
+
 - Role: test implementation specialist. Owns authoring and modification of all test types including Playwright E2E tests.
 - Orchestrator must not self-implement tests; always delegate.
 - Delegate when tests must be added or updated for acceptance criteria, bug fixes, frontend behavior, or reviewer-reported missing coverage.

@@ -1,4 +1,5 @@
 @e2e-validator
+
 - Role: command-only browser-driven E2E validation runner. Read-only; no file edits.
 - Mandatory: delegate after test implementation that produces Playwright E2E tests for critical user journeys.
 - Mandatory: delegate when browser-driven validation is requested or when E2E regression risk is identified.

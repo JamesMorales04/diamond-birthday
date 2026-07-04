@@ -5,8 +5,8 @@ license: MIT
 
 metadata:
   author: opencode
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # Code Simplification

@@ -10,8 +10,14 @@ import { content } from './content/page';
 
 function AppLoading() {
   return (
-    <div className="app-loading" role="status" aria-label={content.app.loadingLabel}>
-      <div className="app-loading__spinner" aria-hidden="true">✦</div>
+    <div
+      className="app-loading"
+      role="status"
+      aria-label={content.app.loadingLabel}
+    >
+      <div className="app-loading__spinner" aria-hidden="true">
+        ✦
+      </div>
       <p>{content.app.loading}</p>
     </div>
   );

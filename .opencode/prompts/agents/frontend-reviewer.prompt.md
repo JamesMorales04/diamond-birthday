@@ -11,6 +11,7 @@ The following owned skills provide detailed checklists. Use the primary skill fo
 ## Review Scope
 
 Review for:
+
 - Component boundaries, page/layout structure, routing behavior, loading/empty/error states.
 - Data-driven content integration: timeline entries, gallery items, letters, and mini-game data sources.
 - Local state management and localStorage game state correctness.

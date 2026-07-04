@@ -7,7 +7,7 @@ description: >
 license: MIT
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Git Delivery Lifecycle Checklist

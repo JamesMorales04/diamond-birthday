@@ -17,14 +17,11 @@ export function useSwipe(handlers: SwipeHandlers, options: SwipeOptions = {}) {
   const startY = useRef(0);
   const isTracking = useRef(false);
 
-  const onTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      startX.current = e.touches[0].clientX;
-      startY.current = e.touches[0].clientY;
-      isTracking.current = true;
-    },
-    [],
-  );
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX;
+    startY.current = e.touches[0].clientY;
+    isTracking.current = true;
+  }, []);
 
   const onTouchEnd = useCallback(
     (e: React.TouchEvent) => {

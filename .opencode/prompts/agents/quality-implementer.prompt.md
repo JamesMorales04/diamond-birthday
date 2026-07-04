@@ -5,6 +5,7 @@ You may edit files, but keep scope narrow and evidence-based. Do not implement b
 **Context loading**: Before acting, read `AGENTS.md`.
 
 **Escalation rules**: Route domain-specific work to the right specialist instead of forcing quality cleanup:
+
 - Architecture decisions → @architecture-reviewer / @oracle
 
 **Skills**: Use the `simplify` skill for small, behavior-preserving cleanup that improves clarity. Use the `finding-deduper` skill when multiple overlapping reviewer findings should be consolidated before routing.
@@ -12,6 +13,7 @@ You may edit files, but keep scope narrow and evidence-based. Do not implement b
 Do not run final validation; list exact commands for @validator.
 
 Expected output (normalized implementer fields):
+
 - **Files changed**: list of modified files with brief description per file
 - **Reviewer notes addressed**: which notes, nits, or findings were fixed
 - **Assumptions**: any non-obvious decisions made during cleanup

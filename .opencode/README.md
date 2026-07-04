@@ -4,14 +4,14 @@ This directory contains the OpenCode multi-agent configuration for this reposito
 
 The configuration follows a **source / generated split**:
 
-| Layer | File | Role |
-| --- | --- | --- |
-| **Source of truth** | `oh-my-opencode-slim.source.jsonc` | **Source of truth for agent config** — JSONC file with comments, `promptPath`/`orchestratorPromptPath` references to external Markdown files, and all agent metadata (model, variant, temperature, skills, MCPs). Edit this file to add, remove, or reconfigure agents. |
-| **Maintained prompt body** | `prompts/agents/<name>.prompt.md` | **Maintained prompt body** — canonical Markdown of every custom agent's system prompt. Referenced from the source via `promptPath` and inlined into the runtime by the build script. Edit to update prompt text; rebuild after editing. |
-| **Maintained orchestrator routing policy** | `prompts/agents/<name>.orchestrator.md` | **Maintained orchestrator routing policy** — canonical Markdown of every custom agent's orchestrator delegation rules. Referenced from the source via `orchestratorPromptPath` and inlined into the runtime by the build script. Edit to update routing policy; rebuild after editing. |
-| **Generated runtime** | `oh-my-opencode-slim.json` | **Generated runtime — do not edit.** Compiled JSON produced by the build script. Contains all prompts inlined; `promptPath`/`orchestratorPromptPath` are resolved and removed. Consumed by the OMO Slim plugin at runtime. Rebuild after editing source or prompt files. |
-| **Build script** | `scripts/build-oh-my-opencode-slim-config.mjs` | **Build script — do not edit unless build logic changes.** Reads `oh-my-opencode-slim.source.jsonc`, resolves `promptPath`/`orchestratorPromptPath` to inline prompt content from `prompts/agents/`, and writes the compiled `oh-my-opencode-slim.json`. Supports `--check` mode for drift detection. |
-| **Maintained policy artifact** | `oh-my-opencode-slim/default-preset/orchestrator_append.md` | **Maintained policy artifact — edit directly.** Orchestrator addendum with project-specific orchestration rules, routing policy, and delegation logic. This is NOT generated; it is a hand-maintained file. |
+| Layer                                      | File                                                        | Role                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------ | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Source of truth**                        | `oh-my-opencode-slim.source.jsonc`                          | **Source of truth for agent config** — JSONC file with comments, `promptPath`/`orchestratorPromptPath` references to external Markdown files, and all agent metadata (model, variant, temperature, skills, MCPs). Edit this file to add, remove, or reconfigure agents.                               |
+| **Maintained prompt body**                 | `prompts/agents/<name>.prompt.md`                           | **Maintained prompt body** — canonical Markdown of every custom agent's system prompt. Referenced from the source via `promptPath` and inlined into the runtime by the build script. Edit to update prompt text; rebuild after editing.                                                               |
+| **Maintained orchestrator routing policy** | `prompts/agents/<name>.orchestrator.md`                     | **Maintained orchestrator routing policy** — canonical Markdown of every custom agent's orchestrator delegation rules. Referenced from the source via `orchestratorPromptPath` and inlined into the runtime by the build script. Edit to update routing policy; rebuild after editing.                |
+| **Generated runtime**                      | `oh-my-opencode-slim.json`                                  | **Generated runtime — do not edit.** Compiled JSON produced by the build script. Contains all prompts inlined; `promptPath`/`orchestratorPromptPath` are resolved and removed. Consumed by the OMO Slim plugin at runtime. Rebuild after editing source or prompt files.                              |
+| **Build script**                           | `scripts/build-oh-my-opencode-slim-config.mjs`              | **Build script — do not edit unless build logic changes.** Reads `oh-my-opencode-slim.source.jsonc`, resolves `promptPath`/`orchestratorPromptPath` to inline prompt content from `prompts/agents/`, and writes the compiled `oh-my-opencode-slim.json`. Supports `--check` mode for drift detection. |
+| **Maintained policy artifact**             | `oh-my-opencode-slim/default-preset/orchestrator_append.md` | **Maintained policy artifact — edit directly.** Orchestrator addendum with project-specific orchestration rules, routing policy, and delegation logic. This is NOT generated; it is a hand-maintained file.                                                                                           |
 
 ## Source Configuration Workflow
 
@@ -61,23 +61,23 @@ prompts/agents/
 
 ### Agents (all 15)
 
-| Agent | Role |
-| --- | --- |
-| `validator` | Command-based non-browser repository verification |
-| `e2e-validator` | Command-based browser-driven E2E validation via Playwright MCP |
-| `integration-validator` | Cross-cutting integration quality gate |
-| `planner` | Delegation planner |
-| `quality-implementer` | Bounded quality improvement |
-| `architecture-reviewer` | Architecture and structure reviewer |
-| `frontend-reviewer` | Frontend quality reviewer |
-| `test-reviewer` | Test coverage and quality reviewer |
-| `docs-reviewer` | Documentation consistency reviewer |
-| `ops-reviewer` | CI/container/dependency reviewer |
-| `code-quality-reviewer` | Maintainability and clean-code reviewer |
-| `frontend-implementer` | React/Vite/TypeScript frontend implementation |
-| `test-implementer` | Test implementation, including Playwright E2E test authoring |
-| `docs-implementer` | Markdown docs, ADRs, setup notes, prompt files, skill files, and terminology alignment |
-| `ops-implementer` | CI/Docker/dependency implementation and build configuration |
+| Agent                   | Role                                                                                   |
+| ----------------------- | -------------------------------------------------------------------------------------- |
+| `validator`             | Command-based non-browser repository verification                                      |
+| `e2e-validator`         | Command-based browser-driven E2E validation via Playwright MCP                         |
+| `integration-validator` | Cross-cutting integration quality gate                                                 |
+| `planner`               | Delegation planner                                                                     |
+| `quality-implementer`   | Bounded quality improvement                                                            |
+| `architecture-reviewer` | Architecture and structure reviewer                                                    |
+| `frontend-reviewer`     | Frontend quality reviewer                                                              |
+| `test-reviewer`         | Test coverage and quality reviewer                                                     |
+| `docs-reviewer`         | Documentation consistency reviewer                                                     |
+| `ops-reviewer`          | CI/container/dependency reviewer                                                       |
+| `code-quality-reviewer` | Maintainability and clean-code reviewer                                                |
+| `frontend-implementer`  | React/Vite/TypeScript frontend implementation                                          |
+| `test-implementer`      | Test implementation, including Playwright E2E test authoring                           |
+| `docs-implementer`      | Markdown docs, ADRs, setup notes, prompt files, skill files, and terminology alignment |
+| `ops-implementer`       | CI/Docker/dependency implementation and build configuration                            |
 
 ### Built-in Orchestrator and Preset-Only Config Agents
 
@@ -100,16 +100,16 @@ Recovery from agent failure follows a strict retry-delegate chain: retry the sam
 
 All reviewer agents produce reports using a consistent structured format:
 
-| Field | Description |
-| ------- | ------------- |
-| **Agent** | Agent name that produced the report |
-| **Verdict** | PASS, FAIL, or PASS_WITH_WARNINGS |
-| **Severity** | Critical / High / Medium / Low |
-| **Scope** | Files or modules reviewed |
-| **Confidence** | Assessment confidence and rationale |
+| Field              | Description                                                                 |
+| ------------------ | --------------------------------------------------------------------------- |
+| **Agent**          | Agent name that produced the report                                         |
+| **Verdict**        | PASS, FAIL, or PASS_WITH_WARNINGS                                           |
+| **Severity**       | Critical / High / Medium / Low                                              |
+| **Scope**          | Files or modules reviewed                                                   |
+| **Confidence**     | Assessment confidence and rationale                                         |
 | **Findings table** | Sev, Category, Location, Evidence, Impact, Recommended fix, Suggested agent |
-| **Validation** | Commands run and exact results (pass/fail/NOT_AVAILABLE) |
-| **Follow-up** | Reviewers to rerun, implementers to delegate, validators to run |
+| **Validation**     | Commands run and exact results (pass/fail/NOT_AVAILABLE)                    |
+| **Follow-up**      | Reviewers to rerun, implementers to delegate, validators to run             |
 
 Categories include: `build`, `test`, `lint`, `format`, `security`, `architecture`, `frontend`, `docs-drift`, `ops`, `maintainability`, `quality`, `coverage`.
 
@@ -133,11 +133,11 @@ The project uses two agents for quality and recovery cleanup with distinct roles
 
 When multiple agents could handle a change, the planner and orchestrator follow these deterministic tie-breakers:
 
-| Overlap | Routing |
-| --------- | --------- |
-| Frontend + test coverage | Route frontend to @frontend-implementer and test gaps to @test-implementer (parallel if contracts stable) |
-| Architecture + code quality | Route structural decisions to @architecture-reviewer, code-level quality to @code-quality-reviewer |
-| Docs + any domain | Route docs to @docs-implementer parallel with implementation |
+| Overlap                     | Routing                                                                                                   |
+| --------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Frontend + test coverage    | Route frontend to @frontend-implementer and test gaps to @test-implementer (parallel if contracts stable) |
+| Architecture + code quality | Route structural decisions to @architecture-reviewer, code-level quality to @code-quality-reviewer        |
+| Docs + any domain           | Route docs to @docs-implementer parallel with implementation                                              |
 
 ## Source-Only Fields (Non-Prompt Semantics)
 
@@ -169,49 +169,49 @@ All entries below are real skill directories with `SKILL.md` files. They are gro
 
 Used by the orchestrator, planner, or docs-implementer for task routing, output normalization, and configuration auditing.
 
-| Skill | Purpose | Trigger Keywords |
-| ------- | --------- | ----------------- |
-| `routing-normalizer` | Normalize planner output into a consistent 7-item delegation plan shape before the orchestrator routes. | `normalize plan`, `clean plan`, `plan shape check`, `validate delegation plan`, `normalize planner output` |
-| `finding-deduper` | Merge overlapping reviewer findings into canonical remediation targets. | `dedup findings`, `merge findings`, `consolidate findings`, `finding deduplication`, `clean up reviewer output`, `overlapping findings` |
-| `recovery-classifier` | Classify agent failures into canonical recovery types before retry routing. | `agent failed`, `classify failure`, `recovery type`, `retry routing`, `agent error`, `failure classification` |
-| `prompt-drift-auditor` | Detect prompt, runtime JSON, routing matrix, and stale reference drift across the opencode configuration. | `check prompt drift`, `audit prompts`, `prompt sync check`, `stale references`, `routing matrix drift`, `validate opencode config` |
-| `config-policy-audit` | Audit prompt policy centralization, artifact role clarity, and terminology consistency across the opencode configuration. | `audit policy centralization`, `check artifact roles`, `policy text audit`, `terminology consistency check`, `orchestrator policy audit` |
-| `integration-gate-checklist` | Concise integration gate checklist for local diff review, completed integration, pre-finalization check, post-integration review, and reviewing current changes. | `integration gate`, `diff review`, `pre-finalization check`, `post-integration review` |
+| Skill                        | Purpose                                                                                                                                                          | Trigger Keywords                                                                                                                         |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `routing-normalizer`         | Normalize planner output into a consistent 7-item delegation plan shape before the orchestrator routes.                                                          | `normalize plan`, `clean plan`, `plan shape check`, `validate delegation plan`, `normalize planner output`                               |
+| `finding-deduper`            | Merge overlapping reviewer findings into canonical remediation targets.                                                                                          | `dedup findings`, `merge findings`, `consolidate findings`, `finding deduplication`, `clean up reviewer output`, `overlapping findings`  |
+| `recovery-classifier`        | Classify agent failures into canonical recovery types before retry routing.                                                                                      | `agent failed`, `classify failure`, `recovery type`, `retry routing`, `agent error`, `failure classification`                            |
+| `prompt-drift-auditor`       | Detect prompt, runtime JSON, routing matrix, and stale reference drift across the opencode configuration.                                                        | `check prompt drift`, `audit prompts`, `prompt sync check`, `stale references`, `routing matrix drift`, `validate opencode config`       |
+| `config-policy-audit`        | Audit prompt policy centralization, artifact role clarity, and terminology consistency across the opencode configuration.                                        | `audit policy centralization`, `check artifact roles`, `policy text audit`, `terminology consistency check`, `orchestrator policy audit` |
+| `integration-gate-checklist` | Concise integration gate checklist for local diff review, completed integration, pre-finalization check, post-integration review, and reviewing current changes. | `integration gate`, `diff review`, `pre-finalization check`, `post-integration review`                                                   |
 
 ### Implementation checklists
 
 Used by implementer agents during code or documentation implementation.
 
-| Skill | Purpose | Trigger Keywords |
-| ------- | --------- | ----------------- |
-| `frontend-implementation-checklist` | Project-specific frontend implementation checklist for React/Vite/TypeScript SPA: component patterns, data-driven content, SCSS styling, game state with localStorage, required UI states, accessibility basics, and validation expectations. | `frontend implementation checklist`, `frontend impl check`, `frontend preflight`, `implementing frontend` |
-| `test-implementation-checklist` | Project-specific implementation-side checklist for writing, updating, and structuring tests. Covers test-type selection, framework awareness, fixture isolation, assertion quality, and minimal testability changes. | `test implementation checklist`, `test impl check`, `test preflight`, `implementing tests` |
-| `docs-implementation-checklist` | Project-specific docs implementation checklist for Markdown docs, ADRs, setup notes, prompt files, skill files, README skill inventory updates, and terminology alignment. | `docs implementation checklist`, `docs impl check`, `docs preflight`, `implementing docs` |
-| `ops-implementation-checklist` | Project-specific ops implementation checklist for CI/GitHub Pages/build scripts, static asset configuration, dependency wiring, environment templates, and local developer setup. | `ops implementation checklist`, `ops impl check`, `ops preflight`, `implementing ops` |
-| `git-delivery-lifecycle-checklist` | Project-specific git delivery lifecycle checklist for safe checkout, staged-file discipline, commit/push operations, push failure handling, and no-force-push/amend/config mutation. | `git delivery checklist`, `git lifecycle check`, `git safety check`, `checkout discipline`, `push failure handling` |
-| `dependency-supply-chain-checklist` | Project-specific dependency and supply-chain checklist for manifests/lockfiles, pinned versions, provenance, and reproducibility. | `dependency supply chain check`, `dependency checklist`, `supply chain preflight`, `dependency audit`, `dependency wiring check` |
+| Skill                               | Purpose                                                                                                                                                                                                                                       | Trigger Keywords                                                                                                                 |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `frontend-implementation-checklist` | Project-specific frontend implementation checklist for React/Vite/TypeScript SPA: component patterns, data-driven content, SCSS styling, game state with localStorage, required UI states, accessibility basics, and validation expectations. | `frontend implementation checklist`, `frontend impl check`, `frontend preflight`, `implementing frontend`                        |
+| `test-implementation-checklist`     | Project-specific implementation-side checklist for writing, updating, and structuring tests. Covers test-type selection, framework awareness, fixture isolation, assertion quality, and minimal testability changes.                          | `test implementation checklist`, `test impl check`, `test preflight`, `implementing tests`                                       |
+| `docs-implementation-checklist`     | Project-specific docs implementation checklist for Markdown docs, ADRs, setup notes, prompt files, skill files, README skill inventory updates, and terminology alignment.                                                                    | `docs implementation checklist`, `docs impl check`, `docs preflight`, `implementing docs`                                        |
+| `ops-implementation-checklist`      | Project-specific ops implementation checklist for CI/GitHub Pages/build scripts, static asset configuration, dependency wiring, environment templates, and local developer setup.                                                             | `ops implementation checklist`, `ops impl check`, `ops preflight`, `implementing ops`                                            |
+| `git-delivery-lifecycle-checklist`  | Project-specific git delivery lifecycle checklist for safe checkout, staged-file discipline, commit/push operations, push failure handling, and no-force-push/amend/config mutation.                                                          | `git delivery checklist`, `git lifecycle check`, `git safety check`, `checkout discipline`, `push failure handling`              |
+| `dependency-supply-chain-checklist` | Project-specific dependency and supply-chain checklist for manifests/lockfiles, pinned versions, provenance, and reproducibility.                                                                                                             | `dependency supply chain check`, `dependency checklist`, `supply chain preflight`, `dependency audit`, `dependency wiring check` |
 
 ### Review checklists
 
 Used by reviewer agents during code, architecture, or documentation review.
 
-| Skill | Purpose | Trigger Keywords |
-| ------- | --------- | ----------------- |
+| Skill                           | Purpose                                                                                                                                                                                                                                                                    | Trigger Keywords            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | `architecture-review-checklist` | Project-specific architecture review checklist for module/layer boundary correctness, dependency direction, API surface placement, architecture-doc drift, shared abstraction justification, concept duplication, and explicit handoff boundaries to specialist reviewers. | _(no frontmatter triggers)_ |
-| `frontend-review-checklist` | Project-specific frontend review checklist for component correctness, page/layout structure, data-driven content, state management, styling, accessibility, performance, testing, and maintainability. | _(no frontmatter triggers)_ |
-| `test-review-checklist` | Project-specific test review checklist for acceptance coverage, edge cases, failure paths, regression proof, weak assertions, flaky tests, fixture quality, order dependence, environment coupling, and validation evidence quality. | _(no frontmatter triggers)_ |
-| `docs-review-checklist` | Project-specific documentation review checklist for docs/code/config drift, setup/run/test instruction accuracy, terminology consistency, link/reference integrity, and materiality filtering. | _(no frontmatter triggers)_ |
-| `ops-review-checklist` | Project-specific ops review checklist for CI workflows, package manifests and lockfiles, build scripts, runtime and environment configuration, reproducibility, secrets and permissions, and supply-chain risk. | _(no frontmatter triggers)_ |
-| `code-quality-review-checklist` | Project-specific code quality review checklist for maintainability, duplication, readability, naming, cohesion, function/class size, error handling, edge-case coverage, pattern consistency, avoidable complexity, and low-severity quality notes. | _(no frontmatter triggers)_ |
+| `frontend-review-checklist`     | Project-specific frontend review checklist for component correctness, page/layout structure, data-driven content, state management, styling, accessibility, performance, testing, and maintainability.                                                                     | _(no frontmatter triggers)_ |
+| `test-review-checklist`         | Project-specific test review checklist for acceptance coverage, edge cases, failure paths, regression proof, weak assertions, flaky tests, fixture quality, order dependence, environment coupling, and validation evidence quality.                                       | _(no frontmatter triggers)_ |
+| `docs-review-checklist`         | Project-specific documentation review checklist for docs/code/config drift, setup/run/test instruction accuracy, terminology consistency, link/reference integrity, and materiality filtering.                                                                             | _(no frontmatter triggers)_ |
+| `ops-review-checklist`          | Project-specific ops review checklist for CI workflows, package manifests and lockfiles, build scripts, runtime and environment configuration, reproducibility, secrets and permissions, and supply-chain risk.                                                            | _(no frontmatter triggers)_ |
+| `code-quality-review-checklist` | Project-specific code quality review checklist for maintainability, duplication, readability, naming, cohesion, function/class size, error handling, edge-case coverage, pattern consistency, avoidable complexity, and low-severity quality notes.                        | _(no frontmatter triggers)_ |
 
 ### Deep-dive companion checklists
 
 Optional specialist skills for platform-specific or domain-specific deep dives.
 
-| Skill | Purpose | Trigger Keywords |
-| ------- | --------- | ----------------- |
-| `frontend-a11y-checklist` | Project-specific deep accessibility review checklist for WCAG 2.1 AA compliance, semantic HTML, ARIA attributes, keyboard navigation, focus management, color contrast, screen reader behavior, modal traps, and responsive accessibility. | _(no frontmatter triggers)_ |
-| `frontend-storybook-checklist` | Project-specific Storybook coverage review checklist for reusable UI components, story completeness, variant/state coverage, and static build validation. | _(no frontmatter triggers)_ |
+| Skill                          | Purpose                                                                                                                                                                                                                                    | Trigger Keywords            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| `frontend-a11y-checklist`      | Project-specific deep accessibility review checklist for WCAG 2.1 AA compliance, semantic HTML, ARIA attributes, keyboard navigation, focus management, color contrast, screen reader behavior, modal traps, and responsive accessibility. | _(no frontmatter triggers)_ |
+| `frontend-storybook-checklist` | Project-specific Storybook coverage review checklist for reusable UI components, story completeness, variant/state coverage, and static build validation.                                                                                  | _(no frontmatter triggers)_ |
 
 Skills are referenced in agent `skills` arrays within `oh-my-opencode-slim.source.jsonc`. To assign a skill to an agent, add its identifier to the agent's `skills` array and rebuild.
 
@@ -220,8 +220,6 @@ Skills are referenced in agent `skills` arrays within `oh-my-opencode-slim.sourc
 To regenerate `oh-my-opencode-slim.json` from the source and prompt files:
 
 ```bash
-pnpm run opencode:build
-# or directly:
 node .opencode/scripts/build-oh-my-opencode-slim-config.mjs
 ```
 
@@ -238,14 +236,12 @@ This script:
 To verify that the runtime file matches the source (no drift):
 
 ```bash
-pnpm run opencode:check
-# or directly:
 node .opencode/scripts/build-oh-my-opencode-slim-config.mjs --check
 ```
 
 The `--check` flag compares the in-memory generated output to the current runtime file. It exits with code 0 if they match and code 1 if they differ, printing a message with the rebuild command.
 
-Run `pnpm run opencode:check` locally before committing any changes to prompt files, the source JSONC, or the orchestrator append.
+Run `node .opencode/scripts/build-oh-my-opencode-slim-config.mjs --check` locally before committing any changes to prompt files, the source JSONC, or the orchestrator append.
 
 ## Official OMO Slim User-Level Overrides
 

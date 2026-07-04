@@ -41,13 +41,18 @@ describe('Trivia', () => {
 
   it('renders the progress counter from the centralized template', () => {
     render(<Trivia />);
-    const expected = tpl(content.trivia.ofTemplate, { current: 1, total: questionCount });
+    const expected = tpl(content.trivia.ofTemplate, {
+      current: 1,
+      total: questionCount,
+    });
     expect(screen.getByText(expected)).toBeInTheDocument();
   });
 
   it('renders the radiogroup with the centralized label', () => {
     render(<Trivia />);
-    expect(screen.getByLabelText(content.trivia.progressLabel)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(content.trivia.progressLabel),
+    ).toBeInTheDocument();
   });
 
   it('shows the next question button after answering', async () => {

@@ -20,6 +20,9 @@
  *   - jumping: always frame 3 (mid-stretch / airborne)
  *   - sliding: always frame 1 (crouched / compact)
  *
+ * Background / obstacle asset paths are also centralised here so all
+ * game asset paths live in one place.
+ *
  * Usage: import { assetUrl } from '../utils/assets';
  *   const frame = assetUrl(DOG_FRAME_PATH(1));
  */
@@ -27,6 +30,37 @@
 /** Individual frame asset path template (pass 1-4) */
 export const DOG_FRAME_PATH = (n: number) =>
   `/assets/games/runner/dog/dog-frame-${n}.png`;
+
+/** Background lanes image path */
+export const LANES_IMAGE_PATH = '/assets/games/runner/lanes.png';
+
+/** Obstacle sprite image path (RGBA) */
+export const OBSTACLE_IMAGE_PATH = '/assets/games/runner/obstacle.png';
+
+/**
+ * Source-crop region within obstacle.png that bounds the visible sprite.
+ *
+ * obstacle.png is 1024×1024 RGBA with significant transparent padding
+ * around the central sprite.  Cropping to these coords eliminates the
+ * padding so the visible obstacle fills more of its display box in-game.
+ *
+ * Measured by finding the non-transparent pixel bounding box.
+ * **The crop bounds are inclusive** — both the top-left and bottom-right
+ * pixels are part of the crop region.  The width and height are therefore
+ * derived as:
+ *
+ *     w = 949 - 58 + 1 = 892
+ *     h = 676 - 354 + 1 = 323
+ *
+ * These values are passed directly as (sx, sy, sw, sh) to Canvas
+ * ctx.drawImage(), so sw and sh are pixel counts, not coordinates.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+ */
+export const OBSTACLE_SRC_X = 58;
+export const OBSTACLE_SRC_Y = 354;
+export const OBSTACLE_SRC_W = 892;
+export const OBSTACLE_SRC_H = 323;
 
 export const DOG_FRAME_W = 64;
 export const DOG_FRAME_H = 64;

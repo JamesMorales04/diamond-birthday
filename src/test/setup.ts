@@ -34,7 +34,15 @@ if (typeof window.IntersectionObserver === 'undefined') {
     }
     observe(_target: Element) {
       // Immediately mark as intersecting so lazy content renders
-      this.callback([{ isIntersecting: true, target: _target } as IntersectionObserverEntry], this);
+      this.callback(
+        [
+          {
+            isIntersecting: true,
+            target: _target,
+          } as IntersectionObserverEntry,
+        ],
+        this,
+      );
     }
     unobserve() {}
     disconnect() {}

@@ -140,32 +140,32 @@ Classify every failure before retrying:
 ### Retry policy
 
 1. If failure is PATCH_CONTEXT_MISMATCH:
-    - Do not patch directly.
-    - Read the current target file or ask @explorer to provide exact current context.
-    - Re-dispatch to the original implementer with the current file context and the failed patch output.
-    - If it fails again, dispatch @quality-implementer per the canonical quality/fixer policy.
+   - Do not patch directly.
+   - Read the current target file or ask @explorer to provide exact current context.
+   - Re-dispatch to the original implementer with the current file context and the failed patch output.
+   - If it fails again, dispatch @quality-implementer per the canonical quality/fixer policy.
 
 2. If failure is MISSING_CONTEXT:
-    - Dispatch @explorer for local repository context.
-    - Then re-dispatch to the appropriate implementer with exact paths and findings.
+   - Dispatch @explorer for local repository context.
+   - Then re-dispatch to the appropriate implementer with exact paths and findings.
 
 3. If failure is WRONG_AGENT:
-    - Re-route to the correct domain implementer.
-    - Do not ask the same agent to continue.
+   - Re-route to the correct domain implementer.
+   - Do not ask the same agent to continue.
 
 4. If failure is VALIDATION_FAILURE:
-    - Dispatch the most specific implementer or @quality-implementer with the validator output.
-    - Then re-run @validator for non-browser validation, or @e2e-validator for browser-driven E2E validation.
-    - If code changed, re-run @integration-validator and affected specialist reviewers.
+   - Dispatch the most specific implementer or @quality-implementer with the validator output.
+   - Then re-run @validator for non-browser validation, or @e2e-validator for browser-driven E2E validation.
+   - If code changed, re-run @integration-validator and affected specialist reviewers.
 
 5. If failure is REVIEW_FAILURE:
-    - Dispatch the recommended fixer from the review report, following the quality/fixer policy.
-    - Then re-run the affected reviewer.
-    - Re-run @validator if code or tests changed.
+   - Dispatch the recommended fixer from the review report, following the quality/fixer policy.
+   - Then re-run the affected reviewer.
+   - Re-run @validator if code or tests changed.
 
 6. If failure is CONFLICTING_RESULTS:
-    - Use @oracle only when the conflict affects architecture, security, or implementation strategy.
-    - Otherwise synthesize the safest path and route to the correct specialist.
+   - Use @oracle only when the conflict affects architecture, security, or implementation strategy.
+   - Otherwise synthesize the safest path and route to the correct specialist.
 
 ### Retry limits
 
@@ -277,14 +277,14 @@ Important: do not wait for @integration-validator to activate specialist reviewe
 
 Route specialist reviewers based on the domains touched:
 
-| Touched domain | Reviewer |
-|---|---|
-| Frontend components, routes, styling, state | @frontend-reviewer |
+| Touched domain                                        | Reviewer               |
+| ----------------------------------------------------- | ---------------------- |
+| Frontend components, routes, styling, state           | @frontend-reviewer     |
 | Architecture, module boundaries, dependency direction | @architecture-reviewer |
-| Test coverage, test quality | @test-reviewer |
-| Documentation accuracy and setup drift | @docs-reviewer |
-| CI/CD, Docker, build pipeline, dependencies | @ops-reviewer |
-| Code-level quality, naming, duplication | @code-quality-reviewer |
+| Test coverage, test quality                           | @test-reviewer         |
+| Documentation accuracy and setup drift                | @docs-reviewer         |
+| CI/CD, Docker, build pipeline, dependencies           | @ops-reviewer          |
+| Code-level quality, naming, duplication               | @code-quality-reviewer |
 
 #### @observer usage guidance
 

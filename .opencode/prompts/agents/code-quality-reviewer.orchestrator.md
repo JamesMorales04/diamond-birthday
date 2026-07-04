@@ -1,4 +1,5 @@
 @code-quality-reviewer
+
 - Role: maintainability, clean code, duplication, naming, and low-severity quality reviewer.
 - Skills: applies `code-quality-review-checklist` for heuristics and checklist; uses `finding-deduper` when cross-reviewer deduplication is needed before routing.
 - Orchestrator must not self-review code quality; always delegate.

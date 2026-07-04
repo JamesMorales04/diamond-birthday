@@ -5,7 +5,10 @@ import { content } from '../content/page';
 import { tpl } from '../utils/tpl';
 
 export default function Hero() {
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.3, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.3,
+    triggerOnce: true,
+  });
   const reducedMotion = useReducedMotion();
 
   return (
@@ -21,14 +24,16 @@ export default function Hero() {
 
       <div className="hero__content">
         <p className="hero__subtitle">
-          <span className="hero__diamond" aria-hidden="true">✦</span>
-          {' '}{content.hero.title}{' '}
-          <span className="hero__diamond" aria-hidden="true">✦</span>
+          <span className="hero__diamond" aria-hidden="true">
+            ✦
+          </span>{' '}
+          {content.hero.title}{' '}
+          <span className="hero__diamond" aria-hidden="true">
+            ✦
+          </span>
         </p>
 
-        <h1 className="hero__name">
-          {wife.name}
-        </h1>
+        <h1 className="hero__name">{wife.name}</h1>
 
         <div
           className={`hero__heart ${reducedMotion ? '' : 'hero__heart--beat'}`}
@@ -43,7 +48,9 @@ export default function Hero() {
           </svg>
         </div>
 
-        <p className="hero__age">{tpl(content.hero.ageTemplate, { age: wife.age })}</p>
+        <p className="hero__age">
+          {tpl(content.hero.ageTemplate, { age: wife.age })}
+        </p>
 
         <p className="hero__message">{wife.specialMessage}</p>
 

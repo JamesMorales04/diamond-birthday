@@ -55,17 +55,18 @@ The app opens at `http://localhost:5173` by default.
 
 ## Local development
 
-| Command                  | What it does                          |
-|--------------------------|---------------------------------------|
-| `pnpm dev`               | Start Vite dev server with HMR        |
-| `pnpm build`             | Build for production                  |
-| `pnpm preview`           | Serve the production build locally    |
-| `pnpm typecheck`         | Run TypeScript type checking          |
-| `pnpm test`              | Run all tests (vitest)                |
-| `pnpm test:watch`        | Run tests in watch mode               |
-| `pnpm test:coverage`     | Run tests with coverage report        |
+| Command              | What it does                       |
+| -------------------- | ---------------------------------- |
+| `pnpm dev`           | Start Vite dev server with HMR     |
+| `pnpm build`         | Build for production               |
+| `pnpm preview`       | Serve the production build locally |
+| `pnpm typecheck`     | Run TypeScript type checking       |
+| `pnpm test`          | Run all tests (vitest)             |
+| `pnpm test:watch`    | Run tests in watch mode            |
+| `pnpm test:coverage` | Run tests with coverage report     |
+| `pnpm format`        | Format source files via Prettier   |
 
-> Note: there are no `lint` or `format` scripts configured. Code is checked by the TypeScript compiler (`pnpm typecheck`), the test suite (`pnpm test`), and the build step (`pnpm build`).
+> Note: there are no `lint` scripts configured. Code formatting is handled by Prettier (`pnpm format`); code correctness is verified by the TypeScript compiler (`pnpm typecheck`), the test suite (`pnpm test`), and the build step (`pnpm build`).
 
 ---
 
@@ -76,15 +77,19 @@ diamond-birthday/
 ├── public/
 │   └── photos/              # Photo files (SVG placeholders; swap for your own)
 ├── src/
-│   ├── content/             # Single canonical source for all visible text — UI copy, editorial content & types
-│   │   └── page.ts          # All UI strings in Spanish (buttons, titles, hints, game text)
-│   ├── data/                # Re-export barrels for backward compatibility; canonical content in content/page.ts
-│   │   ├── wife.ts          # Your loved one's name, age, birthday, special message
+│   ├── content/             # Canonical data (page.json) + typed wrapper (page.ts)
+│   │   ├── page.json        # All visible text in Spanish — buttons, titles, hints, game text, editorial content
+│   │   └── page.ts          # TypeScript types + re-exports from page.json
+│   ├── data/                # Re-export barrels + canonical game asset/config files
+│   │   ├── dogRunnerAssets.ts # Lane-runner dog sprite + obstacle assets + collision config
+│   │   ├── flappyAssets.ts    # Flappy Bird Chester sprite + pipe assets + collision config
+│   │   ├── gallery.ts       # Gallery categories + image references (src, alt, caption)
+│   │   ├── gameRegistry.ts    # Canonical game ID registry (GAME_IDS, GameId, GAME_ICONS)
+│   │   ├── games.ts         # Mini-game settings + high-score types + localStorage key
 │   │   ├── messages.ts      # Love letters (title, date, excerpt, content, signature)
 │   │   ├── timeline.ts      # Milestones (year, month, title, description, icon)
-│   │   ├── gallery.ts       # Gallery categories + image references (src, alt, caption)
-│   │   ├── games.ts         # Mini-game settings + high-score types + localStorage key
-│   │   └── trivia.ts        # Trivia questions + getShuffledTrivia() (question, options, correctIndex, explanation)
+│   │   ├── trivia.ts        # Trivia questions + getShuffledTrivia() (question, options, correctIndex, explanation)
+│   │   └── wife.ts          # Your loved one's name, age, birthday, special message
 │   ├── components/          # React components
 │   │   ├── Hero.tsx
 │   │   ├── Timeline.tsx
@@ -136,16 +141,16 @@ The app is a **single-page scroll** with no client-side router. Every section (H
 ## Adding photos
 
 1. Place your image files inside **`public/photos/`**.
-2. Add a matching entry in `src/content/page.ts` (in the `galleryImages` array):
+2. Add a matching entry in `src/content/page.json` (in the `galleryImages` array):
 
-```typescript
+```json
 {
-  id: "my-photo",
-  src: "/photos/my-photo.jpg",
-  thumb: "/photos/my-photo.jpg",   // same image, or a smaller thumbnail
-  alt: "Description for accessibility",
-  caption: "A sweet caption for this memory",
-  category: "moments",             // must match a category id in galleryCategories
+  "id": "my-photo",
+  "src": "/photos/my-photo.jpg",
+  "thumb": "/photos/my-photo.jpg",
+  "alt": "Description for accessibility",
+  "caption": "A sweet caption for this memory",
+  "category": "moments"
 }
 ```
 
@@ -157,54 +162,61 @@ Because files in `public/` are served as-is by Vite, use a path starting with `/
 
 ## Editing content and data
 
-All visible text lives in a **single canonical file**:
+All visible text lives in a **single canonical file** backed by a typed wrapper:
 
-- **`src/content/page.ts`** — every user‑visible string, including UI copy (buttons, headings, labels, ARIA, hints) **and** editorial content (wife info, love letters, timeline milestones, gallery captions, trivia questions). Every React component reads its text from this file.
-- **`src/data/*.ts`** — backward‑compatibility re‑export barrels that re‑export the same values from `content/page.ts`. These exist so existing imports continue to work; do **not** edit them for content changes. The sole exception is `data/games.ts`, which holds game‑mechanics configuration (gravity, speed, grid size) — that is still canonical there.
+- **`src/content/page.json`** — **canonical data source** for every user‑visible string, including UI copy (buttons, headings, labels, ARIA, hints) _and_ editorial content (wife info, love letters, timeline milestones, gallery captions, trivia questions). Edit this file to change any text.
+- **`src/content/page.ts`** — **wrapper / types layer** that imports from `page.json`, defines TypeScript interfaces, and re‑exports typed constants. Every React component reads its text through this file. Do **not** edit this file for content changes — only when types or the export API change.
+- **`src/data/*.ts`** — some are backward‑compatibility re‑export barrels that re‑export the same values from `content/page.ts` (do **not** edit for content changes), and some are canonical game asset/config files (edit directly). See the table below to distinguish between barrels and canonical files.
 
 You never need to touch a component to change a word, a date, or a category.
 
 ### Content and data files
 
-| File / dir        | What it holds                                                                   |
-|-------------------|---------------------------------------------------------------------------------|
-| `content/page.ts` | **Canonical source for all visible text** — UI copy (titles, buttons, ARIA, hints, spinner options) *and* editorial data (wife info, letters, timeline, gallery, trivia questions) |
-| `data/wife.ts`    | Re‑export barrel → edit in `content/page.ts`                                    |
-| `data/messages.ts`| Re‑export barrel → edit in `content/page.ts`                                    |
-| `data/timeline.ts`| Re‑export barrel → edit in `content/page.ts`                                    |
-| `data/gallery.ts` | Re‑export barrel → edit in `content/page.ts`                                    |
-| `data/trivia.ts`  | Re‑export barrel → edit in `content/page.ts`                                    |
-| `data/games.ts`   | **Canonical** game‑mechanics config (gravity, speed, grid size) + high‑score types — not a re‑export |
+| File / dir                | What it holds                                                                                         |
+| ------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `content/page.json`       | **Canonical data source** — all user‑visible strings and editorial content in JSON                    |
+| `content/page.ts`         | **Wrapper / types layer** — imports `page.json`, exports typed constants; edit only when types change |
+| `data/dogRunnerAssets.ts` | **Canonical** lane-runner dog sprite + obstacle assets + collision config — not a re‑export           |
+| `data/flappyAssets.ts`    | **Canonical** Flappy Bird Chester sprite + pipe assets + collision config — not a re‑export           |
+| `data/gallery.ts`         | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/gameRegistry.ts`    | **Canonical** game ID registry (GAME_IDS, GameId union, GAME_ICONS) — not a re‑export                 |
+| `data/games.ts`           | **Canonical** game‑mechanics config (gravity, speed, grid size) + high‑score types — not a re‑export  |
+| `data/messages.ts`        | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/timeline.ts`        | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/trivia.ts`          | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/wife.ts`            | Re‑export barrel → edit in `content/page.json`                                                        |
 
 ### Categories
 
-Gallery photos are organised by category. Categories are defined in `src/content/page.ts`:
+Gallery photos are organised by category. Categories are defined in `src/content/page.json`:
 
-```typescript
-export const galleryCategories: GalleryCategory[] = [
-  { id: 'journey', name: 'Our Journey', description: '...' },
-  { id: 'moments', name: 'Sweet Moments', description: '...' },
-  { id: 'forever', name: 'Forever Yours', description: '...' },
-];
+```json
+{
+  "galleryCategories": [
+    { "id": "journey", "name": "Our Journey", "description": "..." },
+    { "id": "moments", "name": "Sweet Moments", "description": "..." },
+    { "id": "forever", "name": "Forever Yours", "description": "..." }
+  ]
+}
 ```
 
 To add a category, append an object to `galleryCategories` and assign its `id` to any images in `galleryImages`. The category-filter UI (`Gallery.tsx`) picks up new categories automatically.
 
 ### How to add a new entry
 
-Open `src/content/page.ts` and append an object to the relevant array in the editorial section. Follow the existing shape:
+Open `src/content/page.json` and append an object to the relevant array in the editorial section. Follow the existing shape:
 
-```typescript
-// src/content/page.ts (timeline array) — adding a milestone
+```json
+// src/content/page.json (timeline array) — adding a milestone
 {
-  year: '2026',
-  month: 'December',
-  title: 'Our Latest Adventure',
-  description: 'We embarked on a new journey together...',
-  icon: 'heart',   // 'heart' | 'star' | 'diamond' | 'flower' | 'ring'
+  "year": "2026",
+  "month": "December",
+  "title": "Our Latest Adventure",
+  "description": "We embarked on a new journey together...",
+  "icon": "heart"
 }
 
-// src/content/page.ts (letters array) — adding a letter
+// src/content/page.json (letters array) — adding a letter
 {
   id: 'new-letter',
   title: 'A Letter for You',
@@ -380,12 +392,12 @@ All three mini-games (`flappy`, `lane-runner`, and `memory`) persist high scores
 Ready to make this your own?
 
 - [ ] Replace `public/photos/` with your own images
-- [ ] Edit `src/content/page.ts` — UI copy (headings, buttons, labels, hints)
-- [ ] Edit `src/content/page.ts` — wife info (name, age, birthday, special message)
-- [ ] Edit `src/content/page.ts` — love letters (title, date, excerpt, content, signature)
-- [ ] Edit `src/content/page.ts` — timeline milestones (year, title, description, icon)
-- [ ] Edit `src/content/page.ts` — gallery categories and image entries
-- [ ] Edit `src/content/page.ts` — trivia questions (question, options, correct index, explanation)
+- [ ] Edit `src/content/page.json` — UI copy (headings, buttons, labels, hints)
+- [ ] Edit `src/content/page.json` — wife info (name, age, birthday, special message)
+- [ ] Edit `src/content/page.json` — love letters (title, date, excerpt, content, signature)
+- [ ] Edit `src/content/page.json` — timeline milestones (year, title, description, icon)
+- [ ] Edit `src/content/page.json` — gallery categories and image entries
+- [ ] Edit `src/content/page.json` — trivia questions (question, options, correct index, explanation)
 - [ ] Tweak game settings in `src/data/games.ts` (gravity, speed, grid size) — this file is still canonical for game mechanics
 - [ ] Adjust CSS custom properties in `src/index.css` (colours, fonts, glow effects)
 - [ ] Update the site title in `index.html`

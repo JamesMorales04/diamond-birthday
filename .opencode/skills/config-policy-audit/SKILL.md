@@ -13,8 +13,8 @@ license: MIT
 
 metadata:
   author: project
-  version: "1.0"
-  generatedBy: "1.3.1"
+  version: '1.0'
+  generatedBy: '1.3.1'
 ---
 
 # Config Policy Audit
@@ -31,13 +31,13 @@ Audit prompt policy centralization, artifact role clarity, and terminology consi
 
 ## Audit Dimensions
 
-| Dimension | What to Check |
-| ----------- | --------------- |
-| **Policy centralization** | No two files contain the same policy text verbatim; shared rules live in canonical docs, not duplicated across prompts |
-| **Artifact role clarity** | Every opencode artifact (source JSONC, prompt files, runtime JSON, orchestrator_append, routing matrix) has a clear, documented role (generated vs maintained vs source-of-truth) |
-| **Terminology consistency** | "Source of truth", "maintained policy artifact", "canonical source", "routing reference" are used consistently across docs |
-| **Prompt layering compliance** | Prompts reference canonical docs for shared rules instead of restating them inline |
-| **Orchestrator append vs routing matrix** | `orchestrator_append.md` does not duplicate the full routing table from `agent-routing-matrix.md`; it references the matrix and adds orchestrator-specific behavior only |
+| Dimension                                 | What to Check                                                                                                                                                                     |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Policy centralization**                 | No two files contain the same policy text verbatim; shared rules live in canonical docs, not duplicated across prompts                                                            |
+| **Artifact role clarity**                 | Every opencode artifact (source JSONC, prompt files, runtime JSON, orchestrator_append, routing matrix) has a clear, documented role (generated vs maintained vs source-of-truth) |
+| **Terminology consistency**               | "Source of truth", "maintained policy artifact", "canonical source", "routing reference" are used consistently across docs                                                        |
+| **Prompt layering compliance**            | Prompts reference canonical docs for shared rules instead of restating them inline                                                                                                |
+| **Orchestrator append vs routing matrix** | `orchestrator_append.md` does not duplicate the full routing table from `agent-routing-matrix.md`; it references the matrix and adds orchestrator-specific behavior only          |
 
 ## Audit Steps
 
@@ -54,15 +54,15 @@ For each policy topic (quality-implementer/fixer, subagent failure recovery, del
 
 For each opencode artifact, verify its role is clearly documented using the canonical terminology from `agent-prompt-maintenance-guide.md` section 3a:
 
-| Artifact | Expected Role | Editable? |
-| ---------- | --------------- | --------- |
-| `oh-my-opencode-slim.source.jsonc` | Source of truth for agent config | Yes — edit to add/remove/reconfigure agents |
-| `prompts/agents/*.prompt.md` | Maintained prompt body | Yes — edit to update agent system prompt text |
-| `prompts/agents/*.orchestrator.md` | Maintained orchestrator routing policy | Yes — edit to update orchestrator delegation rules |
-| `oh-my-opencode-slim.json` | Generated runtime | **No** — rebuild after editing source or prompt files |
-| `orchestrator_append.md` | Maintained policy artifact | Yes — edit to update orchestration rules |
-| `agent-routing-matrix.md` | Canonical routing reference | Yes — edit to update agent ownership/routing |
-| `agent-prompt-maintenance-guide.md` | Maintenance procedures | Yes — edit to update maintenance conventions |
+| Artifact                            | Expected Role                          | Editable?                                             |
+| ----------------------------------- | -------------------------------------- | ----------------------------------------------------- |
+| `oh-my-opencode-slim.source.jsonc`  | Source of truth for agent config       | Yes — edit to add/remove/reconfigure agents           |
+| `prompts/agents/*.prompt.md`        | Maintained prompt body                 | Yes — edit to update agent system prompt text         |
+| `prompts/agents/*.orchestrator.md`  | Maintained orchestrator routing policy | Yes — edit to update orchestrator delegation rules    |
+| `oh-my-opencode-slim.json`          | Generated runtime                      | **No** — rebuild after editing source or prompt files |
+| `orchestrator_append.md`            | Maintained policy artifact             | Yes — edit to update orchestration rules              |
+| `agent-routing-matrix.md`           | Canonical routing reference            | Yes — edit to update agent ownership/routing          |
+| `agent-prompt-maintenance-guide.md` | Maintenance procedures                 | Yes — edit to update maintenance conventions          |
 
 > **Note:** This table is an intentional audit mirror of the agent prompt configuration and should stay synchronized with it. If the canonical table in the README changes, update this table to match.
 
@@ -105,18 +105,23 @@ Specifically check `orchestrator_append.md` for:
 ## Config Policy Audit Report
 
 ### Policy Centralization: PASS | WARNINGS
+
 [Details of any duplicated policy text]
 
 ### Artifact Role Clarity: PASS | WARNINGS
+
 [Details of any mislabeled or unclear artifact roles]
 
 ### Terminology Consistency: PASS | WARNINGS
+
 [Details of inconsistent terminology usage]
 
 ### Prompt Layering Compliance: PASS | WARNINGS
+
 [N prompts with duplicated global rules, details]
 
 ### Orchestrator Append Focus: PASS | WARNINGS
+
 [Specific duplication or clarity issues in orchestrator_append.md]
 
 ### Summary

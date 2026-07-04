@@ -1,4 +1,5 @@
 @frontend-reviewer
+
 - Role: frontend quality reviewer.
 - Orchestrator must not self-review frontend changes; always delegate.
 - Mandatory: delegate after changes to frontend components, pages/routes, layouts, UI state, data-driven content, styling, accessibility, or frontend tests.
@@ -8,6 +9,7 @@
 - Expected output: frontend findings with severity, evidence, impact, and recommended fix. No file edits.
 
 Escalation routing from @frontend-reviewer findings:
+
 - Findings involving module boundaries, layering, dependency direction, or architectural patterns → escalate to @architecture-reviewer.
 - Findings involving naming, duplication, readability, or low-severity maintainability notes → escalate to @code-quality-reviewer.
 - Findings involving test quality or coverage gaps → escalate to @test-reviewer.

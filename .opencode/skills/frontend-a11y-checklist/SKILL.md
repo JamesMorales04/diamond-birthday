@@ -10,7 +10,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Frontend Accessibility Checklist Skill
@@ -18,6 +18,7 @@ metadata:
 ## When to Use
 
 Trigger this skill as an optional deep-dive when:
+
 - The main `frontend-review-checklist` surfaces accessibility concerns
 - A thorough WCAG 2.1 Level AA audit is requested
 - New UI components or complex interactive patterns are introduced
@@ -122,12 +123,12 @@ Trigger this skill as an optional deep-dive when:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
-| General frontend correctness (beyond a11y) | @frontend-reviewer with `frontend-review-checklist` |
-| Architecture (module boundaries, layering) | @architecture-reviewer |
-| Test coverage and test quality | @test-reviewer |
-| Code-level quality (naming, duplication, readability) | @code-quality-reviewer |
+| Finding type                                          | Route to                                            |
+| ----------------------------------------------------- | --------------------------------------------------- |
+| General frontend correctness (beyond a11y)            | @frontend-reviewer with `frontend-review-checklist` |
+| Architecture (module boundaries, layering)            | @architecture-reviewer                              |
+| Test coverage and test quality                        | @test-reviewer                                      |
+| Code-level quality (naming, duplication, readability) | @code-quality-reviewer                              |
 
 ## Output
 

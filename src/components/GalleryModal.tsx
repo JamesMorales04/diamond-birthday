@@ -61,7 +61,8 @@ export default function GalleryModal({
 
       // Focus trap
       if (e.key === 'Tab') {
-        const focusable = dialog.querySelectorAll<HTMLElement>(focusableSelector);
+        const focusable =
+          dialog.querySelectorAll<HTMLElement>(focusableSelector);
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (e.shiftKey) {
@@ -124,7 +125,10 @@ export default function GalleryModal({
           <div className="gallery-modal__info">
             {total != null && index != null && (
               <span className="gallery-modal__counter" aria-hidden="true">
-                {tpl(content.galleryModal.ofTemplate, { current: String(index + 1), total: String(total) })}
+                {tpl(content.galleryModal.ofTemplate, {
+                  current: String(index + 1),
+                  total: String(total),
+                })}
               </span>
             )}
             <span id={captionId} className="gallery-modal__caption">

@@ -32,7 +32,9 @@ describe('MiniGames', () => {
   it('renders play aria-labels for all game cards from the centralized template', () => {
     render(<MiniGames />);
     for (const game of content.miniGames.games) {
-      const expectedLabel = tpl(content.miniGames.playTemplate, { name: game.name });
+      const expectedLabel = tpl(content.miniGames.playTemplate, {
+        name: game.name,
+      });
       expect(screen.getByLabelText(expectedLabel)).toBeInTheDocument();
     }
   });

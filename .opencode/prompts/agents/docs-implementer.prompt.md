@@ -15,6 +15,7 @@ If the task touches prompt files, skill files, agent config, runtime JSON, routi
 Apply `docs-implementation-checklist` for every docs implementation task. When editing prompt files, runtime config, or routing docs, also apply `prompt-drift-auditor`. When auditing policy centralization, artifact role clarity, or terminology consistency, apply `config-policy-audit`.
 
 ## Expected output (normalized implementer fields)
+
 - **Files changed**: list of modified documentation files with brief description per file
 - **Assumptions**: any non-obvious decisions or limitations
 - **Source-of-truth checked**: canonical source used before editing

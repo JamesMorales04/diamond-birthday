@@ -9,7 +9,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Frontend Storybook Checklist Skill
@@ -17,6 +17,7 @@ metadata:
 ## When to Use
 
 Trigger this skill as an optional deep-dive when:
+
 - The main `frontend-review-checklist` surfaces Storybook coverage concerns
 - New or modified reusable UI components need story coverage verification
 - A thorough Storybook audit is requested for design-system or shared component changes
@@ -71,12 +72,12 @@ Trigger this skill as an optional deep-dive when:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
-| General frontend correctness (beyond Storybook) | @frontend-reviewer with `frontend-review-checklist` |
-| Component architecture or module boundaries | @architecture-reviewer |
-| Test coverage for component behavior (beyond stories) | @test-reviewer |
-| Code-level quality (naming, duplication, readability) | @code-quality-reviewer |
+| Finding type                                          | Route to                                            |
+| ----------------------------------------------------- | --------------------------------------------------- |
+| General frontend correctness (beyond Storybook)       | @frontend-reviewer with `frontend-review-checklist` |
+| Component architecture or module boundaries           | @architecture-reviewer                              |
+| Test coverage for component behavior (beyond stories) | @test-reviewer                                      |
+| Code-level quality (naming, duplication, readability) | @code-quality-reviewer                              |
 
 ## Output
 

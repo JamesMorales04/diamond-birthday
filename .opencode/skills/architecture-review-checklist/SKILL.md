@@ -10,7 +10,7 @@ license: MIT
 compatibility: Works alongside pr-review skill.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Architecture Review Checklist Skill
@@ -18,6 +18,7 @@ metadata:
 ## When to Use
 
 Trigger this skill when reviewing structural code changes that involve:
+
 - Module boundaries, folder structure, or dependency direction
 - New modules, services, or shared abstractions
 - Architectural documentation, ADRs, or diagrams
@@ -75,13 +76,13 @@ Trigger this skill when reviewing structural code changes that involve:
 
 Do **not** own these findings. Route them to the appropriate specialist:
 
-| Finding type | Route to |
-|---|---|
-| Frontend component correctness or UX | @frontend-reviewer |
+| Finding type                                          | Route to               |
+| ----------------------------------------------------- | ---------------------- |
+| Frontend component correctness or UX                  | @frontend-reviewer     |
 | Code-level quality (naming, duplication, readability) | @code-quality-reviewer |
-| Test coverage and test quality | @test-reviewer |
-| CI/CD, Docker, build pipeline, or deployment | @ops-reviewer |
-| Documentation accuracy and setup | @docs-reviewer |
+| Test coverage and test quality                        | @test-reviewer         |
+| CI/CD, Docker, build pipeline, or deployment          | @ops-reviewer          |
+| Documentation accuracy and setup                      | @docs-reviewer         |
 
 ## Output
 

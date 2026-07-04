@@ -11,7 +11,7 @@ license: MIT
 compatibility: Works alongside frontend-review-checklist, frontend-storybook-checklist, and frontend-a11y-checklist.
 metadata:
   author: ops
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Frontend Implementation Checklist Skill
@@ -21,6 +21,7 @@ An implementer-focused skill for safe frontend work. Complements `frontend-revie
 ## When to Use
 
 Trigger this skill when **implementing** (not reviewing) changes that involve:
+
 - React/Vite/TypeScript components, pages, or feature modules
 - Data-driven content sections (timeline, gallery, letters, shared moments)
 - Mini-games or interactive elements
@@ -33,6 +34,7 @@ Trigger this skill when **implementing** (not reviewing) changes that involve:
 ## Required Context
 
 Before making any edit, confirm these files have been read:
+
 - `AGENTS.md`
 
 ## Implementation Discipline
@@ -78,6 +80,7 @@ Mini-game progress and user preferences use localStorage for persistence.
 ## Required UI States
 
 Every feature page or route must implement, at minimum:
+
 - [ ] Loading state (`<LoadingState />` or inline spinner/skeleton)
 - [ ] Empty state (`<EmptyState title={...} description={...} />`)
 - [ ] Error state (`<ErrorState onRetry={...} />` or inline error display)
@@ -86,6 +89,7 @@ Every feature page or route must implement, at minimum:
 ## Storybook Coverage (Reusable Components)
 
 For new or modified reusable UI components:
+
 - [ ] Storybook stories added or updated in the same task
 - [ ] Stories cover default render, all visual variants, and behavior states (disabled, loading, active, error) where applicable
 - [ ] `pnpm build-storybook` passes (if Storybook is configured)
@@ -103,6 +107,7 @@ For new or modified reusable UI components:
 ## Validation Expectations
 
 Before handoff, confirm results for:
+
 - [ ] `pnpm run typecheck`
 - [ ] `pnpm run lint`
 - [ ] `pnpm run build`
@@ -114,10 +119,10 @@ Do not claim validation passed unless commands actually ran.
 
 Flag these explicitly so the orchestrator routes the correct reviewer:
 
-| Change type | Route to |
-|---|---|
+| Change type                                          | Route to          |
+| ---------------------------------------------------- | ----------------- |
 | Documentation sync (behavior, setup, routes changed) | @docs-implementer |
-| Test gaps or missing coverage | @test-implementer |
+| Test gaps or missing coverage                        | @test-implementer |
 
 ## Validation Handoff
 
@@ -128,6 +133,7 @@ Flag these explicitly so the orchestrator routes the correct reviewer:
 ## Output Shape
 
 Return work in a compact implementation summary with:
+
 - **Files changed**
 - **UI behavior**
 - **Required state coverage**

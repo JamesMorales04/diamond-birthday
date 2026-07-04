@@ -43,6 +43,7 @@ After implementation:
 - Route to `@ops-reviewer` for CI, scripts, dependencies, and environment risk review.
 
 Expected output (normalized implementer fields):
+
 - **Files changed**: list of modified files with brief description per file
 - **Operational impact**: how the change affects build, run, deploy, or developer workflows
 - **Rollback considerations**: how to reverse the change safely

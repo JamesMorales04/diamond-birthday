@@ -5,7 +5,10 @@ import { content } from '../content/page';
 
 export default function Surprise() {
   const [revealed, setRevealed] = useState(false);
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.3, triggerOnce: true });
+  const [ref, isVisible] = useIntersectionObserver({
+    threshold: 0.3,
+    triggerOnce: true,
+  });
 
   const handleReveal = () => {
     if (!revealed) {
@@ -36,18 +39,20 @@ export default function Surprise() {
         </div>
       ) : (
         <div className="surprise__content">
-          <div className="surprise__diamond" aria-hidden="true">◇</div>
+          <div className="surprise__diamond" aria-hidden="true">
+            ◇
+          </div>
           <h3 className="surprise__headline">{content.surprise.headline}</h3>
-          <p className="surprise__message">
-            {content.surprise.message1}
-          </p>
-          <p className="surprise__message">
-            {content.surprise.message2}
-          </p>
+          <p className="surprise__message">{content.surprise.message1}</p>
+          <p className="surprise__message">{content.surprise.message2}</p>
           <div className="surprise__sig">{content.surprise.signature}</div>
           <div className="surprise__sparkles" aria-hidden="true">
             {[...Array(12)].map((_, i) => (
-              <span key={i} className="surprise__sparkle" style={{ animationDelay: `${i * 0.3}s` }}>
+              <span
+                key={i}
+                className="surprise__sparkle"
+                style={{ animationDelay: `${i * 0.3}s` }}
+              >
                 ✦
               </span>
             ))}

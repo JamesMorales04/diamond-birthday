@@ -9,7 +9,7 @@
  * (10 cards total). To add new cards, add a new entry to MEMORY_ASSETS.
  */
 
-import { shuffle } from "../../../utils/shuffle";
+import { shuffle } from '../../../utils/shuffle';
 
 export interface MemoryCard {
   id: number;
@@ -24,14 +24,14 @@ interface MemoryAsset {
   src: string;
 }
 
-const BASE = import.meta.env.BASE_URL ?? "/";
+const BASE = import.meta.env.BASE_URL ?? '/';
 
 const MEMORY_ASSETS: readonly MemoryAsset[] = [
-  { id: "memory-1", src: `${BASE}photos/assets/memory/1.png` },
-  { id: "memory-2", src: `${BASE}photos/assets/memory/2.png` },
-  { id: "memory-3", src: `${BASE}photos/assets/memory/3.png` },
-  { id: "memory-4", src: `${BASE}photos/assets/memory/4.png` },
-  { id: "memory-5", src: `${BASE}photos/assets/memory/5.png` },
+  { id: 'memory-1', src: `${BASE}photos/assets/memory/1.png` },
+  { id: 'memory-2', src: `${BASE}photos/assets/memory/2.png` },
+  { id: 'memory-3', src: `${BASE}photos/assets/memory/3.png` },
+  { id: 'memory-4', src: `${BASE}photos/assets/memory/4.png` },
+  { id: 'memory-5', src: `${BASE}photos/assets/memory/5.png` },
 ] as const;
 
 /**

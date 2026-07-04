@@ -3,8 +3,8 @@
  * Keep the JSON as the source of truth; this file preserves the existing API.
  */
 
-import page from "./page.json";
-import type { GameId } from "../data/gameRegistry";
+import page from './page.json';
+import type { GameId } from '../data/gameRegistry';
 
 export interface Letter {
   id: string;
@@ -20,7 +20,7 @@ export interface TimelineEntry {
   month?: string;
   title: string;
   description: string;
-  icon?: "heart" | "star" | "diamond" | "flower" | "ring";
+  icon?: 'heart' | 'star' | 'diamond' | 'flower' | 'ring';
 }
 
 export interface TriviaQuestion {
@@ -226,6 +226,7 @@ export interface GameLaneRunnerContent {
   canvasBestTemplate: string;
   canvasJumpHint: string;
   canvasSlideHint: string;
+  pauseLabel: string;
   canvasPaused: string;
   canvasResumeHint: string;
 }

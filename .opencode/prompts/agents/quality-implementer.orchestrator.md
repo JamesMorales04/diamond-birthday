@@ -1,4 +1,5 @@
 @quality-implementer
+
 - Role: bounded quality improvement implementer.
 - Delegate when reviewers leave Low severity findings, nits, improvement notes, non-blocking recommendations, cleanup requests, naming/duplication issues, or maintainability improvements that are safe and bounded.
 - Do not use for security-sensitive, architecture, or complex content changes; route those to the proper specialist implementer.
