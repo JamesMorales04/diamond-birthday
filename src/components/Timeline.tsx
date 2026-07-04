@@ -2,7 +2,7 @@ import { timeline } from '../data/timeline';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { content } from '../content/page';
 
-const iconMap: Record<string, string> = {
+export const iconMap: Record<string, string> = {
   heart: '♥',
   star: '✦',
   diamond: '◆',
@@ -29,7 +29,9 @@ function TimelineEntry({
       style={{ transitionDelay: `${index * 100}ms` }}
     >
       <div className="timeline__dot" aria-hidden="true">
-        <span className="timeline__icon">{iconMap[entry.icon ?? 'heart']}</span>
+        <span className="timeline__icon">
+          {iconMap[entry.icon ?? 'heart'] ?? iconMap.heart}
+        </span>
       </div>
       <div className="timeline__card">
         <div className="timeline__meta">
@@ -67,7 +69,7 @@ export default function Timeline() {
       <div className="timeline__entries">
         {timeline.map((entry, i) => (
           <TimelineEntry
-            key={`${entry.year}-${entry.title}`}
+            key={`timeline-${entry.year}-${entry.month ?? ''}-${entry.title}`}
             entry={entry}
             index={i}
           />

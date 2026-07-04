@@ -21,7 +21,7 @@
       "title": "Nuestro primer cafecito",
       "date": "17 de octubre de 2024",
       "excerpt": "Una cafetería, muchos nervios y la certeza de que en persona eras todavía más tú.",
-      "content": "Mi vida, el día de nuestra primera salida todavía tiene esa mezcla bonita de emoción y nervios. Yo quería que todo saliera bien, que te sintieras cómoda, que pudieras ver que detrás de la pantalla había alguien que de verdad quería conocerte bonito.\n\nLlegaste tú, y de repente no importó tanto si yo estaba nervioso. Me gustó escucharte, mirarte, descubrir que tus gestos y tu risa hacían que todo lo que ya me gustaba de ti se sintiera todavía más real. El cafecito fue una excusa; la verdad es que lo importante eras tú sentada frente a mí.\n\nDesde entonces sigo pensando que cada cita contigo tiene algo de esa primera vez: todavía me emociona verte, todavía quiero que te sientas cuidada y todavía me parece increíble que seas tú quien vuelve especiales los planes.",
+      "content": "Mi vida, el día de nuestra primera salida a pergamino todavía tiene esa mezcla bonita de emoción y nervios. Yo quería que todo saliera bien, que te sintieras cómoda, que pudieras ver que detrás de la pantalla había alguien que de verdad quería conocerte bonito.\n\nLlegaste tú, y de repente no importó tanto si yo estaba nervioso. Me gustó escucharte, mirarte, descubrir que tus gestos y tu risa hacían que todo lo que ya me gustaba de ti se sintiera todavía más real. El cafecito fue una excusa; la verdad es que lo importante eras tú sentada frente a mí.\n\nDesde entonces sigo pensando que cada cita contigo tiene algo de esa primera vez: todavía me emociona verte, todavía quiero que te sientas cuidada y todavía me parece increíble que seas tú quien vuelve especiales los planes.",
       "signature": "Tu esposito, que todavía se pone feliz cuando sabe que va a verte"
     },
     {
@@ -66,7 +66,7 @@
     },
     {
       "id": "carl-ellie-manolo",
-      "title": "Carl, Ellie y el señor Pingüinito Manolo",
+      "title": "El señor Pingüinito Manolo",
       "date": "20 de noviembre de 2024",
       "excerpt": "Una noche de regalos, cartas y una forma preciosa de decirnos que éramos nosotros.",
       "content": "Mi niña bonita, esa noche se me quedó guardada en un lugar demasiado especial. La comida rica, las risas, terminar una película de una de mis sagas favoritas, tus cartas, el forro del celular y Manolito. Todo tenía tu intención, y por eso todo se volvió inmenso.\n\nMe conmovió que vieras un poquito de nosotros en Carl y Ellie, porque yo también siento que contigo encontré a alguien con quien vale la pena llenar el frasco de momentos. No necesito que sean perfectos; necesito que sean nuestros: un café pasado, una tarde quieta, una película, un abrazo, una notita, una bobería que solo nos da risa a los dos.\n\nY sí: Manolo puede hacer un trabajo digno cuando no estás, pero nunca va a competir contigo. La original es otro nivel, mi amor. Tú eres mi compañía favorita, mi descanso favorito y mi persona favorita.",
@@ -372,9 +372,9 @@
     },
     {
       "year": "2025",
-      "month": "Octubre",
-      "title": "El cafecito que dejaste antes de salir",
-      "description": "Hasta cuando salías corriendo para la universidad, encontrabas una forma de dejarme un pedacito tuyo para que el día empezara más suave.",
+      "month": "Septiembre",
+      "title": "La llegada de un solecito a nuestras vidas",
+      "description": "Llego a nuestra familia una bola de peos que siempre nos hace reír y nos recuerda que la vida es más bonita con patitas, culazos y amor.",
       "icon": "flower"
     },
     {
@@ -401,15 +401,22 @@
     {
       "year": "2026",
       "month": "Febrero",
-      "title": "Otro mes, la misma certeza",
-      "description": "Cada mes a tu lado confirma lo mismo: sigues siendo mi persona favorita, mi paz y el futuro que quiero cuidar todos los días.",
+      "title": "La llegada de Otto",
+      "description": "Se une a la famila el pomerania mas tierno y consentido que nos ha hecho reír y quererlo como si siempre hubiera estado con nosotros.",
       "icon": "ring"
     },
     {
       "year": "2026",
-      "month": "Mayo",
-      "title": "Un fin de semana que se sintió mágico",
-      "description": "Risas, besitos, descanso y tiempo juntos. De esos momentos que no necesitan una gran producción para quedarse a vivir en el corazón.",
+      "month": "Abril",
+      "title": "El secuestro de la negra",
+      "description": "De nuevo la casa daba bienvenida a un nuevo integrante, una gatita que lo habia perdido todo, pero logro conseguir una familia cuando menos lo esperaba.",
+      "icon": "heart"
+    },
+    {
+      "year": "2026",
+      "month": "Julio",
+      "title": "La Alta de nuestro niño",
+      "description": "Luego de semanas sin dormir bien, de visitas interminables al veterinario y de mucho amor, nuestro niño peludo finalmente pudo volver a casa. Fue un recordatorio de que juntos podemos superar cualquier cosa.",
       "icon": "heart"
     },
     {
@@ -443,48 +450,28 @@
     {
       "id": "t2",
       "question": "¿Qué banda mencionaste como una de tus favoritas desde el comienzo?",
-      "options": [
-        "Rammstein",
-        "ABBA",
-        "Coldplay",
-        "Soda Stereo"
-      ],
+      "options": ["Rammstein", "ABBA", "Coldplay", "Soda Stereo"],
       "correctIndex": 0,
       "explanation": "Rammstein apareció desde nuestras primeras conversaciones de música, y me encantó descubrir ese pedacito tuyo."
     },
     {
       "id": "t3",
       "question": "¿Cómo se llama el beagle viejito que corre aunque no siempre haga caso?",
-      "options": [
-        "Chester",
-        "Manolo",
-        "Polo",
-        "Doug"
-      ],
+      "options": ["Chester", "Manolo", "Polo", "Doug"],
       "correctIndex": 0,
       "explanation": "Chester: el beagle, el que ronca como camión viejito y aun así se roba el corazón de todos."
     },
     {
       "id": "t4",
       "question": "¿Qué película nos hizo pensar inevitablemente en Carl y Ellie?",
-      "options": [
-        "Up",
-        "Coco",
-        "Enredados",
-        "Toy Story"
-      ],
+      "options": ["Up", "Coco", "Enredados", "Toy Story"],
       "correctIndex": 0,
       "explanation": "Porque nuestra aventura también se construye con cartas, detalles y todas las cositas pequeñas que guardamos juntos."
     },
     {
       "id": "t5",
       "question": "¿Cómo se llama el pingüinito que quedó encargado de hacer compañía cuando no estamos juntos?",
-      "options": [
-        "Manolo",
-        "Pingu",
-        "Tito",
-        "Milo"
-      ],
+      "options": ["Manolo", "Pingu", "Tito", "Milo"],
       "correctIndex": 0,
       "explanation": "El señor Pingüinito Manolo: suplente respetable, aunque la original siempre será tú."
     },
@@ -503,12 +490,7 @@
     {
       "id": "t7",
       "question": "¿Qué comida disfrutamos como parte de una cita que todavía da calorcito recordar?",
-      "options": [
-        "Ramen",
-        "Sushi",
-        "Hamburguesas",
-        "Arepas"
-      ],
+      "options": ["Ramen", "Sushi", "Hamburguesas", "Arepas"],
       "correctIndex": 0,
       "explanation": "El ramen quedó asociado a una noche bonita: cine, amigos, risas y estar juntos."
     },
@@ -527,24 +509,14 @@
     {
       "id": "t9",
       "question": "¿Cuál es la profesión que siempre sé que vas a ejercer de una forma increíble?",
-      "options": [
-        "Abogada",
-        "Astronauta",
-        "Chef",
-        "Arquitecta"
-      ],
+      "options": ["Abogada", "Astronauta", "Chef", "Arquitecta"],
       "correctIndex": 0,
       "explanation": "Mi esposita abogada va a barrer con cualquiera que se atreva a subestimarla."
     },
     {
       "id": "t10",
       "question": "¿Qué animalito apareció primero en nuestros planes de juegos y aventuras?",
-      "options": [
-        "Un pingüinito",
-        "Un dragón",
-        "Un dinosaurio",
-        "Un mapache"
-      ],
+      "options": ["Un pingüinito", "Un dragón", "Un dinosaurio", "Un mapache"],
       "correctIndex": 0,
       "explanation": "Manolito llegó a convertirse en un compañero oficial de nuestras ausencias pequeñas."
     },
@@ -575,36 +547,21 @@
     {
       "id": "t13",
       "question": "¿Qué sabor de natilla mencionaste que te gusta mucho?",
-      "options": [
-        "Arequipe",
-        "Limón",
-        "Café",
-        "Menta"
-      ],
+      "options": ["Arequipe", "Limón", "Café", "Menta"],
       "correctIndex": 0,
       "explanation": "Natilla de arequipe — y también la de coco. Información importante para futuras noches decembrinas."
     },
     {
       "id": "t14",
       "question": "¿Cómo se llama la perrita adoptada que nos presentaste desde el comienzo?",
-      "options": [
-        "Luna",
-        "Maya",
-        "Nala",
-        "Kira"
-      ],
+      "options": ["Luna", "Maya", "Nala", "Kira"],
       "correctIndex": 0,
       "explanation": "Luna: una de las peluditas que volvió aún más grande y bonito tu mundo."
     },
     {
       "id": "t15",
       "question": "¿Qué videojuego aparecía entre los juegos que querías tener para jugar juntos?",
-      "options": [
-        "Mario Kart",
-        "Tetris",
-        "Among Us",
-        "Minecraft"
-      ],
+      "options": ["Mario Kart", "Tetris", "Among Us", "Minecraft"],
       "correctIndex": 0,
       "explanation": "Mario Kart: porque el amor también se demuestra compitiendo con cariño… o celebrando la victoria con un poquito de orgullo."
     },
@@ -635,12 +592,7 @@
     {
       "id": "t18",
       "question": "¿Qué parecía sonar como camión viejito cuando dormía?",
-      "options": [
-        "Chester",
-        "El ventilador",
-        "Mi carro",
-        "La cafetera"
-      ],
+      "options": ["Chester", "El ventilador", "Mi carro", "La cafetera"],
       "correctIndex": 0,
       "explanation": "El beagle más querido del mundo también tiene un talento especial para roncar."
     },
