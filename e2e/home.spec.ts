@@ -85,6 +85,14 @@ test.describe('Full-page Spanish rendering', () => {
   }) => {
     await page.goto('/');
 
+    const timelineSection = page.locator('.timeline');
+
+    // The timeline section starts hidden (opacity: 0) and uses an
+    // IntersectionObserver to trigger a CSS transition to opacity: 1.
+    // Scroll into view, then wait for the transition to complete.
+    await timelineSection.scrollIntoViewIfNeeded();
+    await expect(timelineSection).toHaveCSS('opacity', '1');
+
     // Section title and subtitle — sourced from canonical page.json
     await expect(page.getByText(pageData.content.timeline.title)).toBeVisible();
     await expect(
@@ -95,7 +103,7 @@ test.describe('Full-page Spanish rendering', () => {
     await expect(page.getByText(pageData.timeline[0].title)).toBeVisible();
 
     // Regression: timeline section itself is rendered and visible
-    await expect(page.locator('.timeline')).toBeVisible();
+    await expect(timelineSection).toBeVisible();
   });
 
   test('letters section renders Spanish content', async ({ page }) => {
