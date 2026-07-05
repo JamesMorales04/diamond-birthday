@@ -86,17 +86,13 @@ test.describe('Full-page Spanish rendering', () => {
     await page.goto('/');
 
     // Section title and subtitle — sourced from canonical page.json
-    await expect(
-      page.getByText(pageData.content.timeline.title),
-    ).toBeVisible();
+    await expect(page.getByText(pageData.content.timeline.title)).toBeVisible();
     await expect(
       page.getByText(pageData.content.timeline.subtitle),
     ).toBeVisible();
 
     // First timeline entry title — sourced from canonical timeline entries
-    await expect(
-      page.getByText(pageData.timeline[0].title),
-    ).toBeVisible();
+    await expect(page.getByText(pageData.timeline[0].title)).toBeVisible();
 
     // Regression: timeline section itself is rendered and visible
     await expect(page.locator('.timeline')).toBeVisible();
