@@ -624,7 +624,7 @@
   "galleryCategories": [
     {
       "id": "beginnings",
-      "name": "Cuando todo empezó",
+      "name": "Como todo comenzó",
       "description": "El «Hello 👀», los cafecitos, los primeros nervios y cada detalle del comienzo que nos fue llevando al otro."
     },
     {
@@ -639,105 +639,723 @@
     },
     {
       "id": "forever",
-      "name": "Lo que seguimos construyendo",
-      "description": "Cartas, promesas, planes de futuro y cada motivo para seguir eligiéndonos todos los días."
+      "name": "Nuestro hogar",
+      "description": "Nuestra casita, los planes de futuro y cada motivo para seguir construyendo juntos."
     }
   ],
   "galleryImages": [
     {
       "id": "beginning-1",
-      "src": "/photos/journey-1.svg",
-      "thumb": "/photos/journey-1.svg",
-      "alt": "El comienzo de nuestra historia",
-      "caption": "Una conversación sencilla que terminó abriendo un mundo entero para los dos.",
+      "src": "/photos/inicio/1.jpeg",
+      "thumb": "/photos/inicio/1.jpeg",
+      "alt": "Foto del inicio de nuestra historia — 1",
       "category": "beginnings"
     },
     {
       "id": "beginning-2",
-      "src": "/photos/journey-2.svg",
-      "thumb": "/photos/journey-2.svg",
-      "alt": "Nuestro primer cafecito",
-      "caption": "Nervios, una cafetería y la sensación de que en persona todo se sentía todavía mejor.",
+      "src": "/photos/inicio/2.jpeg",
+      "thumb": "/photos/inicio/2.jpeg",
+      "alt": "Foto del inicio de nuestra historia — 2",
       "category": "beginnings"
     },
     {
       "id": "beginning-3",
-      "src": "/photos/moments-1.svg",
-      "thumb": "/photos/moments-1.svg",
-      "alt": "Una despedida que no queríamos terminar",
-      "caption": "De esas veces en que un ratito más contigo parecía ser lo único necesario.",
+      "src": "/photos/inicio/3.jpeg",
+      "thumb": "/photos/inicio/3.jpeg",
+      "alt": "Foto del inicio de nuestra historia — 3",
+      "category": "beginnings"
+    },
+    {
+      "id": "beginning-4",
+      "src": "/photos/inicio/4.jpeg",
+      "thumb": "/photos/inicio/4.jpeg",
+      "alt": "Foto del inicio de nuestra historia — 4",
       "category": "beginnings"
     },
     {
       "id": "adventure-1",
-      "src": "/photos/journey-3.svg",
-      "thumb": "/photos/journey-3.svg",
-      "alt": "Ramen y una cita bonita",
-      "caption": "Ramen, cine y risas: una noche que hizo que mi mundo se sintiera más completo contigo.",
+      "src": "/photos/aventuras/1.jpeg",
+      "thumb": "/photos/aventuras/1.jpeg",
+      "alt": "Foto de nuestras aventuras — 1",
       "category": "adventures"
     },
     {
       "id": "adventure-2",
-      "src": "/photos/journey-4.svg",
-      "thumb": "/photos/journey-4.svg",
-      "alt": "La playa con mi koalita bonita",
-      "caption": "El mar se veía bonito, pero mi parte favorita siempre eras tú al lado mío.",
+      "src": "/photos/aventuras/2.jpeg",
+      "thumb": "/photos/aventuras/2.jpeg",
+      "alt": "Foto de nuestras aventuras — 2",
       "category": "adventures"
     },
     {
       "id": "adventure-3",
-      "src": "/photos/moments-2.svg",
-      "thumb": "/photos/moments-2.svg",
-      "alt": "Un plan que se volvió aventura",
-      "caption": "Con nosotros hasta salir por algo rico o ver una película puede volverse una historia para guardar.",
+      "src": "/photos/aventuras/3.jpeg",
+      "thumb": "/photos/aventuras/3.jpeg",
+      "alt": "Foto de nuestras aventuras — 3",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-4",
+      "src": "/photos/aventuras/4.jpeg",
+      "thumb": "/photos/aventuras/4.jpeg",
+      "alt": "Foto de nuestras aventuras — 4",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-5",
+      "src": "/photos/aventuras/5.jpeg",
+      "thumb": "/photos/aventuras/5.jpeg",
+      "alt": "Foto de nuestras aventuras — 5",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-6",
+      "src": "/photos/aventuras/6.jpeg",
+      "thumb": "/photos/aventuras/6.jpeg",
+      "alt": "Foto de nuestras aventuras — 6",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-7",
+      "src": "/photos/aventuras/7.jpeg",
+      "thumb": "/photos/aventuras/7.jpeg",
+      "alt": "Foto de nuestras aventuras — 7",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-8",
+      "src": "/photos/aventuras/8.jpeg",
+      "thumb": "/photos/aventuras/8.jpeg",
+      "alt": "Foto de nuestras aventuras — 8",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-9",
+      "src": "/photos/aventuras/9.jpeg",
+      "thumb": "/photos/aventuras/9.jpeg",
+      "alt": "Foto de nuestras aventuras — 9",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-10",
+      "src": "/photos/aventuras/10.jpeg",
+      "thumb": "/photos/aventuras/10.jpeg",
+      "alt": "Foto de nuestras aventuras — 10",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-11",
+      "src": "/photos/aventuras/11.jpeg",
+      "thumb": "/photos/aventuras/11.jpeg",
+      "alt": "Foto de nuestras aventuras — 11",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-12",
+      "src": "/photos/aventuras/12.jpeg",
+      "thumb": "/photos/aventuras/12.jpeg",
+      "alt": "Foto de nuestras aventuras — 12",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-13",
+      "src": "/photos/aventuras/13.jpeg",
+      "thumb": "/photos/aventuras/13.jpeg",
+      "alt": "Foto de nuestras aventuras — 13",
+      "category": "adventures"
+    },
+    {
+      "id": "adventure-14",
+      "src": "/photos/aventuras/14.jpeg",
+      "thumb": "/photos/aventuras/14.jpeg",
+      "alt": "Foto de nuestras aventuras — 14",
       "category": "adventures"
     },
     {
       "id": "home-1",
-      "src": "/photos/moments-3.svg",
-      "thumb": "/photos/moments-3.svg",
-      "alt": "Velitas, ramen y natilla",
-      "caption": "Un diciembre hecho de luces, recetas improvisadas y muchas ganas de estar cerquita.",
+      "src": "/photos/peludos/1.jpeg",
+      "thumb": "/photos/peludos/1.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 1",
       "category": "home"
     },
     {
       "id": "home-2",
-      "src": "/photos/moments-4.svg",
-      "thumb": "/photos/moments-4.svg",
-      "alt": "Pancakes y cobijita",
-      "caption": "Pancakes, algo para ver y tú: una definición bastante exacta de paz.",
+      "src": "/photos/peludos/2.jpeg",
+      "thumb": "/photos/peludos/2.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 2",
       "category": "home"
     },
     {
       "id": "home-3",
-      "src": "/photos/forever-1.svg",
-      "thumb": "/photos/forever-1.svg",
-      "alt": "Una mañana con café",
-      "caption": "Un cafecito, una notita y el recordatorio de que una casa se vuelve hogar con amor.",
+      "src": "/photos/peludos/3.jpeg",
+      "thumb": "/photos/peludos/3.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 3",
+      "category": "home"
+    },
+    {
+      "id": "home-4",
+      "src": "/photos/peludos/4.jpeg",
+      "thumb": "/photos/peludos/4.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 4",
+      "category": "home"
+    },
+    {
+      "id": "home-5",
+      "src": "/photos/peludos/5.jpeg",
+      "thumb": "/photos/peludos/5.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 5",
+      "category": "home"
+    },
+    {
+      "id": "home-6",
+      "src": "/photos/peludos/6.jpeg",
+      "thumb": "/photos/peludos/6.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 6",
+      "category": "home"
+    },
+    {
+      "id": "home-7",
+      "src": "/photos/peludos/7.jpeg",
+      "thumb": "/photos/peludos/7.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 7",
+      "category": "home"
+    },
+    {
+      "id": "home-8",
+      "src": "/photos/peludos/8.jpeg",
+      "thumb": "/photos/peludos/8.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 8",
+      "category": "home"
+    },
+    {
+      "id": "home-9",
+      "src": "/photos/peludos/9.jpeg",
+      "thumb": "/photos/peludos/9.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 9",
+      "category": "home"
+    },
+    {
+      "id": "home-10",
+      "src": "/photos/peludos/10.jpeg",
+      "thumb": "/photos/peludos/10.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 10",
+      "category": "home"
+    },
+    {
+      "id": "home-11",
+      "src": "/photos/peludos/11.jpeg",
+      "thumb": "/photos/peludos/11.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 11",
+      "category": "home"
+    },
+    {
+      "id": "home-12",
+      "src": "/photos/peludos/12.jpeg",
+      "thumb": "/photos/peludos/12.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 12",
+      "category": "home"
+    },
+    {
+      "id": "home-13",
+      "src": "/photos/peludos/13.jpeg",
+      "thumb": "/photos/peludos/13.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 13",
+      "category": "home"
+    },
+    {
+      "id": "home-14",
+      "src": "/photos/peludos/14.jpeg",
+      "thumb": "/photos/peludos/14.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 14",
+      "category": "home"
+    },
+    {
+      "id": "home-15",
+      "src": "/photos/peludos/15.jpeg",
+      "thumb": "/photos/peludos/15.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 15",
+      "category": "home"
+    },
+    {
+      "id": "home-16",
+      "src": "/photos/peludos/16.jpeg",
+      "thumb": "/photos/peludos/16.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 16",
+      "category": "home"
+    },
+    {
+      "id": "home-17",
+      "src": "/photos/peludos/17.jpeg",
+      "thumb": "/photos/peludos/17.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 17",
+      "category": "home"
+    },
+    {
+      "id": "home-18",
+      "src": "/photos/peludos/18.jpeg",
+      "thumb": "/photos/peludos/18.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 18",
+      "category": "home"
+    },
+    {
+      "id": "home-19",
+      "src": "/photos/peludos/19.jpeg",
+      "thumb": "/photos/peludos/19.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 19",
+      "category": "home"
+    },
+    {
+      "id": "home-20",
+      "src": "/photos/peludos/20.jpeg",
+      "thumb": "/photos/peludos/20.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 20",
+      "category": "home"
+    },
+    {
+      "id": "home-21",
+      "src": "/photos/peludos/21.jpeg",
+      "thumb": "/photos/peludos/21.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 21",
+      "category": "home"
+    },
+    {
+      "id": "home-22",
+      "src": "/photos/peludos/22.jpeg",
+      "thumb": "/photos/peludos/22.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 22",
+      "category": "home"
+    },
+    {
+      "id": "home-23",
+      "src": "/photos/peludos/23.jpeg",
+      "thumb": "/photos/peludos/23.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 23",
+      "category": "home"
+    },
+    {
+      "id": "home-24",
+      "src": "/photos/peludos/24.jpeg",
+      "thumb": "/photos/peludos/24.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 24",
+      "category": "home"
+    },
+    {
+      "id": "home-25",
+      "src": "/photos/peludos/25.jpeg",
+      "thumb": "/photos/peludos/25.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 25",
+      "category": "home"
+    },
+    {
+      "id": "home-26",
+      "src": "/photos/peludos/26.jpeg",
+      "thumb": "/photos/peludos/26.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 26",
+      "category": "home"
+    },
+    {
+      "id": "home-27",
+      "src": "/photos/peludos/27.jpeg",
+      "thumb": "/photos/peludos/27.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 27",
+      "category": "home"
+    },
+    {
+      "id": "home-28",
+      "src": "/photos/peludos/28.jpeg",
+      "thumb": "/photos/peludos/28.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 28",
+      "category": "home"
+    },
+    {
+      "id": "home-29",
+      "src": "/photos/peludos/29.jpeg",
+      "thumb": "/photos/peludos/29.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 29",
+      "category": "home"
+    },
+    {
+      "id": "home-30",
+      "src": "/photos/peludos/30.jpeg",
+      "thumb": "/photos/peludos/30.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 30",
+      "category": "home"
+    },
+    {
+      "id": "home-31",
+      "src": "/photos/peludos/31.jpeg",
+      "thumb": "/photos/peludos/31.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 31",
+      "category": "home"
+    },
+    {
+      "id": "home-32",
+      "src": "/photos/peludos/32.jpeg",
+      "thumb": "/photos/peludos/32.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 32",
+      "category": "home"
+    },
+    {
+      "id": "home-33",
+      "src": "/photos/peludos/33.jpeg",
+      "thumb": "/photos/peludos/33.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 33",
+      "category": "home"
+    },
+    {
+      "id": "home-34",
+      "src": "/photos/peludos/34.jpeg",
+      "thumb": "/photos/peludos/34.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 34",
+      "category": "home"
+    },
+    {
+      "id": "home-35",
+      "src": "/photos/peludos/35.jpeg",
+      "thumb": "/photos/peludos/35.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 35",
+      "category": "home"
+    },
+    {
+      "id": "home-36",
+      "src": "/photos/peludos/36.jpeg",
+      "thumb": "/photos/peludos/36.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 36",
+      "category": "home"
+    },
+    {
+      "id": "home-37",
+      "src": "/photos/peludos/37.jpeg",
+      "thumb": "/photos/peludos/37.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 37",
+      "category": "home"
+    },
+    {
+      "id": "home-38",
+      "src": "/photos/peludos/38.jpeg",
+      "thumb": "/photos/peludos/38.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 38",
+      "category": "home"
+    },
+    {
+      "id": "home-39",
+      "src": "/photos/peludos/39.jpeg",
+      "thumb": "/photos/peludos/39.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 39",
+      "category": "home"
+    },
+    {
+      "id": "home-40",
+      "src": "/photos/peludos/40.jpeg",
+      "thumb": "/photos/peludos/40.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 40",
+      "category": "home"
+    },
+    {
+      "id": "home-41",
+      "src": "/photos/peludos/41.jpeg",
+      "thumb": "/photos/peludos/41.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 41",
+      "category": "home"
+    },
+    {
+      "id": "home-42",
+      "src": "/photos/peludos/42.jpeg",
+      "thumb": "/photos/peludos/42.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 42",
+      "category": "home"
+    },
+    {
+      "id": "home-43",
+      "src": "/photos/peludos/43.jpeg",
+      "thumb": "/photos/peludos/43.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 43",
+      "category": "home"
+    },
+    {
+      "id": "home-44",
+      "src": "/photos/peludos/44.jpeg",
+      "thumb": "/photos/peludos/44.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 44",
+      "category": "home"
+    },
+    {
+      "id": "home-45",
+      "src": "/photos/peludos/45.jpeg",
+      "thumb": "/photos/peludos/45.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 45",
+      "category": "home"
+    },
+    {
+      "id": "home-46",
+      "src": "/photos/peludos/46.jpeg",
+      "thumb": "/photos/peludos/46.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 46",
+      "category": "home"
+    },
+    {
+      "id": "home-47",
+      "src": "/photos/peludos/47.jpeg",
+      "thumb": "/photos/peludos/47.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 47",
+      "category": "home"
+    },
+    {
+      "id": "home-48",
+      "src": "/photos/peludos/48.jpeg",
+      "thumb": "/photos/peludos/48.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 48",
+      "category": "home"
+    },
+    {
+      "id": "home-49",
+      "src": "/photos/peludos/49.jpeg",
+      "thumb": "/photos/peludos/49.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 49",
+      "category": "home"
+    },
+    {
+      "id": "home-50",
+      "src": "/photos/peludos/50.jpeg",
+      "thumb": "/photos/peludos/50.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 50",
+      "category": "home"
+    },
+    {
+      "id": "home-51",
+      "src": "/photos/peludos/51.jpeg",
+      "thumb": "/photos/peludos/51.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 51",
+      "category": "home"
+    },
+    {
+      "id": "home-52",
+      "src": "/photos/peludos/52.jpeg",
+      "thumb": "/photos/peludos/52.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 52",
+      "category": "home"
+    },
+    {
+      "id": "home-53",
+      "src": "/photos/peludos/53.jpeg",
+      "thumb": "/photos/peludos/53.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 53",
+      "category": "home"
+    },
+    {
+      "id": "home-54",
+      "src": "/photos/peludos/54.jpeg",
+      "thumb": "/photos/peludos/54.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 54",
+      "category": "home"
+    },
+    {
+      "id": "home-55",
+      "src": "/photos/peludos/55.jpeg",
+      "thumb": "/photos/peludos/55.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 55",
+      "category": "home"
+    },
+    {
+      "id": "home-56",
+      "src": "/photos/peludos/56.jpeg",
+      "thumb": "/photos/peludos/56.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 56",
+      "category": "home"
+    },
+    {
+      "id": "home-57",
+      "src": "/photos/peludos/57.jpeg",
+      "thumb": "/photos/peludos/57.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 57",
+      "category": "home"
+    },
+    {
+      "id": "home-58",
+      "src": "/photos/peludos/58.jpeg",
+      "thumb": "/photos/peludos/58.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 58",
+      "category": "home"
+    },
+    {
+      "id": "home-59",
+      "src": "/photos/peludos/59.jpeg",
+      "thumb": "/photos/peludos/59.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 59",
+      "category": "home"
+    },
+    {
+      "id": "home-60",
+      "src": "/photos/peludos/60.jpeg",
+      "thumb": "/photos/peludos/60.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 60",
+      "category": "home"
+    },
+    {
+      "id": "home-61",
+      "src": "/photos/peludos/61.jpeg",
+      "thumb": "/photos/peludos/61.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 61",
+      "category": "home"
+    },
+    {
+      "id": "home-62",
+      "src": "/photos/peludos/62.jpeg",
+      "thumb": "/photos/peludos/62.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 62",
+      "category": "home"
+    },
+    {
+      "id": "home-63",
+      "src": "/photos/peludos/63.jpeg",
+      "thumb": "/photos/peludos/63.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 63",
+      "category": "home"
+    },
+    {
+      "id": "home-64",
+      "src": "/photos/peludos/64.jpeg",
+      "thumb": "/photos/peludos/64.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 64",
+      "category": "home"
+    },
+    {
+      "id": "home-65",
+      "src": "/photos/peludos/65.jpeg",
+      "thumb": "/photos/peludos/65.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 65",
+      "category": "home"
+    },
+    {
+      "id": "home-66",
+      "src": "/photos/peludos/66.jpeg",
+      "thumb": "/photos/peludos/66.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 66",
+      "category": "home"
+    },
+    {
+      "id": "home-67",
+      "src": "/photos/peludos/67.jpeg",
+      "thumb": "/photos/peludos/67.jpeg",
+      "alt": "Foto de nuestra casita y los peluditos — 67",
       "category": "home"
     },
     {
       "id": "forever-1",
-      "src": "/photos/forever-2.svg",
-      "thumb": "/photos/forever-2.svg",
-      "alt": "Cartas y detalles",
-      "caption": "Tus cartas me enseñaron que una intención bonita puede quedarse viviendo para siempre en alguien.",
+      "src": "/photos/hogar/1.jpeg",
+      "thumb": "/photos/hogar/1.jpeg",
+      "alt": "Foto de nuestro hogar — 1",
       "category": "forever"
     },
     {
       "id": "forever-2",
-      "src": "/photos/forever-3.svg",
-      "thumb": "/photos/forever-3.svg",
-      "alt": "El hogar que imaginamos",
-      "caption": "Una casa con risas, comida rica, peluditos y los dos eligiéndonos cada día.",
+      "src": "/photos/hogar/2.jpeg",
+      "thumb": "/photos/hogar/2.jpeg",
+      "alt": "Foto de nuestro hogar — 2",
       "category": "forever"
     },
     {
       "id": "forever-3",
-      "src": "/photos/forever-4.svg",
-      "thumb": "/photos/forever-4.svg",
-      "alt": "Nuestro futuro juntos",
-      "caption": "No necesito saber cada detalle del futuro; me basta con saber que quiero recorrerlo contigo.",
+      "src": "/photos/hogar/3.jpeg",
+      "thumb": "/photos/hogar/3.jpeg",
+      "alt": "Foto de nuestro hogar — 3",
+      "category": "forever"
+    },
+    {
+      "id": "forever-4",
+      "src": "/photos/hogar/4.jpeg",
+      "thumb": "/photos/hogar/4.jpeg",
+      "alt": "Foto de nuestro hogar — 4",
+      "category": "forever"
+    },
+    {
+      "id": "forever-5",
+      "src": "/photos/hogar/5.jpeg",
+      "thumb": "/photos/hogar/5.jpeg",
+      "alt": "Foto de nuestro hogar — 5",
+      "category": "forever"
+    },
+    {
+      "id": "forever-6",
+      "src": "/photos/hogar/6.jpeg",
+      "thumb": "/photos/hogar/6.jpeg",
+      "alt": "Foto de nuestro hogar — 6",
+      "category": "forever"
+    },
+    {
+      "id": "forever-7",
+      "src": "/photos/hogar/7.jpeg",
+      "thumb": "/photos/hogar/7.jpeg",
+      "alt": "Foto de nuestro hogar — 7",
+      "category": "forever"
+    },
+    {
+      "id": "forever-8",
+      "src": "/photos/hogar/8.jpeg",
+      "thumb": "/photos/hogar/8.jpeg",
+      "alt": "Foto de nuestro hogar — 8",
+      "category": "forever"
+    },
+    {
+      "id": "forever-9",
+      "src": "/photos/hogar/9.jpeg",
+      "thumb": "/photos/hogar/9.jpeg",
+      "alt": "Foto de nuestro hogar — 9",
+      "category": "forever"
+    },
+    {
+      "id": "forever-10",
+      "src": "/photos/hogar/10.jpeg",
+      "thumb": "/photos/hogar/10.jpeg",
+      "alt": "Foto de nuestro hogar — 10",
+      "category": "forever"
+    },
+    {
+      "id": "forever-11",
+      "src": "/photos/hogar/11.jpeg",
+      "thumb": "/photos/hogar/11.jpeg",
+      "alt": "Foto de nuestro hogar — 11",
+      "category": "forever"
+    },
+    {
+      "id": "forever-12",
+      "src": "/photos/hogar/12.jpeg",
+      "thumb": "/photos/hogar/12.jpeg",
+      "alt": "Foto de nuestro hogar — 12",
+      "category": "forever"
+    },
+    {
+      "id": "forever-13",
+      "src": "/photos/hogar/13.jpeg",
+      "thumb": "/photos/hogar/13.jpeg",
+      "alt": "Foto de nuestro hogar — 13",
+      "category": "forever"
+    },
+    {
+      "id": "forever-14",
+      "src": "/photos/hogar/14.jpeg",
+      "thumb": "/photos/hogar/14.jpeg",
+      "alt": "Foto de nuestro hogar — 14",
+      "category": "forever"
+    },
+    {
+      "id": "forever-15",
+      "src": "/photos/hogar/15.jpeg",
+      "thumb": "/photos/hogar/15.jpeg",
+      "alt": "Foto de nuestro hogar — 15",
+      "category": "forever"
+    },
+    {
+      "id": "forever-16",
+      "src": "/photos/hogar/16.jpeg",
+      "thumb": "/photos/hogar/16.jpeg",
+      "alt": "Foto de nuestro hogar — 16",
+      "category": "forever"
+    },
+    {
+      "id": "forever-17",
+      "src": "/photos/hogar/17.jpeg",
+      "thumb": "/photos/hogar/17.jpeg",
+      "alt": "Foto de nuestro hogar — 17",
       "category": "forever"
     }
   ],
@@ -787,7 +1405,8 @@
       "prevPhoto": "Recuerdo anterior",
       "nextPhoto": "Siguiente recuerdo",
       "ofTemplate": "{current} de {total}",
-      "photoAriaLabel": "Recuerdo {index} de {total}"
+      "photoAriaLabel": "Recuerdo {index} de {total}",
+      "loadError": "No se pudo cargar la imagen"
     },
     "surprise": {
       "title": "Una cosita que nunca me voy a cansar de decirte",

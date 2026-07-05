@@ -285,6 +285,110 @@ describe('GalleryModal', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  /* ---------- image loading states ---------- */
+
+  it('shows a spinner while the image is loading and removes it on load', () => {
+    render(
+      <GalleryModal
+        image={baseImage}
+        hasPrev={false}
+        hasNext={false}
+        onPrev={vi.fn()}
+        onNext={vi.fn()}
+        onClose={vi.fn()}
+      />,
+    );
+
+    // Spinner is present before load
+    const spinner = document.querySelector('.gallery-modal__spinner');
+    expect(spinner).toBeInTheDocument();
+
+    // Fire load event on the image → spinner disappears
+    const img = document.querySelector('.gallery-modal__img');
+    expect(img).toBeInTheDocument();
+    fireEvent.load(img!);
+    expect(
+      document.querySelector('.gallery-modal__spinner'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows an error state when the image fails to load and clears the spinner', () => {
+    render(
+      <GalleryModal
+        image={baseImage}
+        hasPrev={false}
+        hasNext={false}
+        onPrev={vi.fn()}
+        onNext={vi.fn()}
+        onClose={vi.fn()}
+      />,
+    );
+
+    // Before error: spinner is visible
+    expect(
+      document.querySelector('.gallery-modal__spinner'),
+    ).toBeInTheDocument();
+
+    // Fire error on the image
+    const img = document.querySelector('.gallery-modal__img');
+    expect(img).toBeInTheDocument();
+    fireEvent.error(img!);
+
+    // Spinner is gone
+    expect(
+      document.querySelector('.gallery-modal__spinner'),
+    ).not.toBeInTheDocument();
+
+    // Error message appears with role="alert"
+    const errorEl = screen.getByRole('alert');
+    expect(errorEl).toBeInTheDocument();
+    expect(errorEl).toHaveTextContent(content.galleryModal.loadError);
+    // The image is no longer rendered
+    expect(
+      document.querySelector('.gallery-modal__img'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('resets loaded and error states when the image prop changes', () => {
+    const { rerender } = render(
+      <GalleryModal
+        image={baseImage}
+        hasPrev={false}
+        hasNext={false}
+        onPrev={vi.fn()}
+        onNext={vi.fn()}
+        onClose={vi.fn()}
+      />,
+    );
+
+    // Simulate successful load
+    fireEvent.load(document.querySelector('.gallery-modal__img')!);
+    expect(
+      document.querySelector('.gallery-modal__spinner'),
+    ).not.toBeInTheDocument();
+
+    const nextImage = { ...baseImage, id: 'test-2', src: '/photos/test2.svg' };
+
+    rerender(
+      <GalleryModal
+        image={nextImage}
+        hasPrev={false}
+        hasNext={false}
+        onPrev={vi.fn()}
+        onNext={vi.fn()}
+        onClose={vi.fn()}
+      />,
+    );
+
+    // State should have reset: spinner is back, no error yet
+    expect(
+      document.querySelector('.gallery-modal__spinner'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('alert'),
+    ).not.toBeInTheDocument();
+  });
+
   /* ---------- body scroll ---------- */
 
   it('sets body overflow to hidden when mounted', () => {

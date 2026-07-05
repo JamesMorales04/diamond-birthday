@@ -113,24 +113,73 @@ test.describe('Full-page Spanish rendering', () => {
   test('gallery section renders Spanish content', async ({ page }) => {
     await page.goto('/');
 
-    // Use explicit id selector to avoid strict-mode collision with the all-tab
-    // button (which contains 'Nuestros recuerditos' as a substring)
+    // Section title
     await expect(page.locator('#gallery-title')).toHaveText(
-      'Nuestros recuerditos',
+      'Nuestro rinconcito de recuerdos',
     );
+    // Section subtitle
     await expect(
-      page.getByText('Momentos que se quedaron conmigo porque estabas tú'),
+      page.getByText(
+        'Las aventuras grandes, los días normales y todas las veces que la vida se sintió más bonita porque estabas tú.',
+      ),
     ).toBeVisible();
 
-    // Category tab buttons
-    await expect(page.getByText('Todos nuestros recuerditos')).toBeVisible();
-    await expect(page.getByText('Nuestras aventuritas')).toBeVisible();
+    // The "All" tab button reads from centralized content (currently "Todos")
+    await expect(page.getByRole('tab', { name: 'Todos' })).toBeVisible();
+
+    // Category tab buttons — sourced from galleryCategories in page.json
+    await expect(page.getByText('Como todo comenzó')).toBeVisible();
+    await expect(page.getByText('Citas y aventuras')).toBeVisible();
     await expect(
-      page.getByText('Cafecitos, notitas y calorcito'),
+      page.getByText('Nuestra casita y los peluditos'),
     ).toBeVisible();
+    await expect(page.getByText('Nuestro hogar')).toBeVisible();
+
+    // Expect 5 tab buttons: "Todos" + 4 categories
+    await expect(page.getByRole('tab')).toHaveCount(5);
+  });
+
+  test('gallery tab filtering switches between categories', async ({
+    page,
+  }) => {
+    await page.goto('/');
+
+    const tabs = page.getByRole('tab');
+    await expect(tabs).toHaveCount(5);
+
+    // "Todos" is selected by default
     await expect(
-      page.getByText('Nuestra familia y nuestro futuro'),
-    ).toBeVisible();
+      page.getByRole('tab', { name: 'Todos' }),
+    ).toHaveAttribute('aria-selected', 'true');
+
+    // Click the first category tab
+    await page.getByRole('tab', { name: 'Como todo comenzó' }).click();
+
+    // The clicked category should be selected and "Todos" unselected
+    await expect(
+      page.getByRole('tab', { name: 'Como todo comenzó' }),
+    ).toHaveAttribute('aria-selected', 'true');
+    await expect(
+      page.getByRole('tab', { name: 'Todos' }),
+    ).toHaveAttribute('aria-selected', 'false');
+  });
+
+  test('gallery thumbnail opens and closes the modal viewer', async ({
+    page,
+  }) => {
+    await page.goto('/');
+
+    // Click the first visible thumbnail button
+    const firstThumb = page.locator('.gallery__thumb').first();
+    await firstThumb.click();
+
+    // Modal dialog should appear
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+
+    // Close the modal via the close button
+    await page.getByLabel('Cerrar recuerdos').click();
+    await expect(dialog).not.toBeVisible();
   });
 
   test('surprise section renders Spanish content and reveals', async ({

@@ -29,12 +29,14 @@ export default function GalleryModal({
 }: GalleryModalProps) {
   const reducedMotion = useReducedMotion();
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
-  const captionId = `gallery-caption-${image.id}`;
+  const captionId = image.caption ? `gallery-caption-${image.id}` : undefined;
 
-  // Reset loaded state when image changes
+  // Reset loaded and error states when image changes
   useEffect(() => {
     setLoaded(false);
+    setError(false);
   }, [image.id]);
 
   // Focus trap and escape key
@@ -131,9 +133,11 @@ export default function GalleryModal({
                 })}
               </span>
             )}
-            <span id={captionId} className="gallery-modal__caption">
-              {image.caption}
-            </span>
+            {image.caption && (
+              <span id={captionId} className="gallery-modal__caption">
+                {image.caption}
+              </span>
+            )}
           </div>
           <button
             className="gallery-modal__close"
@@ -156,17 +160,25 @@ export default function GalleryModal({
           )}
 
           <div className="gallery-modal__image">
-            {!loaded && (
+            {!loaded && !error && (
               <div className="gallery-modal__spinner" aria-hidden="true">
                 <span>✦</span>
               </div>
             )}
-            <img
-              src={assetUrl(image.src)}
-              alt={image.alt}
-              className={`gallery-modal__img ${loaded ? 'gallery-modal__img--loaded' : ''} ${reducedMotion ? '' : 'gallery-modal__img--fade'}`}
-              onLoad={() => setLoaded(true)}
-            />
+            {error ? (
+              <div className="gallery-modal__error" role="alert">
+                <span aria-hidden="true">⚠</span>
+                <span>{content.galleryModal.loadError}</span>
+              </div>
+            ) : (
+              <img
+                src={assetUrl(image.src)}
+                alt={image.alt}
+                className={`gallery-modal__img ${loaded ? 'gallery-modal__img--loaded' : ''} ${reducedMotion ? '' : 'gallery-modal__img--fade'}`}
+                onLoad={() => setLoaded(true)}
+                onError={() => setError(true)}
+              />
+            )}
           </div>
 
           {hasNext && (

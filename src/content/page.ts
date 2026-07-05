@@ -93,6 +93,7 @@ export interface GalleryModalContent {
   nextPhoto: string;
   ofTemplate: string;
   photoAriaLabel: string;
+  loadError: string;
 }
 
 export interface SurpriseContent {
