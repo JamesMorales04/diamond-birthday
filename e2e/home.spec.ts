@@ -1,4 +1,5 @@
 import { test, expect, type Locator } from '@playwright/test';
+import pageData from '../src/content/page.json';
 
 /**
  * Assert that a single wheel label is visible, has non-zero dimensions,
@@ -79,19 +80,26 @@ test.describe('Full-page Spanish rendering', () => {
     ).toBeVisible();
   });
 
-  test('timeline section renders Spanish content', async ({ page }) => {
+  test('timeline section renders Spanish content and is visible', async ({
+    page,
+  }) => {
     await page.goto('/');
 
-    // Section title and subtitle
-    await expect(page.getByText('Nuestra historia, mi amor')).toBeVisible();
+    // Section title and subtitle — sourced from canonical page.json
     await expect(
-      page.getByText(
-        'Cafecitos, notitas, abrazos, patitas y una vida que seguimos eligiendo todos los días',
-      ),
+      page.getByText(pageData.content.timeline.title),
+    ).toBeVisible();
+    await expect(
+      page.getByText(pageData.content.timeline.subtitle),
     ).toBeVisible();
 
-    // First timeline entry title
-    await expect(page.getByText('La casa dejó de sentirse fría')).toBeVisible();
+    // First timeline entry title — sourced from canonical timeline entries
+    await expect(
+      page.getByText(pageData.timeline[0].title),
+    ).toBeVisible();
+
+    // Regression: timeline section itself is rendered and visible
+    await expect(page.locator('.timeline')).toBeVisible();
   });
 
   test('letters section renders Spanish content', async ({ page }) => {
@@ -148,9 +156,10 @@ test.describe('Full-page Spanish rendering', () => {
     await expect(tabs).toHaveCount(5);
 
     // "Todos" is selected by default
-    await expect(
-      page.getByRole('tab', { name: 'Todos' }),
-    ).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: 'Todos' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
 
     // Click the first category tab
     await page.getByRole('tab', { name: 'Como todo comenzó' }).click();
@@ -159,9 +168,10 @@ test.describe('Full-page Spanish rendering', () => {
     await expect(
       page.getByRole('tab', { name: 'Como todo comenzó' }),
     ).toHaveAttribute('aria-selected', 'true');
-    await expect(
-      page.getByRole('tab', { name: 'Todos' }),
-    ).toHaveAttribute('aria-selected', 'false');
+    await expect(page.getByRole('tab', { name: 'Todos' })).toHaveAttribute(
+      'aria-selected',
+      'false',
+    );
   });
 
   test('gallery thumbnail opens and closes the modal viewer', async ({

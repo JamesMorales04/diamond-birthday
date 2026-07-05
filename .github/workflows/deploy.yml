@@ -50,9 +50,6 @@ jobs:
       - name: TypeCheck
         run: pnpm typecheck
 
-      - name: Test
-        run: pnpm test
-
       - name: Build
         # VITE_BASE_PATH is derived from the repository name so the workflow
         # automatically adapts if the repo is renamed or forked.

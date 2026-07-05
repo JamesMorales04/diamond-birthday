@@ -9,20 +9,75 @@ import { tpl } from '../utils/tpl';
 // factory runs (vi.mock is hoisted above static imports).
 const fixture = vi.hoisted(() => {
   const categories = [
-    { id: 'journey', name: 'Nuestro Viaje', description: 'El comienzo de todo' },
+    {
+      id: 'journey',
+      name: 'Nuestro Viaje',
+      description: 'El comienzo de todo',
+    },
     { id: 'adventures', name: 'Aventuras', description: 'Nuestras aventuras' },
     { id: 'home', name: 'Hogar', description: 'Nuestro hogar' },
   ] as const;
 
   const images = [
-    { id: 'j1', src: '/test/j1.jpg', thumb: '/test/j1.jpg', alt: 'Viaje 1', caption: 'Primer viaje', category: 'journey' },
-    { id: 'j2', src: '/test/j2.jpg', thumb: '/test/j2.jpg', alt: 'Viaje 2', category: 'journey' },
-    { id: 'a1', src: '/test/a1.jpg', thumb: '/test/a1.jpg', alt: 'Aventura 1', caption: 'Aventura en la playa', category: 'adventures' },
-    { id: 'a2', src: '/test/a2.jpg', thumb: '/test/a2.jpg', alt: 'Aventura 2', category: 'adventures' },
-    { id: 'a3', src: '/test/a3.jpg', thumb: '/test/a3.jpg', alt: 'Aventura 3', category: 'adventures' },
-    { id: 'h1', src: '/test/h1.jpg', thumb: '/test/h1.jpg', alt: 'Hogar 1', category: 'home' },
-    { id: 'h2', src: '/test/h2.jpg', thumb: '/test/h2.jpg', alt: 'Hogar 2', caption: 'Nuestra casita', category: 'home' },
-    { id: 'h3', src: '/test/h3.jpg', thumb: '/test/h3.jpg', alt: 'Hogar 3', category: 'home' },
+    {
+      id: 'j1',
+      src: '/test/j1.jpg',
+      thumb: '/test/j1.jpg',
+      alt: 'Viaje 1',
+      caption: 'Primer viaje',
+      category: 'journey',
+    },
+    {
+      id: 'j2',
+      src: '/test/j2.jpg',
+      thumb: '/test/j2.jpg',
+      alt: 'Viaje 2',
+      category: 'journey',
+    },
+    {
+      id: 'a1',
+      src: '/test/a1.jpg',
+      thumb: '/test/a1.jpg',
+      alt: 'Aventura 1',
+      caption: 'Aventura en la playa',
+      category: 'adventures',
+    },
+    {
+      id: 'a2',
+      src: '/test/a2.jpg',
+      thumb: '/test/a2.jpg',
+      alt: 'Aventura 2',
+      category: 'adventures',
+    },
+    {
+      id: 'a3',
+      src: '/test/a3.jpg',
+      thumb: '/test/a3.jpg',
+      alt: 'Aventura 3',
+      category: 'adventures',
+    },
+    {
+      id: 'h1',
+      src: '/test/h1.jpg',
+      thumb: '/test/h1.jpg',
+      alt: 'Hogar 1',
+      category: 'home',
+    },
+    {
+      id: 'h2',
+      src: '/test/h2.jpg',
+      thumb: '/test/h2.jpg',
+      alt: 'Hogar 2',
+      caption: 'Nuestra casita',
+      category: 'home',
+    },
+    {
+      id: 'h3',
+      src: '/test/h3.jpg',
+      thumb: '/test/h3.jpg',
+      alt: 'Hogar 3',
+      category: 'home',
+    },
   ];
 
   const counts: Record<string, number> = {
@@ -108,9 +163,7 @@ describe('Gallery', () => {
     for (const img of imagesWithoutCaption) {
       const thumb = screen.getByLabelText(labelForImage(img.alt));
       // Verify no caption element exists within this thumbnail
-      expect(
-        thumb.querySelector('.gallery__caption'),
-      ).not.toBeInTheDocument();
+      expect(thumb.querySelector('.gallery__caption')).not.toBeInTheDocument();
     }
   });
 
@@ -134,9 +187,7 @@ describe('Gallery', () => {
     const filteredThumbs = screen.getAllByRole('button', {
       name: /Abrir recuerdo:/,
     });
-    expect(filteredThumbs).toHaveLength(
-      fixture.counts[firstCategory.id],
-    );
+    expect(filteredThumbs).toHaveLength(fixture.counts[firstCategory.id]);
 
     // The "Todos" tab should be unselected
     expect(screen.getByText(content.gallery.allTab)).toHaveAttribute(
@@ -171,7 +222,9 @@ describe('Gallery', () => {
     render(<Gallery />);
 
     // Click the first thumbnail
-    const firstThumb = screen.getByLabelText(labelForImage(fixture.images[0].alt));
+    const firstThumb = screen.getByLabelText(
+      labelForImage(fixture.images[0].alt),
+    );
     await user.click(firstThumb);
 
     // Modal dialog should be visible with correct image info

@@ -384,9 +384,7 @@ describe('GalleryModal', () => {
     expect(
       document.querySelector('.gallery-modal__spinner'),
     ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('alert'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
   /* ---------- body scroll ---------- */
