@@ -106,6 +106,16 @@ export interface SurpriseContent {
   signature: string;
 }
 
+export interface FamilyPageContent {
+  title: string;
+  message: string;
+  imageAlt: string;
+  buttonText: string;
+  overlayLabel: string;
+  closeLabel: string;
+  buttonLabel: string;
+}
+
 export interface MemoriesButtonContent {
   buttonLabel: string;
   buttonText: string;
@@ -240,6 +250,7 @@ export interface ContentData {
   gallery: GalleryContent;
   galleryModal: GalleryModalContent;
   surprise: SurpriseContent;
+  familyPage: FamilyPageContent;
   memoriesButton: MemoriesButtonContent;
   footer: FooterContent;
   trivia: TriviaContent;

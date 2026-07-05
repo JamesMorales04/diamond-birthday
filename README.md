@@ -74,8 +74,19 @@ The app opens at `http://localhost:5173` by default.
 
 ```
 diamond-birthday/
+├── e2e/
+│   └── home.spec.ts         # Playwright end-to-end test
 ├── public/
-│   └── photos/              # Photo files (SVG placeholders; swap for your own)
+│   ├── assets/
+│   │   └── games/
+│   │       └── runner/      # Lane-runner sprite source assets
+│   └── photos/              # Photo files organised by gallery category + game sprites
+│       ├── assets/          # Game sprite assets (flappy, memory, runner)
+│       ├── inicio/          # Category: beginnings
+│       ├── aventuras/       # Category: adventures
+│       ├── peludos/         # Category: home (pets & daily life)
+│       ├── hogar/           # Category: forever (future & home)
+│       └── familia/         # Family portrait
 ├── src/
 │   ├── content/             # Canonical data (page.json) + typed wrapper (page.ts)
 │   │   ├── page.json        # All visible text in Spanish — buttons, titles, hints, game text, editorial content
@@ -83,13 +94,18 @@ diamond-birthday/
 │   ├── data/                # Re-export barrels + canonical game asset/config files
 │   │   ├── dogRunnerAssets.ts # Lane-runner dog sprite + obstacle assets + collision config
 │   │   ├── flappyAssets.ts    # Flappy Bird Chester sprite + pipe assets + collision config
-│   │   ├── gallery.ts       # Gallery categories + image references (src, alt, caption)
+│   │   ├── gallery.ts       # Gallery categories + image references (re-export barrel)
 │   │   ├── gameRegistry.ts    # Canonical game ID registry (GAME_IDS, GameId, GAME_ICONS)
 │   │   ├── games.ts         # Mini-game settings + high-score types + localStorage key
-│   │   ├── messages.ts      # Love letters (title, date, excerpt, content, signature)
-│   │   ├── timeline.ts      # Milestones (year, month, title, description, icon)
-│   │   ├── trivia.ts        # Trivia questions + getShuffledTrivia() (question, options, correctIndex, explanation)
-│   │   └── wife.ts          # Your loved one's name, age, birthday, special message
+│   │   ├── games/           # Reserved for future game asset/config files
+│   │   ├── messages.ts      # Love letters (re-export barrel)
+│   │   ├── timeline.ts      # Milestones (re-export barrel)
+│   │   ├── trivia.ts        # Trivia questions + getShuffledTrivia() (re-export barrel)
+│   │   └── wife.ts          # Your loved one's name, age, birthday, special message (re-export barrel)
+│   ├── features/
+│   │   └── games/
+│   │       └── memory/
+│   │           └── memoryAssets.ts # Memory Match card manifest + shuffled deck creation
 │   ├── components/          # React components
 │   │   ├── Hero.tsx
 │   │   ├── Timeline.tsx
@@ -104,18 +120,24 @@ diamond-birthday/
 │   │   ├── GameFlappy.tsx
 │   │   ├── GameLaneRunner.tsx
 │   │   ├── GameMemoryMatch.tsx
+│   │   ├── HeartButton.tsx
 │   │   ├── MemoriesButton.tsx
 │   │   └── Footer.tsx
 │   ├── hooks/               # Custom React hooks
-│   │   ├── useLocalStorage.ts
 │   │   ├── useIntersectionObserver.ts
+│   │   ├── useLocalStorage.ts
+│   │   ├── useOverlayTrap.ts
 │   │   ├── useReducedMotion.ts
 │   │   └── useSwipe.ts
+│   │   # (co-located .test.* files for useLocalStorage, useSwipe)
 │   ├── utils/               # Shared utilities
 │   │   ├── assets.ts        # assetUrl() helper — resolves public paths under BASE_URL
 │   │   ├── confetti.ts
-│   │   └── shuffle.ts
+│   │   ├── shuffle.ts
+│   │   └── tpl.ts           # Template string interpolation (~tpl)
+│   │   # (co-located shuffle.test.ts)
 │   ├── test/                # Test setup
+│   │   ├── gameTestHelpers.ts # Shared game test utilities
 │   │   └── setup.ts         # Vitest globals (matchMedia, localStorage mocks)
 │   ├── App.tsx              # Root layout — all sections rendered on one page
 │   ├── index.css            # All application styles (global, components, keyframes)
@@ -124,17 +146,21 @@ diamond-birthday/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml       # GitHub Actions → GitHub Pages
+├── .node-version            # Node.js version pin
+├── .prettierignore
+├── .prettierrc
 ├── index.html
 ├── package.json
+├── playwright.config.ts     # E2e test configuration
 ├── tsconfig.json
 ├── tsconfig.app.json
 ├── tsconfig.node.json
 └── vite.config.ts
 ```
 
-The app is a **single-page scroll** with no client-side router. Every section (Hero, Timeline, Letters, Gallery, Surprise, Trivia, ScratchCard, Spinner, MiniGames, Footer) is rendered on one page and lazy-loaded via `React.lazy` when it scrolls into view.
+The app is a **single-page scroll** with no client-side router. Core sections (Hero, Timeline, Letters, Gallery, Surprise, Footer) are rendered eagerly on one page; heavier sections (Trivia, ScratchCard, Spinner, MiniGames) are lazy-loaded via `React.lazy`. Two floating overlay buttons — `HeartButton` (a love‑message overlay) and `MemoriesButton` (a photo‑gallery overlay) — are rendered outside `<main>` and can be toggled from any scroll position.
 
-**Test files** are co-located with the code they test (`*.test.ts` / `*.test.tsx`) plus a shared setup at `src/test/setup.ts`. Tests use **Vitest** with `jsdom` and `@testing-library/react`. See [Local development](#local-development) for available test commands.
+**Test files** are co-located with the code they test (`*.test.ts` / `*.test.tsx`) plus shared test utilities at `src/test/setup.ts` and `src/test/gameTestHelpers.ts`. Tests use **Vitest** with `jsdom` and `@testing-library/react`. See [Local development](#local-development) for available test commands.
 
 ---
 
@@ -150,13 +176,13 @@ The app is a **single-page scroll** with no client-side router. Every section (H
   "thumb": "/photos/my-photo.jpg",
   "alt": "Description for accessibility",
   "caption": "A sweet caption for this memory",
-  "category": "moments"
+  "category": "beginnings"
 }
 ```
 
 Because files in `public/` are served as-is by Vite, use a path starting with `/photos/...` — no import needed.
 
-**Current photos:** 12 SVG placeholder illustrations organised into three categories (`journey`, `moments`, `forever`). Swap these for your own JPEG, PNG, WebP, or AVIF files. Keep individual file sizes reasonable (< 500 KB preferred) for fast loading.
+**Current photos:** Real JPEG photos organised into four categories (`beginnings`, `adventures`, `home`, `forever`) plus a `familia/` family portrait and game sprite assets under `photos/assets/`. 114 photo and asset files across all directories. Keep individual file sizes reasonable (< 500 KB preferred) for fast loading.
 
 ---
 
@@ -172,19 +198,20 @@ You never need to touch a component to change a word, a date, or a category.
 
 ### Content and data files
 
-| File / dir                | What it holds                                                                                         |
-| ------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `content/page.json`       | **Canonical data source** — all user‑visible strings and editorial content in JSON                    |
-| `content/page.ts`         | **Wrapper / types layer** — imports `page.json`, exports typed constants; edit only when types change |
-| `data/dogRunnerAssets.ts` | **Canonical** lane-runner dog sprite + obstacle assets + collision config — not a re‑export           |
-| `data/flappyAssets.ts`    | **Canonical** Flappy Bird Chester sprite + pipe assets + collision config — not a re‑export           |
-| `data/gallery.ts`         | Re‑export barrel → edit in `content/page.json`                                                        |
-| `data/gameRegistry.ts`    | **Canonical** game ID registry (GAME_IDS, GameId union, GAME_ICONS) — not a re‑export                 |
-| `data/games.ts`           | **Canonical** game‑mechanics config (gravity, speed, grid size) + high‑score types — not a re‑export  |
-| `data/messages.ts`        | Re‑export barrel → edit in `content/page.json`                                                        |
-| `data/timeline.ts`        | Re‑export barrel → edit in `content/page.json`                                                        |
-| `data/trivia.ts`          | Re‑export barrel → edit in `content/page.json`                                                        |
-| `data/wife.ts`            | Re‑export barrel → edit in `content/page.json`                                                        |
+| File / dir                                    | What it holds                                                                                         |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `content/page.json`                           | **Canonical data source** — all user‑visible strings and editorial content in JSON                    |
+| `content/page.ts`                             | **Wrapper / types layer** — imports `page.json`, exports typed constants; edit only when types change |
+| `data/dogRunnerAssets.ts`                     | **Canonical** lane-runner dog sprite + obstacle assets + collision config — not a re‑export           |
+| `data/flappyAssets.ts`                        | **Canonical** Flappy Bird Chester sprite + pipe assets + collision config — not a re‑export           |
+| `data/gallery.ts`                             | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/gameRegistry.ts`                        | **Canonical** game ID registry (GAME_IDS, GameId union, GAME_ICONS) — not a re‑export                 |
+| `data/games.ts`                               | **Canonical** game‑mechanics config (gravity, speed, grid size) + high‑score types — not a re‑export  |
+| `data/messages.ts`                            | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/timeline.ts`                            | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/trivia.ts`                              | Re‑export barrel → edit in `content/page.json`                                                        |
+| `data/wife.ts`                                | Re‑export barrel → edit in `content/page.json`                                                        |
+| `features/games/memory/memoryAssets.ts`       | **Canonical** Memory Match card manifest + shuffled deck creation — not a re‑export                   |
 
 ### Categories
 
@@ -193,9 +220,10 @@ Gallery photos are organised by category. Categories are defined in `src/content
 ```json
 {
   "galleryCategories": [
-    { "id": "journey", "name": "Our Journey", "description": "..." },
-    { "id": "moments", "name": "Sweet Moments", "description": "..." },
-    { "id": "forever", "name": "Forever Yours", "description": "..." }
+    { "id": "beginnings", "name": "Como todo comenzó", "description": "..." },
+    { "id": "adventures", "name": "Citas y aventuras", "description": "..." },
+    { "id": "home", "name": "Nuestra casita y los peluditos", "description": "..." },
+    { "id": "forever", "name": "Nuestro hogar", "description": "..." }
   ]
 }
 ```
@@ -395,6 +423,8 @@ Ready to make this your own?
 - [ ] Edit `src/content/page.json` — UI copy (headings, buttons, labels, hints)
 - [ ] Edit `src/content/page.json` — wife info (name, age, birthday, special message)
 - [ ] Edit `src/content/page.json` — love letters (title, date, excerpt, content, signature)
+- [ ] Edit `src/content/page.json` — `familyPage` overlay (birthday message, family photo)
+- [ ] Edit `src/content/page.json` — `memoriesButton` overlay (gallery button text, labels)
 - [ ] Edit `src/content/page.json` — timeline milestones (year, title, description, icon)
 - [ ] Edit `src/content/page.json` — gallery categories and image entries
 - [ ] Edit `src/content/page.json` — trivia questions (question, options, correct index, explanation)

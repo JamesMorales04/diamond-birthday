@@ -4,6 +4,7 @@ import Timeline from './components/Timeline';
 import Letters from './components/Letters';
 import Gallery from './components/Gallery';
 import Surprise from './components/Surprise';
+import HeartButton from './components/HeartButton';
 import MemoriesButton from './components/MemoriesButton';
 import Footer from './components/Footer';
 import { content } from './content/page';
@@ -63,6 +64,7 @@ export default function App() {
       </main>
 
       <MemoriesButton />
+      <HeartButton />
     </div>
   );
 }

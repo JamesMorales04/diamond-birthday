@@ -1417,6 +1417,15 @@
       "message2": "Eres mi esposita, mi koalita, mi princesa y mi mejor decisión. Quiero seguir construyendo contigo una vida real: con trabajo, universidad, peluditos, recetas que salen raras, viajes, risas y la tranquilidad de saber que al final del día seguimos teniéndonos.",
       "signature": "Tu esposito, que te ama demasiado y no se cansa de elegirte"
     },
+    "familyPage": {
+      "title": "Feliz cumpleaños amor de mi vida",
+      "message": "Mi vida, hoy cumples 21 años y mi corazón no cabe de tantas ganas de celebrarte. Eres mi esposita, mi koalita bonita, mi princesa, mi lugar seguro y la persona que hizo que mi vida entera tuviera más color, más sentido y más amor del que supe imaginar.\n\nNo solo celebro el día en que naciste: celebro a la mujer inteligente, valiente, sensible, divertida y hermosa en la que te has convertido. Celebro tu risa, tus ocurrencias, tu forma de ver la vida, tu manera de querer tan bonito y todo lo que pones de ti en cada cosa que haces.\n\nGracias por cada café compartido, por cada película, por cada despedida larga, por cada mensaje bonito, por los peluditos, por las risas bobas, por los días difíciles que hemos enfrentado juntos y por los millones de recuerdos que ya tenemos. Y gracias por todo lo que todavía nos falta por vivir.\n\nEres mi persona favorita en este mundo y quiero que lo escuches hasta que te canses: te amo con todo lo que soy, te admiro más de lo que puedo expresar y cada día me siento el hombre más afortunado por tenerte a mi lado.\n\nQue estos 21 años te traigan tanta felicidad como la que tú has puesto en mi vida. Siempre voy a estar aquí, mi amor, para cuidarte, celebrarte y recordarte lo increíble que eres.\n\nFeliz cumpleaños, amor de mi vida. Te amo.",
+      "imageAlt": "Foto de nuestra hermosa familia",
+      "buttonText": "Nuestra familia ♥",
+      "overlayLabel": "Nuestra familia y nuestro amor",
+      "closeLabel": "Cerrar mensaje de cumpleaños",
+      "buttonLabel": "Abrir mensaje de cumpleaños y foto de familia"
+    },
     "memoriesButton": {
       "buttonLabel": "Abrir nuestros recuerdos fotográficos",
       "buttonText": "Nuestros recuerdos",
